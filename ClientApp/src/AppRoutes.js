@@ -1,7 +1,8 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
-import { Home } from "./components/Home";
+import { Counter } from "./react-pages/Counter";
+import { FetchData } from "./react-pages/FetchData";
+import { Home } from "./react-pages/Home";
+import Jobs from './react-pages/Jobs';
 
 const AppRoutes = [
   {
@@ -17,6 +18,10 @@ const AppRoutes = [
     requireAuth: true,
     element: <FetchData />
   },
+	{
+		path: '/jobs',
+		element: <Jobs />
+	},
   ...ApiAuthorzationRoutes
 ];
 
