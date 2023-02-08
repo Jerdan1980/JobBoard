@@ -1,0 +1,30 @@
+﻿bring in testing or validity of a job
+
+auto assign job posting date and expiration date
+	TheMuse set to 30 days (latest you can search on website)
+	Users can set their own exp date (recruters)
+	Timers!!!
+
+search for key word
+	server vs client-side
+
+number of job postings for job
+	job.length
+
+active or inactive job posting
+	server route call
+	client-side check maybe
+
+user/profile page
+	Changing password
+	Resume changes
+	preferences for jobs
+	use user prefernces for competitions (tags)
+	
+Recruiters can see user's competition achievements
+Tags for both competitions and jobs
+
+resume file upload/edit
+
+Notifications
+	for new job postings???
