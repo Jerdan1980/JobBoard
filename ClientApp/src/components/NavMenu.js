@@ -14,6 +14,15 @@ export class NavMenu extends Component {
     this.state = {
       collapsed: true
     };
+
+		this.Links =[
+			{ to: "/", name: "Home"},
+			{ to: "/counter", name: "Counter"},
+			{ to: "/fetch-data", name: "Fetch Data"},
+			{ to: "/jobs", name: "Jobs"},
+			{ to: "/competitions", name: "Competitions"},
+			{ to: "/tags", name: "Tags"},
+		];
   }
 
   toggleNavbar () {
@@ -30,18 +39,11 @@ export class NavMenu extends Component {
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
             <ul className="navbar-nav flex-grow">
-              <NavItem>
-								<NavLink tag={Link} className="nav-link" to="/">Home</NavLink>
-              </NavItem>
-              <NavItem>
-								<NavLink tag={Link} className="nav-link" to="/counter">Counter</NavLink>
-              </NavItem>
-              <NavItem>
-								<NavLink tag={Link} className="nav-link" to="/fetch-data">Fetch data</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink tag={Link} className="nav-link" to="/jobs">Jobs</NavLink>
-							</NavItem>
+							{this.Links.map(link => (
+								<NavItem>
+									<NavLink tag={Link} className="nav-link" to={link.to}>{link.name}</NavLink>
+								</NavItem>
+							))}
               <LoginMenu>
               </LoginMenu>
             </ul>

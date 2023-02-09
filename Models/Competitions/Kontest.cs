@@ -11,33 +11,33 @@
 		public string In_24_Hours { get; set; } // YES/NO
 		public string Status { get; set; } // BEFORE/CODING
 
-		static readonly int COMPUTERSCIENCE_TAGID = 5;
+		static readonly int COMPUTERSCIENCE_TAGID = 1;
 		static readonly Dictionary<string, int> SITE_TAGIDS = new Dictionary<string, int>();
 		static Kontest()
 		{
 			SITE_TAGIDS.Clear();
-			SITE_TAGIDS.Add("CodeForces", 6);
-			SITE_TAGIDS.Add("CodeForces::Gym", 7);
-			SITE_TAGIDS.Add("TopCoder", 8);
-			SITE_TAGIDS.Add("AtCoder", 9);
-			SITE_TAGIDS.Add("CS Academy", 10);
-			SITE_TAGIDS.Add("CodeChef", 11);
-			SITE_TAGIDS.Add("HackerRank", 12);
-			SITE_TAGIDS.Add("HackerEarth", 13);
-			SITE_TAGIDS.Add("Kick Start", 14);
-			SITE_TAGIDS.Add("LeetCode", 15);
-			SITE_TAGIDS.Add("Toph", 16);
+			SITE_TAGIDS.Add("CodeForces",		2	);
+			SITE_TAGIDS.Add("CodeForces::Gym",	3	);
+			SITE_TAGIDS.Add("TopCoder",			4	);
+			SITE_TAGIDS.Add("AtCoder",			5	);
+			SITE_TAGIDS.Add("CS Academy",		6	);
+			SITE_TAGIDS.Add("CodeChef",			7	);
+			SITE_TAGIDS.Add("HackerRank",		8	);
+			SITE_TAGIDS.Add("HackerEarth",		9	);
+			SITE_TAGIDS.Add("Kick Start",		10	);
+			SITE_TAGIDS.Add("LeetCode",			11	);
+			SITE_TAGIDS.Add("Toph",				12	);
 		}
 
-		public CompetitionModel ToCompetition()
+		public CompetitionModification ToCompetitionModification()
 		{
-			CompetitionModel competition = new CompetitionModel()
+			CompetitionModification competition = new CompetitionModification()
 			{
 				Name = Name,
 				Description = $"Hosted at: {Url}",
 				StartTime = null,
 				EndTime = null,
-				TagIds = new List<int> { COMPUTERSCIENCE_TAGID, SITE_TAGIDS[Site] },
+				TagIds = new int[] { COMPUTERSCIENCE_TAGID, SITE_TAGIDS[Site] },
 				Automated = true
 			};
 

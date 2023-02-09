@@ -31,5 +31,17 @@ namespace JobBoard.Controllers
 			})
 			.ToArray();
 		}
+
+		[AllowAnonymous]
+		[HttpGet("{id}")]
+		public WeatherForecast GetSingle(int id)
+		{
+			return new WeatherForecast
+			{
+				Date = DateOnly.FromDateTime(DateTime.Now.AddDays(id)),
+				TemperatureC = Random.Shared.Next(-20, 55),
+				Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+			};
+		}
 	}
 }

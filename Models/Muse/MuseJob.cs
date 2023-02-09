@@ -35,6 +35,7 @@ namespace JobBoard.Models.Muse
 			job.Industry = Categories[0].Name;
 			job.Experince = Levels[0].Name;
 			job.Company = Company.Name;
+			job.External = true;
 
 			return job;
 		}

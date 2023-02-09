@@ -16,6 +16,7 @@ namespace JobBoard.Models.Jobs
         public string Industry { get; set; }//MuseCategories
         public string Experince { get; set; }  //Muselevels
         public string Company { get; set; }
+		public bool External { get; set; }
     }
 }
 // CNC
