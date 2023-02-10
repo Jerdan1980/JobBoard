@@ -34,6 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="QuartzJobs\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\react-pages\competitions\" />
   </ItemGroup>
 

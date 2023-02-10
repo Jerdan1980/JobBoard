@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using JobBoard.Data.Migrations;
+using JobBoard.Models.Industry;
 using JobBoard.Models.Jobs;
 
 namespace JobBoard.Models.Muse
@@ -32,13 +34,13 @@ namespace JobBoard.Models.Muse
 			job.Date = DateTime.Parse(Publication_Date);
 			job.Id = Id;
 			job.Locations = Locations[0].Name;
-			job.Industry = Categories[0].Name;
-			job.Experince = Levels[0].Name;
+			job.IndustryId = Industries.Ids[Categories[0].Name]; // Holds a dictionary of names and ids
+			job.Experience = Levels[0].Name;
 			job.Company = Company.Name;
 			job.External = true;
 
 			return job;
 		}
-    }
+	}
 }
 
