@@ -17,8 +17,8 @@ export class NavMenu extends Component {
 
 		this.Links =[
 			{ to: "/", name: "Home"},
-			{ to: "/counter", name: "Counter"},
-			{ to: "/fetch-data", name: "Fetch Data"},
+			//{ to: "/counter", name: "Counter"},
+			//{ to: "/fetch-data", name: "Fetch Data"},
 			{ to: "/jobs", name: "Jobs"},
 			{ to: "/competitions", name: "Competitions"},
 			{ to: "/tags", name: "Tags"},

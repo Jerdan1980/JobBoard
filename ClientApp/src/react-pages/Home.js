@@ -74,6 +74,28 @@ export default function Home() {
 				{/*<div class="">{totalComps - (startingComps + ongoingComps + completedComps)} N/A</div>*/}
 			</div>
 
+			<br/>
+			<h2>Top 5 stats:</h2>
+			<Progress className="mb-2" fraction={0.10} name="Marketing"/>
+			<Progress className="mb-2" fraction={0.07} name="Accounting and Finance"/>
+			<Progress className="mb-2" fraction={0.06} name="Computer and IT"/>
+			<Progress className="mb-2" fraction={0.05} name="Business Operations"/>
+			<Progress className="mb-2" fraction={0.02} name="Food and Hospitality"/>
+			
+			
+			
+
 		</div>
 	);
+}
+
+function Progress({ fraction, name, className }) {
+	return (
+		<div class={className}>
+			<span class="position-absolute inline-block start-50 translate-middle-x">{name}: {fraction * 100}%</span>
+			<div class="progress" style={{ height: "2em" }}>
+				<div class="progress-bar bg-info" role="progress-bar" style={{width: `${fraction * 100}%`}}></div>
+			</div>
+		</div>
+	)
 }
