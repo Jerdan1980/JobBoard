@@ -4,6 +4,7 @@ using JobBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230213142908_IndustryJoin")]
+    partial class IndustryJoin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,21 +363,6 @@ namespace JobBoard.Data.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("JobModelTagModel", b =>
-                {
-                    b.Property<int>("JobsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("JobsId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("JobModelTagModel");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -536,21 +524,6 @@ namespace JobBoard.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Industry");
-                });
-
-            modelBuilder.Entity("JobModelTagModel", b =>
-                {
-                    b.HasOne("JobBoard.Models.Jobs.JobModel", null)
-                        .WithMany()
-                        .HasForeignKey("JobsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JobBoard.Models.Tags.TagModel", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

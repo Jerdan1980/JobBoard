@@ -1,4 +1,5 @@
 ﻿using JobBoard.Models.Competitions;
+using JobBoard.Models.Jobs;
 using System.ComponentModel.DataAnnotations;
 
 namespace JobBoard.Models.Tags
@@ -13,6 +14,6 @@ namespace JobBoard.Models.Tags
 
 		// Two many-to-many foreign keys
 		public List<CompetitionModel> Competitions { get; set; } = new List<CompetitionModel>();
-		//public List<AutoCompetition> AutoCompetitions { get; set; } = new List<AutoCompetition>();
+		public List<JobModel> Jobs { get; set; } = new List<JobModel>();
 	}
 }

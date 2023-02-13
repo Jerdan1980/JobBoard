@@ -1,5 +1,6 @@
 ﻿using JobBoard.Models.Industry;
 using JobBoard.Models.Muse;
+using JobBoard.Models.Tags;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,11 +16,11 @@ namespace JobBoard.Models.Jobs
         public int Id { get; set; }
         public int? Salary { get; set; }
         public string Locations { get; set; }
-		[ForeignKey(nameof(IndustryModel))]
         public int IndustryId { get; set; } //MuseCategories
+		public IndustryModel Industry { get; set; }
         public string Experience { get; set; } //Muselevels
         public string Company { get; set; }
 		public bool External { get; set; }
+		public List<TagModel> Tags { get; set; } = new List<TagModel>();
     }
 }
-// CNC
