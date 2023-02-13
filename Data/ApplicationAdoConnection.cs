@@ -81,12 +81,12 @@ namespace JobBoard.Data
         {
             foreach (JobModel job in jobs)
             {
-                await UpsertCompetition(job);
-                await InsertCompetitionTags(job);
+                await UpsertJob(job);
+                await InsertIndustry(job);
             }
         }
 
-        public static async Task<bool> Upsertjob(JobModel job)
+        public static async Task<bool> UpsertJob(JobModel job)
         {
             try
             {
@@ -97,12 +97,12 @@ namespace JobBoard.Data
                 // Mainly updates description, start time, end time, and tags
                 command.CommandText = """
 					MERGE INTO Competitions AS tgt
-					USING (SELECT @contents, @name, @type, @date, @id, @salary, @locations, @industryId, @experience, @company, @external) AS src (Contents, Name, Type, Date, Id, Salary, Locations, IndustryId, Experience, Company, External)
-					ON (tgt.Name = src.Name AND tgt.Automated = src.Automated)
+					USING (SELECT @contents, @name, @type, @date, @salary, @locations, @industryId, @experience, @company, @external) AS src (Contents, Name, Type, Date, Salary, Locations, IndustryId, Experience, Company, External)
+					ON (tgt.Name = src.Name AND tgt.External = src.External)
 					WHEN MATCHED THEN
-						UPDATE SET Description = src.Description, StartTime = src.StartTime, EndTime = src.EndTime, Automated = src.Automated
+						UPDATE SET Content = src.Content, Name = src.Name, Type = src.Type, Date = src.Date, Salary = src.Salary, Locations = src.Locations, IndustryId= src.IndustryId, Experience = src.Experience, Company=src.Company, External=src.External
 					WHEN NOT MATCHED THEN
-						INSERT (Name, Description, StartTime, EndTime, Automated) VALUES (src.Name, src.Description, src.StartTime, src.EndTime, src.Automated);
+						INSERT (Contents, Name, Type, Date, Salary, Locations, IndustryId, Experience, Company, External) VALUES (src.Contents, src.Name, src.Type, src.Date, src.Salary, src.Locations, src.IndustryId, src.Experience, src.Company, src.External);
 				""";
 
                 // Note: SQL takes STRING for DATETIME and BOOL
@@ -110,7 +110,6 @@ namespace JobBoard.Data
                 command.Parameters.AddWithValue("@name", job.Name);
                 command.Parameters.AddWithValue("@type", job.Type);
                 command.Parameters.AddWithValue("@date", job.Date);
-                command.Parameters.AddWithValue("@id", job.Id);
                 command.Parameters.AddWithValue("@salary", job.Salary);
                 command.Parameters.AddWithValue("@locations", job.Locations);
                 command.Parameters.AddWithValue("@industryId", job.IndustryId);
@@ -128,7 +127,10 @@ namespace JobBoard.Data
                 return false;
             }
         }
+        public static async Task<bool> InsertIndustry(JobModel job)
+		{
 
+		}
 
         public static async Task<bool> InsertCompetitionTags(CompetitionModification competition)
 		{

@@ -20,7 +20,7 @@ namespace JobBoard.Models.Jobs
 		public IndustryModel Industry { get; set; }
         public string Experience { get; set; } //Muselevels
         public string Company { get; set; }
-		public bool External { get; set; }
+		public bool External { get; set; } //if created by api or rectruiter
 		public List<TagModel> Tags { get; set; } = new List<TagModel>();
     }
 }
