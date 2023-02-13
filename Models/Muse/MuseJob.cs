@@ -26,20 +26,34 @@ namespace JobBoard.Models.Muse
 		//		Allows digestion of The Muse API to in-house SQL
 		public JobModel ToJob()
 		{
-			JobModel job = new JobModel();
+			try
+			{
+				JobModel job = new JobModel();
 
-			job.Contents = Contents;
-			job.Name = Name;
-			job.Type = Type;
-			job.Date = DateTime.Parse(Publication_Date);
-			job.Id = Id;
-			job.Locations = Locations[0].Name;
-			job.IndustryId = Industries.Ids[Categories[0].Name]; // Holds a dictionary of names and ids
-			job.Experience = Levels[0].Name;
-			job.Company = Company.Name;
-			job.External = true;
+				job.Contents = Contents;
+				job.Name = Name;
+				job.Type = "Unknown";
+				job.Date = DateTime.Parse(Publication_Date);
+				job.Id = Id;
+				job.Locations = Locations[0].Name;
 
-			return job;
+				// Industries holds a dictionary of names and ids
+				// Sometimes Categories is empty
+				if (Categories.Count > 0)
+					job.IndustryId = Industries.Ids[Categories[0].Name];
+				else
+					job.IndustryId = Industries.Ids["Unknown"];
+
+				job.Experience = Levels[0].Name;
+				job.Company = Company.Name;
+				job.FromApi = true;
+
+				return job;
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
 		}
 	}
 }

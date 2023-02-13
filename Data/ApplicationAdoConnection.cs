@@ -82,7 +82,6 @@ namespace JobBoard.Data
             foreach (JobModel job in jobs)
             {
                 await UpsertJob(job);
-                await InsertIndustry(job);
             }
         }
 
@@ -96,26 +95,25 @@ namespace JobBoard.Data
                 // Not guaranteed but can expect Name and automation to stay the same
                 // Mainly updates description, start time, end time, and tags
                 command.CommandText = """
-					MERGE INTO Competitions AS tgt
-					USING (SELECT @contents, @name, @type, @date, @salary, @locations, @industryId, @experience, @company, @external) AS src (Contents, Name, Type, Date, Salary, Locations, IndustryId, Experience, Company, External)
-					ON (tgt.Name = src.Name AND tgt.External = src.External)
+					MERGE INTO Jobs AS tgt
+					USING (SELECT @contents, @name, @type, @date, @locations, @industryId, @experience, @company, @fromApi) AS src (Contents, Name, Type, Date, Locations, IndustryId, Experience, Company, FromApi)
+					ON (tgt.Name = src.Name AND tgt.FromApi = src.FromApi)
 					WHEN MATCHED THEN
-						UPDATE SET Content = src.Content, Name = src.Name, Type = src.Type, Date = src.Date, Salary = src.Salary, Locations = src.Locations, IndustryId= src.IndustryId, Experience = src.Experience, Company=src.Company, External=src.External
+						UPDATE SET Contents = src.Contents, Name = src.Name, Type = src.Type, Date = src.Date, Locations = src.Locations, IndustryId = src.IndustryId, Experience = src.Experience, Company = src.Company, FromApi = src.FromApi
 					WHEN NOT MATCHED THEN
-						INSERT (Contents, Name, Type, Date, Salary, Locations, IndustryId, Experience, Company, External) VALUES (src.Contents, src.Name, src.Type, src.Date, src.Salary, src.Locations, src.IndustryId, src.Experience, src.Company, src.External);
+						INSERT (Contents, Name, Type, Date, Locations, IndustryId, Experience, Company, FromApi) VALUES (src.Contents, src.Name, src.Type, src.Date, src.Locations, src.IndustryId, src.Experience, src.Company, src.FromApi);
 				""";
 
                 // Note: SQL takes STRING for DATETIME and BOOL
                 command.Parameters.AddWithValue("@contents", job.Contents);
                 command.Parameters.AddWithValue("@name", job.Name);
                 command.Parameters.AddWithValue("@type", job.Type);
-                command.Parameters.AddWithValue("@date", job.Date);
-                command.Parameters.AddWithValue("@salary", job.Salary);
+                command.Parameters.AddWithValue("@date", job.Date.ToString());
                 command.Parameters.AddWithValue("@locations", job.Locations);
                 command.Parameters.AddWithValue("@industryId", job.IndustryId);
                 command.Parameters.AddWithValue("@experience", job.Experience); 
 				command.Parameters.AddWithValue("@company", job.Company);
-                command.Parameters.AddWithValue("@external", job.External);
+                command.Parameters.AddWithValue("@fromApi", job.FromApi.ToString());
                 
                 await connection.OpenAsync();
                 await command.ExecuteNonQueryAsync();
@@ -127,10 +125,6 @@ namespace JobBoard.Data
                 return false;
             }
         }
-        public static async Task<bool> InsertIndustry(JobModel job)
-		{
-
-		}
 
         public static async Task<bool> InsertCompetitionTags(CompetitionModification competition)
 		{

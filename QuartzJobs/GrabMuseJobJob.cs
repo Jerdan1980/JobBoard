@@ -14,26 +14,26 @@ using Quartz;
 
 namespace JobBoard.QuartzJobs
 {
-    public class GrabMuseJob : IJob
+    public class GrabMuseJobJob : IJob
     {
         public static readonly JobKey Key = new JobKey("GrabMuseJob");
 
         public async Task Execute(IJobExecutionContext context)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://www.themuse.com/api/public/jobs?page=1");
+            client.BaseAddress = new Uri("https://www.themuse.com/api/public/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await client.GetAsync("all");
+            HttpResponseMessage response = await client.GetAsync("jobs?page=1");
             if(!response.IsSuccessStatusCode)
                 return;
 
-            var museJobs = await response.Content.ReadFromJsonAsync<IEnumerable<MuseJob>>();
+            var museJobPage = await response.Content.ReadFromJsonAsync<MuseJobPage>();
 
             List <JobModel> jobs = new List <JobModel>();
-            foreach (MuseJob job in museJobs)
+            foreach (MuseJob job in museJobPage.Results)
             {
                 jobs.Add(job.ToJob());
             }

@@ -40,17 +40,29 @@ builder.Services.AddQuartz(quartz =>
 	quartz.UseMicrosoftDependencyInjectionJobFactory();
 
 	quartz.AddJob<GrabKontestsJob>(options => options.WithIdentity(GrabKontestsJob.Key));
+	quartz.AddJob<GrabMuseJobJob>(options => options.WithIdentity(GrabMuseJobJob.Key));
 
 	// Triggers once on application start
 	quartz.AddTrigger(options => options
 		.ForJob(GrabKontestsJob.Key)
 		.WithIdentity("GrabKontests-trigger-now")
 	);
+	quartz.AddTrigger(options => options
+		.ForJob(GrabMuseJobJob.Key)
+		.WithIdentity("GrabMuseJobs-trigger-now")
+	);
 
 	// Runs periodically to update data
 	quartz.AddTrigger(options => options
 		.ForJob(GrabKontestsJob.Key)
 		.WithIdentity("GrabKontestsJob-trigger-min")
+		// This Cron interval can be described as "run every 15 minutes" (when second is zero)
+		//http://www.cronmaker.com/?0 to get custom string (has UI interface)
+		.WithCronSchedule("0 0/15 * 1/1 * ? *")
+	);
+	quartz.AddTrigger(options => options
+		.ForJob(GrabMuseJobJob.Key)
+		.WithIdentity("GrabMuseJobJob-trigger-min")
 		// This Cron interval can be described as "run every 15 minutes" (when second is zero)
 		//http://www.cronmaker.com/?0 to get custom string (has UI interface)
 		.WithCronSchedule("0 0/15 * 1/1 * ? *")

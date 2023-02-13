@@ -59,7 +59,7 @@ namespace JobBoard.Models.Industry
 			Ids.Add("Sales", 50);
 			Ids.Add("Science and Engieneering", 51);
 			Ids.Add("Social Services", 52);
-			Ids.Add("Software Engineer", 53);
+			Ids.Add("Software Engineering", 53);
 			Ids.Add("Sports, Fitness, and Recreation", 54);
 			Ids.Add("Transportation and Logistics", 55);
 			Ids.Add("Unknown", 56);
