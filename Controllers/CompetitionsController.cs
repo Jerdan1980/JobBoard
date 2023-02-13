@@ -1,5 +1,4 @@
 ﻿using JobBoard.Data;
-using JobBoard.Data.Migrations;
 using JobBoard.Models.Competitions;
 using JobBoard.Models.Tags;
 using Microsoft.AspNetCore.Mvc;
