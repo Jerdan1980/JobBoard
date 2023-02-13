@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Home() {
-	// various stats
+	// Tags
 	const [numTags, setNumTags] = useState(0);
+
+	// Competitions
 	const [totalComps, setTotalComps] = useState(0);
 	const [startingComps, setStartingComps] = useState(0);
 	const [completedComps, setCompletedComps] = useState(0);
 	const [ongoingComps, setOngoingComps] = useState(0);
+
+	// Jobs and Industries
+	const [totalJobs, setTotalJobs] = useState(0);
+	const [industryCounts, setIndustryCounts] = useState([]);
 
 	// GETs the numbers and assigns it to the states
 	useEffect(() => {
 		fetch(`/api/tags`)
 			.then(response => response.json())
 			.then(data => setNumTags(data.length));
+		
 		fetch(`/api/competitions`)
 			.then(response => response.json())
 			.then(data => {
@@ -23,7 +30,7 @@ export default function Home() {
 
 				// Sorts the function by starting, ongoing, ending, and unknown
 				// Uses shortcircuting to ensure that completed gets counted before ongoing since both will be true
-				data.map(comp => {
+				data.forEach(comp => {
 					const isStarting = comp.startTime ? Date.parse(comp.startTime) > Date.now() : false;
 					const isCompleted = comp.endTime ? Date.parse(comp.endTime) < Date.now() : false;
 					const isOngoing = comp.startTime ? Date.parse(comp.startTime) < Date.now() : false;
@@ -40,6 +47,19 @@ export default function Home() {
 				setCompletedComps(completed);
 				setOngoingComps(ongoing);
 			});
+		
+		fetch(`/api/industries/count`)
+			.then(response => response.json())
+			.then(data => {
+				setIndustryCounts(data);
+				let totJobs = 0;
+
+				data.forEach(industry => {
+					totJobs += industry.count;
+				});
+
+				setTotalJobs(totJobs);
+			})
 	}, []);
 
 	return (
@@ -63,27 +83,25 @@ export default function Home() {
 			<div class="row text-center">
 				<div class="col">{numTags} Tags</div>
 				<div class="col">{totalComps} Competitions</div>
-				<div class="col">9001 Jobs</div>
+				<div class="col">{totalJobs} Jobs</div>
+				<div class="col">{industryCounts.length} Industries</div>
 			</div>
+
 			<br/>
+			<h3>Competition status:</h3>
 			{/* Need to make text responsive somehow (if the width is too small omit text) */}
-			<div class="progress" style={{ height: "2em" }}>
-				<div class="progress-bar text-dark" role="progress-bar" style={{width: `${startingComps / totalComps * 100}%`}}>{startingComps} Starting</div>
-				<div class="progress-bar bg-warning text-dark" role="progress-bar" style={{width: `${ongoingComps / totalComps * 100}%`}}>{ongoingComps} Ongoing</div>
-				<div class="progress-bar bg-success text-dark" role="progress-bar" style={{width: `${completedComps / totalComps * 100}%`}}>{completedComps} Completed</div>
+			<div className="progress" style={{ height: "2em" }}>
+				<div className="progress-bar text-dark" role="progress-bar" style={{width: `${startingComps / totalComps * 100}%`}}>{startingComps} Starting</div>
+				<div className="progress-bar bg-warning text-dark" role="progress-bar" style={{width: `${ongoingComps / totalComps * 100}%`}}>{ongoingComps} Ongoing</div>
+				<div className="progress-bar bg-success text-dark" role="progress-bar" style={{width: `${completedComps / totalComps * 100}%`}}>{completedComps} Completed</div>
 				{/*<div class="">{totalComps - (startingComps + ongoingComps + completedComps)} N/A</div>*/}
 			</div>
 
 			<br/>
-			<h2>Top 5 stats:</h2>
-			<Progress className="mb-2" fraction={0.10} name="Marketing"/>
-			<Progress className="mb-2" fraction={0.07} name="Accounting and Finance"/>
-			<Progress className="mb-2" fraction={0.06} name="Computer and IT"/>
-			<Progress className="mb-2" fraction={0.05} name="Business Operations"/>
-			<Progress className="mb-2" fraction={0.02} name="Food and Hospitality"/>
-			
-			
-			
+			<h3>Top 5 Industries:</h3>
+			{industryCounts.slice(1, 6).map(industry => (
+				<Progress className="mb-2" fraction={industry.count / totalJobs} name={industry.name}/>
+			))}
 
 		</div>
 	);
