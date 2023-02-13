@@ -1,4 +1,5 @@
 ﻿using JobBoard.Models.Competitions;
+using JobBoard.Models.Jobs;
 using Microsoft.Data.SqlClient;
 
 namespace JobBoard.Data
@@ -76,7 +77,60 @@ namespace JobBoard.Data
 			}
 		}
 
-		public static async Task<bool> InsertCompetitionTags(CompetitionModification competition)
+        public static async Task UpsertJobs(List<JobModel> jobs)
+        {
+            foreach (JobModel job in jobs)
+            {
+                await UpsertCompetition(job);
+                await InsertCompetitionTags(job);
+            }
+        }
+
+        public static async Task<bool> Upsertjob(JobModel job)
+        {
+            try
+            {
+                SqlConnection connection = new SqlConnection(ConnectionString);
+                SqlCommand command = connection.CreateCommand();
+
+                // Not guaranteed but can expect Name and automation to stay the same
+                // Mainly updates description, start time, end time, and tags
+                command.CommandText = """
+					MERGE INTO Competitions AS tgt
+					USING (SELECT @contents, @name, @type, @date, @id, @salary, @locations, @industryId, @experience, @company, @external) AS src (Contents, Name, Type, Date, Id, Salary, Locations, IndustryId, Experience, Company, External)
+					ON (tgt.Name = src.Name AND tgt.Automated = src.Automated)
+					WHEN MATCHED THEN
+						UPDATE SET Description = src.Description, StartTime = src.StartTime, EndTime = src.EndTime, Automated = src.Automated
+					WHEN NOT MATCHED THEN
+						INSERT (Name, Description, StartTime, EndTime, Automated) VALUES (src.Name, src.Description, src.StartTime, src.EndTime, src.Automated);
+				""";
+
+                // Note: SQL takes STRING for DATETIME and BOOL
+                command.Parameters.AddWithValue("@contents", job.Contents);
+                command.Parameters.AddWithValue("@name", job.Name);
+                command.Parameters.AddWithValue("@type", job.Type);
+                command.Parameters.AddWithValue("@date", job.Date);
+                command.Parameters.AddWithValue("@id", job.Id);
+                command.Parameters.AddWithValue("@salary", job.Salary);
+                command.Parameters.AddWithValue("@locations", job.Locations);
+                command.Parameters.AddWithValue("@industryId", job.IndustryId);
+                command.Parameters.AddWithValue("@experience", job.Experience); 
+				command.Parameters.AddWithValue("@company", job.Company);
+                command.Parameters.AddWithValue("@external", job.External);
+                
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
+                await connection.CloseAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
+        public static async Task<bool> InsertCompetitionTags(CompetitionModification competition)
 		{
 			try
 			{
