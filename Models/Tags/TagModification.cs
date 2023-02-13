@@ -12,7 +12,7 @@ namespace JobBoard.Models.Tags
 		public string Name { get; set; } = string.Empty;
 		public string? Description { get; set; }
 
-		public int[]? AddIds { get; set; }
-		public int[]? RemoveIds { get; set; }
+		public int[]? CompetitionIds { get; set; }
+		public int[]? JobIds { get; set; }
 	}
 }

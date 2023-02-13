@@ -29,6 +29,7 @@ namespace JobBoard.Controllers
 			//https://stackoverflow.com/questions/72457759/net-6-entity-framework-core-many-to-many-relationships	
 			return await _context.Tags
 				.Include(x => x.Competitions)
+				.Include(x => x.Jobs)
 				.ToListAsync();
 		}
 
@@ -38,6 +39,7 @@ namespace JobBoard.Controllers
         {
 			TagModel? tag = await _context.Tags
 				.Include(x => x.Competitions)
+				.Include(x => x.Jobs)
 				.Where(tag => tag.Id == id)
 				.FirstOrDefaultAsync();
 
@@ -87,20 +89,28 @@ namespace JobBoard.Controllers
 			tag.Name = model.Name;
 			tag.Description = model.Description;
 
-			// Add competitions via Ids
-			foreach (int compId in model.AddIds ?? new int[] { })
+			// Redo competitions join if present
+			if (model.CompetitionIds?.Length > 0)
 			{
-				CompetitionModel? comp = await _context.Competitions.FindAsync(compId);
-				if (comp != null)
-					tag.Competitions.Add(comp);
+				tag.Competitions.Clear();
+				foreach (int compId in model.CompetitionIds)
+				{
+					CompetitionModel? comp = await _context.Competitions.FindAsync(compId);
+					if (comp != null)
+						tag.Competitions.Add(comp);
+				}
 			}
-
-			// Remove competitions via Ids
-			foreach (int compId in model.RemoveIds ?? new int[] { })
+			
+			// Redo Jobs join if present
+			if (model.JobIds?.Length > 0)
 			{
-				CompetitionModel? comp = await _context.Competitions.FindAsync(compId);
-				if (comp != null)
-					tag.Competitions.Remove(comp);
+				tag.Jobs.Clear();
+				foreach (int compId in model.JobIds)
+				{
+					CompetitionModel? comp = await _context.Competitions.FindAsync(compId);
+					if (comp != null)
+						tag.Competitions.Remove(comp);
+				}
 			}
 
 			try
