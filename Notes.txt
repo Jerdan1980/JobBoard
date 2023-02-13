@@ -29,3 +29,4 @@ resume file upload/edit
 Notifications
 	for new job postings???
 
+make recruiters able to see all jobs from their campany instead of having poster id
