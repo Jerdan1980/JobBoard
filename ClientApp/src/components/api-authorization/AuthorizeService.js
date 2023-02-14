@@ -24,7 +24,22 @@ export class AuthorizeService {
     await this.ensureUserManagerInitialized();
     const user = await this.userManager.getUser();
     return user && user.profile;
-  }
+	}
+
+	// returns the user's role'
+	async getRoles() {
+		await this.ensureUserManagerInitialized();
+		const user = await this.userManager.getUser();
+		return user && !Array.isArray(user.profile.role) ? [user.profile.role] : user.profile.role;
+	}
+
+	async hasRole(query) {
+		let roles = await this.getRoles();
+		if (!roles)
+			return false;
+		return roles.includes(query);
+	}
+
 
   async getAccessToken() {
     await this.ensureUserManagerInitialized();

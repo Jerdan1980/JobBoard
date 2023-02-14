@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Duende.IdentityServer.Models;
+using IdentityModel;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +23,18 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
-	.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+	.AddApiAuthorization<ApplicationUser, ApplicationDbContext>(x =>
+	{
+		x.IdentityResources.Add(new IdentityResource("roles", "Roles", new[] { JwtClaimTypes.Role, ClaimTypes.Role }));
+		foreach (var c in x.Clients)
+		{
+			c.AllowedScopes.Add("roles");
+		}
+		foreach (var a in x.ApiResources)
+		{
+			a.UserClaims.Add(JwtClaimTypes.Role);
+		}
+	});
 
 builder.Services.AddAuthentication()
 	.AddIdentityServerJwt();
@@ -49,7 +63,28 @@ builder.Services.AddQuartz(quartz =>
 	);
 	quartz.AddTrigger(options => options
 		.ForJob(GrabMuseJobJob.Key)
-		.WithIdentity("GrabMuseJobs-trigger-now")
+		.UsingJobData("page", 1)
+		.WithIdentity("GrabMuseJobs-trigger-now1")
+	);
+	quartz.AddTrigger(options => options
+		.ForJob(GrabMuseJobJob.Key)
+		.UsingJobData("page", 2)
+		.WithIdentity("GrabMuseJobs-trigger-now2")
+	);
+	quartz.AddTrigger(options => options
+		.ForJob(GrabMuseJobJob.Key)
+		.UsingJobData("page", 3)
+		.WithIdentity("GrabMuseJobs-trigger-now3")
+	);
+	quartz.AddTrigger(options => options
+		.ForJob(GrabMuseJobJob.Key)
+		.UsingJobData("page", 4)
+		.WithIdentity("GrabMuseJobs-trigger-now4")
+	);
+	quartz.AddTrigger(options => options
+		.ForJob(GrabMuseJobJob.Key)
+		.UsingJobData("page", 5)
+		.WithIdentity("GrabMuseJobs-trigger-now5")
 	);
 
 	// Runs periodically to update data
@@ -62,6 +97,7 @@ builder.Services.AddQuartz(quartz =>
 	);
 	quartz.AddTrigger(options => options
 		.ForJob(GrabMuseJobJob.Key)
+		.UsingJobData("page", 1)
 		.WithIdentity("GrabMuseJobJob-trigger-min")
 		// This Cron interval can be described as "run every 15 minutes" (when second is zero)
 		//http://www.cronmaker.com/?0 to get custom string (has UI interface)
