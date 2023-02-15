@@ -26,7 +26,8 @@ namespace JobBoard.QuartzJobs
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await client.GetAsync("jobs?page=1");
+			int page = context.MergedJobDataMap.GetIntValue("page");
+			HttpResponseMessage response = await client.GetAsync($"jobs?page={page}");
             if(!response.IsSuccessStatusCode)
                 return;
 
