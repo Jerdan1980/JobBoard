@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function Jobs() {
 	const [jobs, setJobs] = useState([]);
 	const [index, setIndex] = useState(-1);
 
 	useEffect(() => {
-		fetch("https://www.themuse.com/api/public/jobs?page=1")
+		fetch("/api/jobs")
 			.then(async (response) => {
 				if (!response.ok) {
 					alert("Response not ok!");
@@ -14,8 +14,8 @@ export default function Jobs() {
 				}
 
 				let data = await response.json();
-
-				setJobs(data.results);
+				
+				setJobs(data);
 			})
 	}, []);
 
@@ -43,11 +43,11 @@ export default function Jobs() {
 	}
 
 	return (
-		<div>
+		<div class="">
 			<h1>Job listing</h1>
 			<h2>There are {jobs.length} jobs!</h2>
 
-			<div class="row">
+			<div class="hstack gap-3">
 				{/* Left Column */}
 				<div class="col-4">
 					{jobs.map((job, i) => {
@@ -55,23 +55,28 @@ export default function Jobs() {
 							<JobCard job={job} i={i} />
 						)
 					})}
+					{/* Floating button to open the filter side panel */}
+					<div class="sticky-bottom d-flex justify-content-end">
+						<button class="btn btn-info m-2 shadow-lg" type="button" onClick={() => setShowFilter(!showFilter)}>Filter Competitions</button>
+					</div>
 				</div>
+				<div class="vr"></div>
 				{/* Right column */}
-				<div class="col">
+				<div class="col vh-100 overflow-auto sticky-top sticky-bottom" >
 					{ (index != -1) && (
 						<>
+							<AlwaysScrollToTop />
+							<br/>
+							<br/>
 							<h2>{jobs[index].name}</h2>
 							<h5 class="text-info">{jobs[index].company.name}</h5>
 							<h5 class="text-muted">{jobs[index].locations[0].name}</h5>
-							<div dangerouslySetInnerHTML={{ __html: jobs[index].contents }} />
+							<div dangerouslySetInnerHTML={{ __html: jobs[index].contents }}/>
+							<br/>
+							<br/>
 						</>
 					)}
 				</div>
-			</div>
-
-			{/* Floating button to open the filter side panel */}
-			<div class="sticky-bottom d-flex justify-content-end">
-				<button class="btn btn-info m-2 shadow-lg" type="button" onClick={() => setShowFilter(!showFilter)}>Filter Competitions</button>
 			</div>
 
 			{/* Filter side panel */}
@@ -123,7 +128,9 @@ export default function Jobs() {
 	function JobCard({ job, i }) {
 		return (
 			<div class={"card mb-3 " + (i == index ? "border-light" : "border-primary")} >
-				<div class="card-header"></div>
+				{job.fromApi &&	(
+					<div class="card-header">Automated</div>
+				)}
 				<div class="card-body">
 					<h5 class="card-title">{job.name}</h5>
 					<h6 class="card-subtitle text-muted">
@@ -138,3 +145,9 @@ export default function Jobs() {
 	}
 }
 
+//https://stackoverflow.com/questions/45719909/scroll-to-bottom-of-an-overflowing-div-in-react
+const AlwaysScrollToTop = () => {
+	const elementRef = useRef();
+	useEffect(() => elementRef.current.scrollIntoView({ behavior: 'smooth' }));
+	return <div ref={elementRef}/>;
+}
