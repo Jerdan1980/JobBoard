@@ -38,7 +38,7 @@ export default function Tags() {
 			{/* css-grid responsive array of tags */}
 			{/* Has 1 column on small screens, 2 on phones and stuff, 3 on larger screens, and 4 on higher resolution screens */}
 			<div class="grid">
-				{tags.filter(tag => !(!showEmpty && (tag.competitions.length == 0))).map(tag => (
+				{tags.filter(tag => !(!showEmpty && (tag.competitions.length === 0))).map(tag => (
 					<div class="g-col-12 g-col-sm-6 g-col-lg-4 g-col-xxl-3">
 						<TagCard tag={tag}/>
 					</div>
@@ -47,7 +47,7 @@ export default function Tags() {
 
 			{/* Toggles empty filter */}
 			<div class="sticky-bottom d-flex justify-content-end">
-				<button class="btn btn-dark m-2 shadow-lg" type="button" onClick={() => setShowEmpty(!showEmpty)}>
+				<button class="btn btn-info m-2 shadow-lg" type="button" onClick={() => setShowEmpty(!showEmpty)}>
 					{showEmpty ? "Hide empty tags" : "Show empty tags"}
 				</button>
 			</div>

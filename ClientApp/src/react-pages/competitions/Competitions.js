@@ -64,7 +64,7 @@ export default function Competitions() {
 
 			{/* Floating button to open the filter side panel */}
 			<div class="sticky-bottom d-flex justify-content-end">
-				<button class="btn btn-dark m-2 shadow-lg" type="button" onClick={() => setShowFilter(!showFilter)}>Filter Competitions</button>
+				<button class="btn btn-info m-2 shadow-lg" type="button" onClick={() => setShowFilter(!showFilter)}>Filter Competitions</button>
 			</div>
 
 			{/* Filter side panel */}

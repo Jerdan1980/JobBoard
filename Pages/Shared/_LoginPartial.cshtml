@@ -3,6 +3,8 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+<link rel="stylesheet" href="~/bootstrap.css" />
+
 @{
     string? returnUrl = null;
     var query = ViewContext.HttpContext.Request.Query;

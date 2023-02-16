@@ -28,7 +28,7 @@ export default function CompetitionUpdate({ }) {
 	useEffect(() => {
 		// GETs the Tags
 		setIsLoading(true);
-		fetch('/api/comptags')
+		fetch('/api/tags')
 			.then(response => {
 				if (!response.ok)
 				{
@@ -46,7 +46,7 @@ export default function CompetitionUpdate({ }) {
 				})
 		
 		// GETs the competition
-		fetch(`/api/comps/${auto}/${id}`)
+		fetch(`/api/competitions/${auto}/${id}`)
 			.then(response => {
 				if (!response.ok)
 				{
@@ -75,7 +75,7 @@ export default function CompetitionUpdate({ }) {
 	const handleCreate = (inputValue) =>
 	{
 		setIsLoading(true);
-		fetch('/api/comptags', {
+		fetch('/api/tags', {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ export default function CompetitionUpdate({ }) {
 		})
 			.then(response => {
 				if (response.ok) {
-					fetch('/api/comptags')
+					fetch('/api/tags')
 						.then(response => {
 							if (!response.ok)
 							{
@@ -119,7 +119,7 @@ export default function CompetitionUpdate({ }) {
 		if (endTime)
 			body.endTime = endTime
 
-		fetch(`/api/comps/${auto}`, {
+		fetch(`/api/competitions/${auto}`, {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ export default function CompetitionUpdate({ }) {
 	// DELETEs the competition
 	const remove = (event) => {
 		if (oldName === deleteString)
-			fetch(`/api/comps/${auto}/${id}`, { method: 'delete' })
+			fetch(`/api/competitions/${auto}/${id}`, { method: 'delete' })
 				.then(response => {
 					if (response.ok) {
 						window.location.href = "/competitions";
@@ -200,7 +200,7 @@ export default function CompetitionUpdate({ }) {
 
 						{/* Tags section */}
 						<div class="form-group mb-2">
-							<label for="compTags" class="form-label">Competition Tags</label>
+							<label for="tags" class="form-label">Competition Tags</label>
 							<CreatableSelect
 								isClearable
 								isMulti
