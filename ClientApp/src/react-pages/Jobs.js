@@ -5,7 +5,7 @@ export default function Jobs() {
 	const [index, setIndex] = useState(-1);
 
 	useEffect(() => {
-		fetch("https://www.themuse.com/api/public/jobs?page=1")
+		fetch("/api/jobs")
 			.then(async (response) => {
 				if (!response.ok) {
 					alert("Response not ok!");
@@ -15,7 +15,7 @@ export default function Jobs() {
 
 				let data = await response.json();
 
-				setJobs(data.results);
+				setJobs(data);
 			})
 	}, []);
 
