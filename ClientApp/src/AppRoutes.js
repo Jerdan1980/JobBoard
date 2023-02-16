@@ -11,6 +11,7 @@ import Tags from './react-pages/tags/Tags';
 import TagHome from './react-pages/tags/TagHome';
 import TagCreate from './react-pages/tags/TagCreate';
 import TagUpdate from './react-pages/tags/TagUpdate';
+import Industries from './react-pages/industries/Industries';
 
 const AppRoutes = [
   {
@@ -65,6 +66,10 @@ const AppRoutes = [
 		path: 'tags/edit',
     requireAuth: true,
 		element: <TagUpdate />
+	},
+	{
+		path: 'industries',
+		element: <Industries />
 	},
   ...ApiAuthorzationRoutes
 ];
