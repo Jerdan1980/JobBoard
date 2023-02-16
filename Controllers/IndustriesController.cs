@@ -21,10 +21,9 @@ namespace JobBoard.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<IndustryModel>>> GetIndustries()
 		{
-			List<IndustryModel> industries = await _context.Industries
+			return await _context.Industries
+				.Include(x => x.Users)
 				.ToListAsync();
-
-			return Ok(industries);
 		}
 
 		[HttpGet("count")]
@@ -35,14 +34,33 @@ namespace JobBoard.Controllers
 				join job in _context.Jobs
 				on industry.Id equals job.IndustryId into industryGroup
 				orderby industryGroup.Count() descending
-				select new IndustryCount
-				{
+				select new IndustryCount {
 					Id = industry.Id,
 					Name = industry.Name,
 					Count = industryGroup.Count()
 				};
 
 			return await data.ToListAsync();
+		}
+
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetIndustry(int id)
+		{
+			IQueryable data =
+				from industry in (
+					from industries in _context.Industries
+					where industries.Id == id
+					select industries
+				)
+				join job in _context.Jobs
+				on industry.Id equals job.IndustryId into IndustryGroup
+				select new {
+					Id = industry.Id,
+					Name = industry.Name,
+					Jobs = IndustryGroup.ToList()
+				};
+
+			return Ok(data);
 		}
 	}
 }
