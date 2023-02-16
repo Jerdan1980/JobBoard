@@ -21,12 +21,23 @@ namespace JobBoard.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<CompetitionModel>>> GetCompetitions()
 		{
-			List<CompetitionModel> competitions = await _context.Competitions
+			return await _context.Competitions
+				.AsNoTracking()
 				.Include(x => x.Tags)
 				.OrderByDescending(x => x.Id)
 				.ToListAsync();
+		}
 
-			return Ok(competitions);
+		[HttpGet("count")]
+		public async Task<ActionResult<IEnumerable<CompetitionStatus>>> GetCompetitionStatues()
+		{
+			return await _context.Competitions
+				.Select(comp => new CompetitionStatus{
+					Id = comp.Id,
+					StartTime = comp.StartTime,
+					EndTime = comp.EndTime
+				})
+				.ToListAsync();
 		}
 
 		// GET: api/Competitions/5
@@ -34,6 +45,7 @@ namespace JobBoard.Controllers
 		public async Task<ActionResult<CompetitionModel>> GetCompetition(int id)
 		{
 			var competition = await _context.Competitions
+				.AsNoTracking()
 				.Include(x => x.Tags)
 				.Where(comp => comp.Id == id)
 				.FirstOrDefaultAsync();

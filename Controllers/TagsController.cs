@@ -11,32 +11,38 @@ using JobBoard.Models.Competitions;
 
 namespace JobBoard.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TagsController : ControllerBase
-    {
-        private readonly ApplicationDbContext _context;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class TagsController : ControllerBase
+	{
+		private readonly ApplicationDbContext _context;
 
-        public TagsController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-		
+		public TagsController(ApplicationDbContext context)
+		{
+			_context = context;
+		}
+
 		// GET: api/Tags
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TagModel>>> GetTags()
-        {
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<TagModel>>> GetTags()
+		{
 			//https://stackoverflow.com/questions/72457759/net-6-entity-framework-core-many-to-many-relationships	
 			return await _context.Tags
 				.Include(x => x.Competitions)
 				.Include(x => x.Jobs)
 				.ToListAsync();
 		}
+		
+		[HttpGet("count")]
+		public ActionResult<int> GetTagsCount()
+		{
+			return _context.Tags.Count();
+		}
 
-        // GET: api/Tags/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TagModel>> GetTag(int id)
-        {
+		// GET: api/Tags/5
+		[HttpGet("{id}")]
+		public async Task<ActionResult<TagModel>> GetTag(int id)
+		{
 			TagModel? tag = await _context.Tags
 				.Include(x => x.Competitions)
 				.Include(x => x.Jobs)
@@ -46,7 +52,7 @@ namespace JobBoard.Controllers
 			if (tag == null)
 				return NotFound();
 			return Ok(tag);
-        }
+		}
 
 		// DELETE: api/Tags/5
 		[HttpDelete("{id}")]
