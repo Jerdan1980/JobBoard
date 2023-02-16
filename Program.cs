@@ -61,31 +61,16 @@ builder.Services.AddQuartz(quartz =>
 		.ForJob(GrabKontestsJob.Key)
 		.WithIdentity("GrabKontests-trigger-now")
 	);
-	quartz.AddTrigger(options => options
-		.ForJob(GrabMuseJobJob.Key)
-		.UsingJobData("page", 1)
-		.WithIdentity("GrabMuseJobs-trigger-now1")
-	);
-	quartz.AddTrigger(options => options
-		.ForJob(GrabMuseJobJob.Key)
-		.UsingJobData("page", 2)
-		.WithIdentity("GrabMuseJobs-trigger-now2")
-	);
-	quartz.AddTrigger(options => options
-		.ForJob(GrabMuseJobJob.Key)
-		.UsingJobData("page", 3)
-		.WithIdentity("GrabMuseJobs-trigger-now3")
-	);
-	quartz.AddTrigger(options => options
-		.ForJob(GrabMuseJobJob.Key)
-		.UsingJobData("page", 4)
-		.WithIdentity("GrabMuseJobs-trigger-now4")
-	);
-	quartz.AddTrigger(options => options
-		.ForJob(GrabMuseJobJob.Key)
-		.UsingJobData("page", 5)
-		.WithIdentity("GrabMuseJobs-trigger-now5")
-	);
+
+	// grabs first `pages` pages from Muse on application start
+	const int pages = 1;
+	for (int i = 1; i <= pages; i++) {
+		quartz.AddTrigger(options => options
+			.ForJob(GrabMuseJobJob.Key)
+			.UsingJobData("page", i)
+			.WithIdentity($"GrabMuseJobs-trigger-now-{i}")
+		);
+	}
 
 	// Runs periodically to update data
 	quartz.AddTrigger(options => options
