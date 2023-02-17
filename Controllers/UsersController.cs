@@ -1,7 +1,13 @@
-﻿using JobBoard.Models;
+﻿using JobBoard.Data;
+using JobBoard.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace JobBoard.Controllers.Manual
 {
@@ -18,7 +24,7 @@ namespace JobBoard.Controllers.Manual
 
 		[HttpGet]
 		[ProducesResponseType(typeof(IEnumerable<ApplicationUser>), StatusCodes.Status200OK)]
-		public async Task<ActionResult<IEnumerable<ApplicationUser>>> Get()
+		public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUsersPublic()
 		{
 			return await _userManager.Users
 				.Include(x => x.IndustryPreferences)
@@ -29,7 +35,7 @@ namespace JobBoard.Controllers.Manual
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(typeof(ApplicationUser), StatusCodes.Status200OK)]
-		public async Task<ActionResult<ApplicationUser>> Get(string id)
+		public async Task<ActionResult<ApplicationUser>> GetUserPublic(string id)
 		{
 			ApplicationUser? user = await _userManager.Users
 				.Include(x => x.IndustryPreferences)
@@ -39,5 +45,16 @@ namespace JobBoard.Controllers.Manual
 				return NotFound();
 			return user;
 		}
+
+		[HttpGet("self")]
+		[Authorize]
+		public async Task<ActionResult<ApplicationUser>> GetSelf()
+		{
+			string userId = BearerToken.GetUserId(Request);
+				
+			return await _userManager.FindByIdAsync(userId);
+		}
+
+		
 	}
 }

@@ -4,6 +4,7 @@ using JobBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230217163543_Resumes")]
+    partial class Resumes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -376,12 +379,9 @@ namespace JobBoard.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Resumes");
                 });
@@ -599,17 +599,6 @@ namespace JobBoard.Data.Migrations
                     b.Navigation("Industry");
                 });
 
-            modelBuilder.Entity("JobBoard.Models.ResumeModel", b =>
-                {
-                    b.HasOne("JobBoard.Models.ApplicationUser", "User")
-                        .WithOne("Resume")
-                        .HasForeignKey("JobBoard.Models.ResumeModel", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("JobModelTagModel", b =>
                 {
                     b.HasOne("JobBoard.Models.Jobs.JobModel", null)
@@ -674,11 +663,6 @@ namespace JobBoard.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("JobBoard.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Resume");
                 });
 #pragma warning restore 612, 618
         }
