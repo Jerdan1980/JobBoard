@@ -12,6 +12,7 @@ import TagHome from './react-pages/tags/TagHome';
 import TagCreate from './react-pages/tags/TagCreate';
 import TagUpdate from './react-pages/tags/TagUpdate';
 import Industries from './react-pages/industries/Industries';
+import SelfProfile from './react-pages/user/SelfProfile';
 
 const AppRoutes = [
   {
@@ -70,6 +71,11 @@ const AppRoutes = [
 	{
 		path: 'industries',
 		element: <Industries />
+	},
+	{
+		path: 'selfprofile',
+		requireAuth: true,
+		element: <SelfProfile />
 	},
   ...ApiAuthorzationRoutes
 ];
