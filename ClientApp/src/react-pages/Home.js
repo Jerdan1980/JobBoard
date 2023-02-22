@@ -20,7 +20,7 @@ export default function Home() {
 			.then(response => response.text())
 			.then(data => setNumTags(parseInt(data)));
 		
-		fetch(`/api/competitions/count`)
+		fetch(`/api/competitions/status`)
 			.then(response => response.json())
 			.then(data => {
 				setTotalComps(data.length);
@@ -48,7 +48,7 @@ export default function Home() {
 				setOngoingComps(ongoing);
 			});
 		
-		fetch(`/api/industries/count`)
+		fetch(`/api/industries/min`)
 			.then(response => response.json())
 			.then(data => {
 				setIndustryCounts(data);
@@ -109,7 +109,7 @@ export default function Home() {
 function Progress({ fraction, name, className }) {
 	return (
 		<div className={className}>
-			<span className="position-absolute inline-block start-50 translate-middle-x">{name}: {fraction * 100}%</span>
+			<span className="position-absolute inline-block start-50 translate-middle-x">{name}: {(fraction * 100).toFixed(2)}%</span>
 			<div className="progress" style={{ height: "2em" }}>
 				<div className="progress-bar bg-info" style={{width: `${fraction * 100}%`}}></div>
 			</div>

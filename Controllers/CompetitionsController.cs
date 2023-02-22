@@ -29,6 +29,12 @@ namespace JobBoard.Controllers
 		}
 
 		[HttpGet("count")]
+		public ActionResult<int> Count()
+		{
+			return _context.Competitions.Count();
+		}
+
+		[HttpGet("status")]
 		public async Task<ActionResult<IEnumerable<CompetitionStatus>>> GetCompetitionStatues()
 		{
 			return await _context.Competitions

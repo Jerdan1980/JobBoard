@@ -13,7 +13,7 @@ export default function Industries() {
 
 	// Grabs the list of industries and if a user is logged in
 	useEffect(() => {
-		fetch(`/api/industries/count`)
+		fetch(`/api/industries/min`)
 			.then(response => response.json())
 			.then(data => setIndustries(data));
 
@@ -63,7 +63,7 @@ function IndustryCard({ industry }) {
 			<div className="card-body">
 				<h4 class="card-title">{industry.name}</h4>
 				<h6 class="card-subtitle mb-2 text-muted"># of careers: {industry.count}</h6>
-				<a href={`/industry?id=${industry.id}`} class="card-link">Explore industry</a>
+				<a href={`/jobs?industry=${industry.id}`} class="card-link">Explore industry</a>
 			</div>
 		</div>
 	)

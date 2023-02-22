@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using JobBoard.Data;
 using JobBoard.Models.Tags;
 using JobBoard.Models.Competitions;
+using JobBoard.Models.Industry;
 
 namespace JobBoard.Controllers
 {
@@ -37,6 +38,22 @@ namespace JobBoard.Controllers
 		public ActionResult<int> GetTagsCount()
 		{
 			return _context.Tags.Count();
+		}
+
+		[HttpGet("min")]
+		public async Task<ActionResult<IEnumerable<TagCount>>> GetTagsMin()
+		{
+			List<TagCount> data = await _context.Tags
+				.Include(x => x.Competitions)
+				.OrderByDescending(tag => tag.Competitions.Count())
+				.Select(tag => new TagCount
+				{
+					Id = tag.Id,
+					Name = tag.Name,
+					Count = tag.Competitions.Count()
+				}).ToListAsync();
+
+			return data;
 		}
 
 		// GET: api/Tags/5

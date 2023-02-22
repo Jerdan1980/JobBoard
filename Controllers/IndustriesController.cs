@@ -27,7 +27,13 @@ namespace JobBoard.Controllers
 		}
 
 		[HttpGet("count")]
-		public async Task<ActionResult<IEnumerable<IndustryCount>>> GetIndustriesCount()
+		public ActionResult<int> GetIndustriesCount()
+		{
+			return _context.Industries.Count();
+		}
+
+		[HttpGet("min")]
+		public async Task<ActionResult<IEnumerable<IndustryCount>>> GetIndustriesMin()
 		{
 			IQueryable<IndustryCount> data =
 				from industry in _context.Industries
