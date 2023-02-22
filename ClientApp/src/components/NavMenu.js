@@ -19,7 +19,7 @@ export class NavMenu extends Component {
 			{ to: "/", name: "Home"},
 			//{ to: "/counter", name: "Counter"},
 			//{ to: "/fetch-data", name: "Fetch Data"},
-			{ to: "/selfprofile", name: "Account"},
+			{ to: "/self/resume", name: "Account"},
 			{ to: "/jobs", name: "Jobs"},
 			{ to: "/industries", name: "Industries"},
 			{ to: "/competitions", name: "Competitions"},
