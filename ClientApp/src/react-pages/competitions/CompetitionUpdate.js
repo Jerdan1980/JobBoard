@@ -3,17 +3,17 @@ import { useLocation } from 'react-router-dom';
 import Markdown from '../../components/Markdown';
 import CreatableSelect from 'react-select/creatable';
 
-export default function CompetitionUpdate({ }) {
+export default function CompetitionUpdate() {
 	// Grabs id and type from the url (technically the queryString)
 	const queryString = new URLSearchParams(useLocation().search);
 	const id = queryString.get('id');
-	const auto = queryString.get('type');
 	
 	// Competition information
 	const [ name, setName ] = useState();
 	const [ description, setDescription] = useState();
 	const [ startTime, setStartTime ] = useState();
 	const [ endTime, setEndTime ] = useState();
+	const [ automated, setAutomated ] = useState();
 
 	// Handles tags, loading in new tags, and keeping track of what tags were selected
 	const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +24,8 @@ export default function CompetitionUpdate({ }) {
 	const [ oldName, setOldName ] = useState('');
 	const [ deleteString, setDeleteString ] = useState('');
 
-	// loads both the tags and competition on page load
+	// Loads both the tags and competition on page load
+	// Requires id as a dependency despite it being const...
 	useEffect(() => {
 		// GETs the Tags
 		setIsLoading(true);
@@ -33,7 +34,7 @@ export default function CompetitionUpdate({ }) {
 				if (!response.ok)
 				{
 					alert(response.statusText);
-					window.location.href = `/competition?id=${id}&type=${auto}`;
+					window.location.href = `/competition?id=${id}`;
 					return;
 				}
 				return response.json();
@@ -46,12 +47,12 @@ export default function CompetitionUpdate({ }) {
 				})
 		
 		// GETs the competition
-		fetch(`/api/competitions/${auto}/${id}`)
+		fetch(`/api/competitions/${id}`)
 			.then(response => {
 				if (!response.ok)
 				{
 					alert(response.statusText);
-					window.location.href = `/competition?id=${id}&type=${auto}`;
+					window.location.href = `/competition?id=${id}`;
 					return;
 				}
 				return response.json();
@@ -61,6 +62,7 @@ export default function CompetitionUpdate({ }) {
 				setDescription(data.description);
 				setStartTime(data.startTime);
 				setEndTime(data.endTime);
+				setAutomated(data.automated);
 				if (data.tags.length > 0)
 				{
 					console.log("original", data.tags);
@@ -68,7 +70,7 @@ export default function CompetitionUpdate({ }) {
 				}
 				setOldName(data.name);
 			});
-	}, []);
+	}, [id]);
 
 	// Handles creation of a new tag
 	// POSTS a new tag and then loads the tags back in
@@ -110,7 +112,8 @@ export default function CompetitionUpdate({ }) {
 			'id': id,
 			'name': name,
 			'description': description,
-			'tagIds': selectedTags.map(tag => tag.value)
+			'tagIds': selectedTags.map(tag => tag.value),
+			'automated': automated
 		};
 
 		if (startTime)
@@ -119,7 +122,7 @@ export default function CompetitionUpdate({ }) {
 		if (endTime)
 			body.endTime = endTime
 
-		fetch(`/api/competitions/${auto}`, {
+		fetch(`/api/competitions`, {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
@@ -132,14 +135,14 @@ export default function CompetitionUpdate({ }) {
 					alert(response.statusText);
 					return;
 				}
-				window.location.href = `/competition?id=${id}&type=${auto}`;
+				window.location.href = `/competition?id=${id}`;
 			})
 	}
 
 	// DELETEs the competition
 	const remove = (event) => {
 		if (oldName === deleteString)
-			fetch(`/api/competitions/${auto}/${id}`, { method: 'delete' })
+			fetch(`/api/competitions/${id}`, { method: 'delete' })
 				.then(response => {
 					if (response.ok) {
 						window.location.href = "/competitions";
@@ -246,7 +249,7 @@ export default function CompetitionUpdate({ }) {
 						<h1>{name}</h1>
 
 						{/* Tags */}
-						{selectedTags.length != 0 && (
+						{selectedTags.length !== 0 && (
 							<div class="mb-1">
 								Tags: {selectedTags.map(tag => (
 									<button class="btn btn-sm btn-outline-light me-1">{tag.label}</button>

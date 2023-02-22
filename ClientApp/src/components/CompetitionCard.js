@@ -11,7 +11,7 @@ export default function CompetitionCard({ comp }) {
 			{comp.automated && <div class="card-header">Automated</div>}
 			<div class={`card-body ${comp.startTime && 'pb-1'}`}>
 				<h4 class="card-title">{comp.name}</h4>
-				{comp.tags.length != 0 && (
+				{comp.tags.length !== 0 && (
 					<h6 class="card-subtitle mb-2 text-muted">
 						Tags: {comp.tags.map(tag => ( tag &&
 							<a class="btn btn-sm btn-outline-light me-1" href={`/tag?id=${tag.id}`}>{tag.name}</a>
@@ -22,7 +22,7 @@ export default function CompetitionCard({ comp }) {
 				<div class="overflow-hidden" style={{maxHeight: "15em", WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1), 85%, rgba(0,0,0,0)'}}>
 					<Markdown contents={comp.description}/>
 				</div>
-				<a href={`/competition?id=${comp.id}&type=${comp.automated ? 'auto' : 'user'}`} class="card-link">Read more</a>
+				<a href={`/competition?id=${comp.id}`} class="card-link">Read more</a>
 			</div>
 			{(comp.startTime) && (
 				<div class="card-footer">

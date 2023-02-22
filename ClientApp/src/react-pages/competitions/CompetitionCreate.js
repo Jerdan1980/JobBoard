@@ -189,7 +189,7 @@ export default function CompetitionCreate() {
 						<h1>{name}</h1>
 
 						{/* Tags */}
-						{selectedTags.length != 0 && (
+						{selectedTags.length !== 0 && (
 							<div class="mb-1">
 								Tags: {selectedTags.map(tag => (
 									<button class="btn btn-sm btn-outline-light me-1">{tag.label}</button>

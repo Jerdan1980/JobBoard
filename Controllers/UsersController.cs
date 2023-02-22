@@ -46,15 +46,5 @@ namespace JobBoard.Controllers.Manual
 			return user;
 		}
 
-		[HttpGet("self")]
-		[Authorize]
-		public async Task<ActionResult<ApplicationUser>> GetSelf()
-		{
-			string userId = BearerToken.GetUserId(Request);
-				
-			return await _userManager.FindByIdAsync(userId);
-		}
-
-		
 	}
 }
