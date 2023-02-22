@@ -5,7 +5,7 @@ auto assign job posting date and expiration date
 	Users can set their own exp date (recruters)
 	Timers!!!
 
-search for key word
+search for key word (Client-side DONE)
 	server vs client-side
 
 number of job postings for job (DONE)
@@ -17,19 +17,19 @@ active or inactive job posting
 
 user/profile page
 	Changing password (DONE)
-	Resume changes
+	Resume changes (DONE)
 	preferences for jobs
 	use user prefernces for competitions (tags)
 	
 Recruiters can see user's competition achievements
 Tags for both competitions and jobs (DONE)
 
-resume file upload/edit
+resume file upload/edit (DONE)
 
 Notifications
 	for new job postings???
 
-Minimize the fetch calls for the home page
+Minimize the fetch calls for the home page (DONE)
 
 Add Jobs and Industries pages
 
