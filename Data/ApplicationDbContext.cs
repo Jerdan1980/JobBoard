@@ -4,6 +4,7 @@ using JobBoard.Models.Competitions;
 using JobBoard.Models.Industry;
 using JobBoard.Models.Jobs;
 using JobBoard.Models.Tags;
+using JobBoard.Models.Users;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

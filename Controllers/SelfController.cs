@@ -1,15 +1,19 @@
 ﻿using JobBoard.Data;
 using JobBoard.Models;
+using JobBoard.Models.Industry;
+using JobBoard.Models.Tags;
+using JobBoard.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
+using System.Runtime.CompilerServices;
 
 namespace JobBoard.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class SelfController : ControllerBase
 	{
@@ -125,6 +129,98 @@ namespace JobBoard.Controllers
 			string userId = BearerToken.GetUserId(Request);
 
 			return await _userManager.FindByIdAsync(userId);
+		}
+
+		[HttpGet("preferences")]
+		//[Authorize]
+		public async Task<ActionResult<UserPreferences>> GetPreferences()
+		{
+			string userId = BearerToken.GetUserId(Request);
+
+			UserPreferences? preferences = await _context.Users
+				.Include(x => x.IndustryPreferences)
+				.Include(x => x.TagPreferences)
+				.Where(user => user.Id == userId)
+				.Select(user => new UserPreferences
+				{
+					IndustryIds = user.IndustryPreferences.Select(industry => industry.Id).ToArray(),
+					TagIds = user.TagPreferences.Select(tag => tag.Id).ToArray(),
+				})
+				.FirstOrDefaultAsync();
+
+			if (preferences == null)
+				return Ok(new UserPreferences());
+			return Ok(preferences);
+		}
+
+		[HttpGet("preferences/count")]
+		//[Authorize]
+		public async Task<ActionResult<UserPreferencesCount>> GetPreferencesCount()
+		{
+			string userId = BearerToken.GetUserId(Request);
+
+			UserPreferencesCount? preferences = await _context.Users
+				.Include(x => x.IndustryPreferences)
+				.Include(x => x.TagPreferences)
+				.Where(user => user.Id == userId)
+				.Select(user => new UserPreferencesCount
+				{
+					IndustryIds = user.IndustryPreferences.Select(industry => industry.Id).ToArray(),
+					CareersCount = user.IndustryPreferences.Count(),
+					TagIds = user.TagPreferences.Select(tag => tag.Id).ToArray(),
+					CompetitionsCount = user.TagPreferences.Count(),
+				})
+				.FirstOrDefaultAsync();
+
+			if (preferences == null) 
+				return Ok(new UserPreferencesCount());
+			return Ok(preferences);
+		}
+
+		[HttpPost("preferences")]
+		//[Authorize]
+		public async Task<IActionResult> SetPreferences(UserPreferences preferences)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			string userId = BearerToken.GetUserId(Request);
+			ApplicationUser? user = await _context.Users
+				.Include(x => x.IndustryPreferences)
+				.Include(x => x.TagPreferences)
+				.Where(user => user.Id == userId)
+				.FirstOrDefaultAsync();
+			if (user == null)
+				return NotFound();
+
+			user.IndustryPreferences.Clear();
+			user.TagPreferences.Clear();
+
+			foreach (int id in preferences.IndustryIds ?? new int[] { })
+			{
+				IndustryModel? industry = await _context.Industries.FindAsync(id);
+				if (industry != null)
+					user.IndustryPreferences.Add(industry);
+			}
+
+			foreach (int id in preferences.TagIds ?? new int[] { })
+			{
+				TagModel? tag = await _context.Tags.FindAsync(id);
+				if (tag != null)
+					user.TagPreferences.Add(tag);
+			}
+
+			try
+			{
+				_context.Users.Update(user);
+				await _context.SaveChangesAsync();
+				return NoContent();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, ex);
+			}
+
 		}
 	}
 }

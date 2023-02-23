@@ -15,5 +15,7 @@ namespace JobBoard.Models.Tags
 		// Two many-to-many foreign keys
 		public List<CompetitionModel> Competitions { get; set; } = new List<CompetitionModel>();
 		public List<JobModel> Jobs { get; set; } = new List<JobModel>();
+		public List<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
+
 	}
 }
