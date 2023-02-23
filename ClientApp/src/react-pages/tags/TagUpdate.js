@@ -16,7 +16,7 @@ export default function TagUpdate() {
 			.then(response => {
 				if (!response.ok) {
 					alert(response.statusText);
-					window.location.href = `/tag?id=${id}`;
+					window.location.href = `/tags`;
 					return;
 				}
 				return response.json();
@@ -25,7 +25,7 @@ export default function TagUpdate() {
 				setName(data.name);
 				setDescription(data.description);
 			});
-	}, []);
+	}, [id]);
 
 	// POSTs the tag
 	const submit = (event) => {

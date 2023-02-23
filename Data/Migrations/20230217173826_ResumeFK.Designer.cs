@@ -4,6 +4,7 @@ using JobBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230217173826_ResumeFK")]
+    partial class ResumeFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +38,6 @@ namespace JobBoard.Data.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("ApplicationUserIndustryModel");
-                });
-
-            modelBuilder.Entity("ApplicationUserTagModel", b =>
-                {
-                    b.Property<int>("TagPreferencesId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("TagPreferencesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("ApplicationUserTagModel");
                 });
 
             modelBuilder.Entity("CompetitionModelTagModel", b =>
@@ -370,27 +358,7 @@ namespace JobBoard.Data.Migrations
                     b.ToTable("Jobs");
                 });
 
-            modelBuilder.Entity("JobBoard.Models.Tags.TagModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("JobBoard.Models.Users.ResumeModel", b =>
+            modelBuilder.Entity("JobBoard.Models.ResumeModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -419,6 +387,26 @@ namespace JobBoard.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Resumes");
+                });
+
+            modelBuilder.Entity("JobBoard.Models.Tags.TagModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("JobModelTagModel", b =>
@@ -588,21 +576,6 @@ namespace JobBoard.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ApplicationUserTagModel", b =>
-                {
-                    b.HasOne("JobBoard.Models.Tags.TagModel", null)
-                        .WithMany()
-                        .HasForeignKey("TagPreferencesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JobBoard.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CompetitionModelTagModel", b =>
                 {
                     b.HasOne("JobBoard.Models.Competitions.CompetitionModel", null)
@@ -629,11 +602,11 @@ namespace JobBoard.Data.Migrations
                     b.Navigation("Industry");
                 });
 
-            modelBuilder.Entity("JobBoard.Models.Users.ResumeModel", b =>
+            modelBuilder.Entity("JobBoard.Models.ResumeModel", b =>
                 {
                     b.HasOne("JobBoard.Models.ApplicationUser", "User")
                         .WithOne("Resume")
-                        .HasForeignKey("JobBoard.Models.Users.ResumeModel", "UserId")
+                        .HasForeignKey("JobBoard.Models.ResumeModel", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

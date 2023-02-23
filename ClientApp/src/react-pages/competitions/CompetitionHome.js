@@ -4,11 +4,10 @@ import Markdown from '../../components/Markdown';
 import authService from '../../components/api-authorization/AuthorizeService';
 import Timer from '../../components/Timer';
 
-export default function CompetitionHome({  }) {
+export default function CompetitionHome() {
 	// Grabs id and type from the url (technically the queryString)
 	const queryString = new URLSearchParams(useLocation().search);
 	const id = queryString.get('id');
-	const auto = queryString.get('type');
 
 	// Competition information
 	const [competition, setCompetition] = useState({ name: "", description: "", tags: [] });
@@ -18,7 +17,7 @@ export default function CompetitionHome({  }) {
 
 	// GETs the competition and login status
 	useEffect(() => {
-		fetch(`/api/comps/${auto}/${id}`)
+		fetch(`/api/competitions/${id}`)
 			.then(response => response.json())
 			.then(data => setCompetition(data));
 				
@@ -26,7 +25,7 @@ export default function CompetitionHome({  }) {
 			const token = await authService.getAccessToken()
 			setLoggedIn(token != null);
 		})();
-	}, []);
+	}, [id]);
 
 	return (
 		<div>
@@ -35,12 +34,12 @@ export default function CompetitionHome({  }) {
 					<h1>{competition.name}</h1>
 				</div>
 				<div class="col position-relative">
-					<a class={"btn btn-primary position-absolute top-0 end-0" + (!loggedIn ? " disabled" : "")} href={`/competitions/edit?id=${competition.id}&type=${auto}`}>Edit</a>
+					<a class={"btn btn-primary position-absolute top-0 end-0" + (!loggedIn ? " disabled" : "")} href={`/competitions/edit?id=${competition.id}`}>Edit</a>
 				</div>
 			</div>
 
 			{/* Displays tags if there are any */}
-			{competition.tags.length != 0 && (
+			{competition.tags.length !== 0 && (
 				<p>
 					Tags: {competition.tags.map(tag => (
 						<a class="btn btn-sm btn-outline-light me-1" href={`/tag?id=${tag.id}`}>{tag.name}</a>

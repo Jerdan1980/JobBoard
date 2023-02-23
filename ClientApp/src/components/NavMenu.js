@@ -19,7 +19,9 @@ export class NavMenu extends Component {
 			{ to: "/", name: "Home"},
 			//{ to: "/counter", name: "Counter"},
 			//{ to: "/fetch-data", name: "Fetch Data"},
+			{ to: "/self", name: "Account"},
 			{ to: "/jobs", name: "Jobs"},
+			{ to: "/industries", name: "Industries"},
 			{ to: "/competitions", name: "Competitions"},
 			{ to: "/tags", name: "Tags"},
 		];
@@ -34,13 +36,13 @@ export class NavMenu extends Component {
   render() {
     return (
       <header>
-        <Navbar className="navbar navbar-expand-sm navbar-dark bg-primary mb-3" container light>
-          <NavbarBrand tag={Link} to="/">JobBoard</NavbarBrand>
+        <Navbar className="navbar navbar-expand-md navbar-dark bg-primary mb-3" container light>
+          <NavbarBrand tag={Link} to="/">CNC</NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
+          <Collapse className="d-md-inline-flex flex-md-row-reverse" isOpen={!this.state.collapsed} navbar>
             <ul className="navbar-nav flex-grow">
 							{this.Links.map(link => (
-								<NavItem>
+								<NavItem key={link.name}>
 									<NavLink tag={Link} className="nav-link" to={link.to}>{link.name}</NavLink>
 								</NavItem>
 							))}

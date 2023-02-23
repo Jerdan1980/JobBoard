@@ -8,9 +8,12 @@ import CompetitionHome from './react-pages/competitions/CompetitionHome';
 import CompetitionCreate from './react-pages/competitions/CompetitionCreate';
 import CompetitionUpdate from './react-pages/competitions/CompetitionUpdate';
 import Tags from './react-pages/tags/Tags';
-import TagHome from './react-pages/tags/TagHome';
 import TagCreate from './react-pages/tags/TagCreate';
 import TagUpdate from './react-pages/tags/TagUpdate';
+import Industries from './react-pages/industries/Industries';
+import ResumeSettings from './react-pages/user/ResumeSettings';
+import PreferencesSettings from './react-pages/user/PreferencesSettings';
+import Dashboard from './react-pages/user/Dashboard';
 
 const AppRoutes = [
   {
@@ -53,10 +56,6 @@ const AppRoutes = [
 		element: <Tags />
 	},
 	{
-		path: 'tag',
-		element: <TagHome />
-	},
-	{
 		path: 'tags/create',
     requireAuth: true,
 		element: <TagCreate />
@@ -65,6 +64,25 @@ const AppRoutes = [
 		path: 'tags/edit',
     requireAuth: true,
 		element: <TagUpdate />
+	},
+	{
+		path: 'industries',
+		element: <Industries />
+	},
+	{
+		path: 'self/resume',
+		requireAuth: true,
+		element: <ResumeSettings />
+	},
+	{
+		path: 'self/preferences',
+		requireAuth: true,
+		element: <PreferencesSettings />
+	},
+	{
+		path: 'self',
+		requireAuth: true,
+		element: <Dashboard />
 	},
   ...ApiAuthorzationRoutes
 ];

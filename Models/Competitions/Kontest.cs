@@ -29,7 +29,7 @@
 			SITE_TAGIDS.Add("Toph",				12	);
 		}
 
-		public CompetitionModification ToCompetitionModification()
+		public virtual CompetitionModification ToCompetitionModification()
 		{
 			CompetitionModification competition = new CompetitionModification()
 			{

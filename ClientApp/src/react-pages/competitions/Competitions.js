@@ -1,13 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import CompetitionCard from '../../components/CompetitionCard';
 import authService from '../../components/api-authorization/AuthorizeService';
+import Select from 'react-select';
+import { useLocation } from 'react-router-dom';
 
 export default function Competitions() {
+	// Query params that carry from other pages
+	const queryParams = new URLSearchParams(useLocation().search);
+	const tagIdParam = queryParams.get('tag');
+	
 	// Competition Information
 	const [competitions, setCompetitions] = useState([]);
 
 	// Stores login status
 	const [loggedIn, setLoggedIn] = useState(false);
+
+	// Tags and selectedTags
+	const [isLoading, setIsLoading] = useState(false);
+	const [tags, setTags] = useState([]);
+	const [selectedTags, setSelectedTags] = useState([]);
+
+	// Loads tags on page load
+	useEffect(() => {
+		setIsLoading(true);
+		fetch('/api/tags/min')
+			.then(response => {
+				if (!response.ok)
+				{
+					alert(response.statusText);
+					return;
+				}
+				return response.json();
+			})
+			.then(data => {
+				setTags(data.map(tag => ({ value: tag.id, label: `${tag.name} (${tag.count})` })));
+				setIsLoading(false);
+			})
+	}, []);
+
+	// When setTags is done, load in query param
+	useEffect(() => {
+		// return if that queryparam doesn't exist
+		if (!tagIdParam || tags.length == 0)
+			return;
+		
+		// filter by said queryparam
+		let tag = tags.find(t => t.value == tagIdParam);
+		setSelectedTags([tag]);
+	}, [tags]);
 
 	// Filter settings
 	const [showFilter, setShowFilter] = useState(false);
@@ -15,6 +55,7 @@ export default function Competitions() {
 	const [showCompleted, setShowCompleted] = useState(true);
 	const [showUser, setShowUser] = useState(true);
 	const [showAutomated, setShowAutomated] = useState(true);
+	const [query, setQuery] = useState("");
 
 	// Returns a bool depending on what the user wants.
 	//		Works by filtering out any unwanted competitions.
@@ -22,13 +63,17 @@ export default function Competitions() {
 	function filter(comp) {
 		const isCompleted = comp.endTime ? Date.parse(comp.endTime) < Date.now() : false;
 		const isOngoing = comp.startTime ? Date.parse(comp.startTime) < Date.now() : false;
+		const hasTag = selectedTags.length === 0 || selectedTags.some(tag => comp.tags.map(tag => tag.id).includes(tag.value));
+		const inQuery = comp.name.toLowerCase().includes(query.toLowerCase()) || comp.description.toLowerCase().includes(query.toLowerCase());
 		
 		return (
+			hasTag &&
 			(
 				(showUser && !comp.automated) || (showAutomated && comp.automated)
 			) && (
 				!(!showCompleted && isCompleted) && !(!showOngoing && isOngoing)
 			)
+			&& inQuery
 		)
 	}
 
@@ -64,16 +109,36 @@ export default function Competitions() {
 
 			{/* Floating button to open the filter side panel */}
 			<div class="sticky-bottom d-flex justify-content-end">
-				<button class="btn btn-dark m-2 shadow-lg" type="button" onClick={() => setShowFilter(!showFilter)}>Filter Competitions</button>
+				<button class="btn btn-info m-2 shadow-lg" type="button" onClick={() => setShowFilter(!showFilter)}>Filter Competitions</button>
 			</div>
 
 			{/* Filter side panel */}
-			<div class={"offcanvas offcanvas-start" + (showFilter ? " show" : "")} tabindex="-1" id="offcanvasFilter">
+			<div class={"offcanvas offcanvas-end" + (showFilter ? " show" : "")} tabindex="-1" id="offcanvasFilter">
 				<div class="offcanvas-header">
 					<h5 class="offcanvas-title" id="offcanvasFilterTitle">Filter Competitions</h5>
 					<button type="button" class="btn-close text-reset" onClick={() => setShowFilter(false)}></button>
 				</div>
 				<div class="offcanvas-body">
+
+					{/* Text Search Bar */}
+					<div class="form-group mb-2">
+						<label htmlFor="searchQuery" class="form-label">Search</label>
+						<input type="text" class="form-control" id="searchQuery" placeholder="Search for a job" value={query} onChange={(event) => setQuery(event.target.value)}/>
+					</div>
+
+					{/* Tags section */}
+					<div class="form-group mb-2">
+						<label for="tags" class="form-label">Competition Tags (OR)</label>
+						<Select
+							isClearable
+							isMulti
+							isDisabled={isLoading}
+							isLoading={isLoading}
+							onChange={(newValue) => setSelectedTags(newValue)}
+							options={tags}
+							value={selectedTags}
+						/>
+					</div>
 
 					{/* Competition Status */}
 					<fieldset class="form-group mb-2">

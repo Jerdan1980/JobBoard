@@ -17,7 +17,7 @@ export default function CompetitionCreate() {
 	// Loads tags on page load
 	useEffect(() => {
 		setIsLoading(true);
-		fetch('/api/comptags')
+		fetch('/api/tags')
 			.then(response => {
 				if (!response.ok)
 				{
@@ -39,7 +39,7 @@ export default function CompetitionCreate() {
 	const handleCreate = (inputValue) =>
 	{
 		setIsLoading(true);
-		fetch('/api/comptags', {
+		fetch('/api/tags', {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ export default function CompetitionCreate() {
 		})
 			.then(response => {
 				if (response.ok) {
-					fetch('/api/comptags')
+					fetch('/api/tags')
 						.then(response => {
 							if (!response.ok)
 							{
@@ -87,7 +87,7 @@ export default function CompetitionCreate() {
 		if (endTime)
 			body.endTime = endTime
 
-		fetch('/api/comps', {
+		fetch('/api/competitions', {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ export default function CompetitionCreate() {
 						
 						{/* Tags section */}
 						<div class="form-group mb-2">
-							<label for="compTags" class="form-label">Competition Tags</label>
+							<label for="tags" class="form-label">Competition Tags</label>
 							<CreatableSelect
 								isClearable
 								isMulti
@@ -189,7 +189,7 @@ export default function CompetitionCreate() {
 						<h1>{name}</h1>
 
 						{/* Tags */}
-						{selectedTags.length != 0 && (
+						{selectedTags.length !== 0 && (
 							<div class="mb-1">
 								Tags: {selectedTags.map(tag => (
 									<button class="btn btn-sm btn-outline-light me-1">{tag.label}</button>

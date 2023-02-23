@@ -1,9 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Select from 'react-select';
+import { useLocation } from 'react-router-dom';
 
 export default function Jobs() {
-	const [jobs, setJobs] = useState([]);
-	const [index, setIndex] = useState(-1);
+	// Query params that carry from other pages
+	const queryParams = new URLSearchParams(useLocation().search);
+	const industryIdParam = queryParams.get('industry');
 
+	// Jobs and selected jobs (id, job)
+	const [jobs, setJobs] = useState([]);
+	const [id, setId] = useState(-1);
+	const [job, setJob] = useState(null);
+
+	// Industries and selected Industries
+	const [isIndustriesLoading, setIsIndustriesLoading] = useState(false);
+	const [industries, setIndustries] = useState([]);
+	const [selectedIndustries, setSelectedIndustries] = useState([]);
+
+	// Loads jobs on page load
 	useEffect(() => {
 		fetch("/api/jobs")
 			.then(async (response) => {
@@ -19,59 +33,82 @@ export default function Jobs() {
 			})
 	}, []);
 
+	// Loads industries on page load
+	useEffect(() => {
+		setIsIndustriesLoading(true);
+		fetch('/api/industries/min')
+			.then(response => {
+				if (!response.ok)
+				{
+					alert(response.statusText);
+					return;
+				}
+				return response.json();
+			})
+			.then(data => {
+				setIndustries(data.map(industry => ({value: industry.id, label: `${industry.name} (${industry.count})` })));
+				setIsIndustriesLoading(false);
+			})
+	}, []);
+
+	// When setIndustries is done, load in query param
+	useEffect(() => {
+		// return if that queryparam doesnt exist
+		if (!industryIdParam || industries.length == 0)
+			return;
+		
+		// filter by said queryparam
+		let industry = industries.find(i => i.value == industryIdParam);
+		setSelectedIndustries([industry]);
+	}, [industries]);
+
 	// Filter settings
 	const [showFilter, setShowFilter] = useState(false);
 	const [showOngoing, setShowOngoing] = useState(true);
 	const [showCompleted, setShowCompleted] = useState(true);
 	const [showUser, setShowUser] = useState(true);
 	const [showAutomated, setShowAutomated] = useState(true);
+	const [query, setQuery] = useState("");
 
-	// Returns a bool depending on what the user wants.
-	//		Works by filtering out any unwanted competitions.
-	//		Uses shortcircuiting to quickly remove competitions
-	function filter(comp) {
-		const isCompleted = comp.endTime ? Date.parse(comp.endTime) < Date.now() : false;
-		const isOngoing = comp.startTime ? Date.parse(comp.startTime) < Date.now() : false;
+	function filter(job) {
+		const hasIndustry = selectedIndustries.length == 0 || selectedIndustries.map(industry => industry.value).includes(job.industryId);
+		if (!hasIndustry)
+			return false;
 		
-		return (
-			(
-				(showUser && !comp.automated) || (showAutomated && comp.automated)
-			) && (
-				!(!showCompleted && isCompleted) && !(!showOngoing && isOngoing)
-			)
-		)
+		const inQuery = job.name.toLowerCase().includes(query.toLowerCase()) || job.contents.toLowerCase().includes(query.toLowerCase());
+		return inQuery;
 	}
 
 	return (
 		<div class="">
 			<h1>Job listing</h1>
-			<h2>There are {jobs.length} jobs!</h2>
+			<h2>There are {jobs.filter(job => filter(job)).length} jobs!</h2>
 
 			<div class="hstack gap-3">
 				{/* Left Column */}
 				<div class="col-4">
-					{jobs.map((job, i) => {
+					{jobs.filter((job) => filter(job)).map((job) => {
 						return (
-							<JobCard job={job} i={i} />
+							<JobCard job={job} />
 						)
 					})}
 					{/* Floating button to open the filter side panel */}
 					<div class="sticky-bottom d-flex justify-content-end">
-						<button class="btn btn-info m-2 shadow-lg" type="button" onClick={() => setShowFilter(!showFilter)}>Filter Competitions</button>
+						<button class="btn btn-info m-2 shadow-lg" type="button" onClick={() => setShowFilter(!showFilter)}>Filter Jobs</button>
 					</div>
 				</div>
 				<div class="vr"></div>
 				{/* Right column */}
 				<div class="col vh-100 overflow-auto sticky-top sticky-bottom" >
-					{ (index != -1) && (
+					{ (job !== null) && (
 						<>
 							<AlwaysScrollToTop />
 							<br/>
 							<br/>
-							<h2>{jobs[index].name}</h2>
-							<h5 class="text-info">{jobs[index].company.name}</h5>
-							<h5 class="text-muted">{jobs[index].locations[0].name}</h5>
-							<div dangerouslySetInnerHTML={{ __html: jobs[index].contents }}/>
+							<h2>{job.name}</h2>
+							<h5 class="text-info">{job.company.name}</h5>
+							<h5 class="text-muted">{job.locations[0].name}</h5>
+							<div dangerouslySetInnerHTML={{ __html: job.contents }}/>
 							<br/>
 							<br/>
 						</>
@@ -80,17 +117,31 @@ export default function Jobs() {
 			</div>
 
 			{/* Filter side panel */}
-			<div class={"offcanvas offcanvas-start" + (showFilter ? " show" : "")} tabindex="-1" id="offcanvasFilter">
+			<div class={"offcanvas offcanvas-end" + (showFilter ? " show" : "")} tabindex="-1" id="offcanvasFilter">
 				<div class="offcanvas-header">
 					<h5 class="offcanvas-title" id="offcanvasFilterTitle">Filter Competitions</h5>
 					<button type="button" class="btn-close text-reset" onClick={() => setShowFilter(false)}></button>
 				</div>
 				<div class="offcanvas-body">
 
-					{/* Competition Status */}
+					{/* Text Search Bar */}
 					<div class="form-group mb-2">
-						<label for="exampleInputEmail1" class="form-label">Search</label>
-						<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Search for a job"/>
+						<label htmlFor="searchQuery" class="form-label">Search</label>
+						<input type="text" class="form-control" id="searchQuery" placeholder="Search for a job" value={query} onChange={(event) => setQuery(event.target.value)}/>
+					</div>
+
+					{/* Industries section */}
+					<div class="form-group mb-2">
+						<label for="industries" class="form-label">Industries (OR)</label>
+						<Select
+							isClearable
+							isMulti
+							isDisabled={isIndustriesLoading}
+							isLoading={isIndustriesLoading}
+							onChange={(newValue) => setSelectedIndustries(newValue)}
+							options={industries}
+							value={selectedIndustries}
+						/>
 					</div>
 
 					{/* Competition Status */}
@@ -125,9 +176,15 @@ export default function Jobs() {
 		</div>
 	)
 
-	function JobCard({ job, i }) {
+	function JobCard({ job }) {
+		function changeSelected()
+		{
+			setJob(job);
+			setId(job.id);
+		}
+
 		return (
-			<div class={"card mb-3 " + (i == index ? "border-light" : "border-primary")} >
+			<div class={"card mb-3 " + (job.id === id ? "border-light" : "border-primary")} >
 				{job.fromApi &&	(
 					<div class="card-header">Automated</div>
 				)}
@@ -138,7 +195,7 @@ export default function Jobs() {
 						<br/>
 						Insert full/part time here
 					</h6>
-					<a onClick={() => setIndex(i)} class="stretched-link">Read More</a>
+					<a onClick={changeSelected} class="stretched-link">Read More</a>
 				</div>
 			</div>
 		)

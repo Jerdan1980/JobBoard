@@ -20,12 +20,16 @@ namespace JobBoard.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<JobModel>>> GetJobs()
 		{
-			List<JobModel> jobs = await _context.Jobs
+			return await _context.Jobs
 				.Include(x => x.Tags)
 				.Include(x => x.Industry)
 				.ToListAsync();
+		}
 
-			return Ok(jobs);
+		[HttpGet("count")]
+		public ActionResult<int> GetJobsCount()
+		{
+			return _context.Jobs.Count();
 		}
 
 	}

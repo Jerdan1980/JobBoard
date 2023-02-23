@@ -16,11 +16,11 @@ export default function Home() {
 
 	// GETs the numbers and assigns it to the states
 	useEffect(() => {
-		fetch(`/api/tags`)
-			.then(response => response.json())
-			.then(data => setNumTags(data.length));
+		fetch(`/api/tags/count`)
+			.then(response => response.text())
+			.then(data => setNumTags(parseInt(data)));
 		
-		fetch(`/api/competitions`)
+		fetch(`/api/competitions/status`)
 			.then(response => response.json())
 			.then(data => {
 				setTotalComps(data.length);
@@ -48,7 +48,7 @@ export default function Home() {
 				setOngoingComps(ongoing);
 			});
 		
-		fetch(`/api/industries/count`)
+		fetch(`/api/industries/min`)
 			.then(response => response.json())
 			.then(data => {
 				setIndustryCounts(data);
@@ -63,56 +63,55 @@ export default function Home() {
 	}, []);
 
 	return (
-		<div>
-			<h1>Hello, world!</h1>
-			<p>Welcome to your new single-page application, built with:</p>
+		<>
+			<h1>Careers N Competitions</h1>
+			<p>
+				Welcome to CNC! 
+				Our goal is to help you jumpstart your career in an industry of interest. 
+				Competitions are a good way of showing your interest <em>and</em> proving your skill.
+			</p>
+			<p>To help you get started, here are some quick links:</p>
 			<ul>
-				<li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-				<li><a href='https://facebook.github.io/react/'>React</a> for client-side code</li>
-				<li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
+				<li key="jobs">Looking for jobs? Here are our <a href="/jobs">careers</a></li>
+				<li key="comp">Want to get involved? Here are our <a href="/competitions">competitions</a></li>
+				<li key="tags">Have an interest in mind? Here are our <a href="/tags">tags</a></li>
 			</ul>
-			<p>To help you get started, we have also set up:</p>
-			<ul>
-				<li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-				<li><strong>Development server integration</strong>. In development mode, the development server from <code>create-react-app</code> runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-				<li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration produces minified, efficiently bundled JavaScript files.</li>
-			</ul>
-			<p>The <code>ClientApp</code> subdirectory is a standard React application based on the <code>create-react-app</code> template. If you open a command prompt in that directory, you can run <code>npm</code> commands such as <code>npm test</code> or <code>npm install</code>.</p>
+			<p>Contact us for more information!</p>
 		
-			<h2>Stats:</h2>
-			<div class="row text-center">
-				<div class="col">{numTags} Tags</div>
-				<div class="col">{totalComps} Competitions</div>
-				<div class="col">{totalJobs} Jobs</div>
-				<div class="col">{industryCounts.length} Industries</div>
+			<h2>Website Stats:</h2>
+			<div className="row text-center">
+				<a class="col" href="/tags">{numTags} Tags</a>
+				<a class="col" href="/competitions">{totalComps} Competitions</a>
+				<a class="col" href="/jobs">{totalJobs} Jobs</a>
+				<a class="col" href="/industries">{industryCounts.length} Industries</a>
 			</div>
 
 			<br/>
 			<h3>Competition status:</h3>
 			{/* Need to make text responsive somehow (if the width is too small omit text) */}
 			<div className="progress" style={{ height: "2em" }}>
-				<div className="progress-bar text-dark" role="progress-bar" style={{width: `${startingComps / totalComps * 100}%`}}>{startingComps} Starting</div>
-				<div className="progress-bar bg-warning text-dark" role="progress-bar" style={{width: `${ongoingComps / totalComps * 100}%`}}>{ongoingComps} Ongoing</div>
-				<div className="progress-bar bg-success text-dark" role="progress-bar" style={{width: `${completedComps / totalComps * 100}%`}}>{completedComps} Completed</div>
-				{/*<div class="">{totalComps - (startingComps + ongoingComps + completedComps)} N/A</div>*/}
+				<div className="progress-bar text-dark" style={{width: `${startingComps / totalComps * 100}%`}}>{startingComps} Starting</div>
+				<div className="progress-bar bg-warning text-dark" style={{width: `${ongoingComps / totalComps * 100}%`}}>{ongoingComps} Ongoing</div>
+				<div className="progress-bar bg-success text-dark" style={{width: `${completedComps / totalComps * 100}%`}}>{completedComps} Completed</div>
 			</div>
+			<p><small>Last updated: {Date()}</small></p>
 
 			<br/>
 			<h3>Top 5 Industries:</h3>
-			{industryCounts.slice(1, 6).map(industry => (
-				<Progress className="mb-2" fraction={industry.count / totalJobs} name={industry.name}/>
+			{industryCounts.slice(0, 5).map(industry => (
+				<Progress className="mb-2" fraction={industry.count / totalJobs} name={industry.name} key={industry.name}/>
 			))}
 
-		</div>
+		</>
 	);
 }
 
 function Progress({ fraction, name, className }) {
 	return (
-		<div class={className}>
-			<span class="position-absolute inline-block start-50 translate-middle-x">{name}: {fraction * 100}%</span>
-			<div class="progress" style={{ height: "2em" }}>
-				<div class="progress-bar bg-info" role="progress-bar" style={{width: `${fraction * 100}%`}}></div>
+		<div className={className}>
+			<span className="position-absolute inline-block start-50 translate-middle-x">{name}: {(fraction * 100).toFixed(2)}%</span>
+			<div className="progress" style={{ height: "2em" }}>
+				<div className="progress-bar bg-info" style={{width: `${fraction * 100}%`}}></div>
 			</div>
 		</div>
 	)
