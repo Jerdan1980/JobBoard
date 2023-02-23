@@ -172,8 +172,31 @@ namespace JobBoard.Controllers
 				})
 				.FirstOrDefaultAsync();
 
-			if (preferences == null) 
+			if (preferences == null)
 				return Ok(new UserPreferencesCount());
+
+			int numCareers = await _context.Jobs
+				.Where(job => preferences.IndustryIds.Contains(job.IndustryId))
+				.CountAsync();
+
+			List<List<int>> compTags = await _context.Competitions
+				.Include(x => x.Tags)
+				.Select(comp => comp.Tags.Select(tag => tag.Id).ToList())
+				.ToListAsync();
+
+			int numCompetitions = compTags
+				.Where(tags => tags.Exists(tag => preferences.TagIds.Contains(tag)))
+				.Count();
+
+			// This doesn't work and I have a working solution anyways so w/e
+			//int numComp = await _context.Competitions
+			//	.Include(x => x.Tags)
+			//	.Where(comp => comp.Tags.Select(tag => tag.Id).ToList().Exists(tagId => preferences.TagIds.Contains(tagId)))
+			//	.CountAsync();
+			
+			preferences.CareersCount = numCareers;
+			preferences.CompetitionsCount = numCompetitions;
+
 			return Ok(preferences);
 		}
 
