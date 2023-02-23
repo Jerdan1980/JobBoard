@@ -35,3 +35,6 @@ Add Jobs and Industries pages
 
 https://github.com/ivanakcheurov/ntextcat - detect language
 https://stackoverflow.com/questions/1464362/detect-language-of-text
+
+Jobs CRUD
+Multi-item filtering in queryparams
