@@ -80,7 +80,7 @@ const AppRoutes = [
 		element: <PreferencesSettings />
 	},
 	{
-		path: 'self/dashboard',
+		path: 'self',
 		requireAuth: true,
 		element: <Dashboard />
 	},

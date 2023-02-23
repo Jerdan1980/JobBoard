@@ -11,14 +11,14 @@ export default function ProfileSettingsSidebar({ active }) {
 
 	return (
 		<div class="d-flex flex-column flex-shrink-0 p-3 bg-dark" style={{width: "280px"}}>
-			<a href="/self/dashboard" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-light text-decoration-none">
+			<a href="/self" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-light text-decoration-none">
 				<PersonBoundingBox size={32} className="me-2" />
 				<span class="fs-4">Profile Settings</span>
 			</a>
 			<hr/>
 			<ul class="nav nav-pills flex-column mb-auto">
 				<li class="nav-item">
-					<a href="/self/dashboard" class={`nav-link ${isActive("dashboard")}`}>
+					<a href="/self" class={`nav-link ${isActive("dashboard")}`}>
 						<House size={16} className="me-2 mb-1" />
 						Dashboard
 					</a>
