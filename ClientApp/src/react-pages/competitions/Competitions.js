@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 export default function Competitions() {
 	// Query params that carry from other pages
 	const queryParams = new URLSearchParams(useLocation().search);
-	const tagIdParam = queryParams.get('tag');
+	const tagIdParam = queryParams.getAll('tag').map(str => Number.parseInt(str));
 	
 	// Competition Information
 	const [competitions, setCompetitions] = useState([]);
@@ -45,8 +45,8 @@ export default function Competitions() {
 			return;
 		
 		// filter by said queryparam
-		let tag = tags.find(t => t.value == tagIdParam);
-		setSelectedTags([tag]);
+		let tag = tags.filter(t => tagIdParam.includes(t.value));
+		setSelectedTags(tag);
 	}, [tags]);
 
 	// Filter settings

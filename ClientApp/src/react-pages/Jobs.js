@@ -4,8 +4,10 @@ import { useLocation } from 'react-router-dom';
 
 export default function Jobs() {
 	// Query params that carry from other pages
+	//https://medium.com/raml-api/arrays-in-query-params-33189628fa68
+	//https://developer.mozilla.org/en-US/docs/web/api/urlsearchparams
 	const queryParams = new URLSearchParams(useLocation().search);
-	const industryIdParam = queryParams.get('industry');
+	const industryIdParam = queryParams.getAll('industry').map(str => Number.parseInt(str));
 
 	// Jobs and selected jobs (id, job)
 	const [jobs, setJobs] = useState([]);
@@ -58,8 +60,9 @@ export default function Jobs() {
 			return;
 		
 		// filter by said queryparam
-		let industry = industries.find(i => i.value == industryIdParam);
-		setSelectedIndustries([industry]);
+		let industry = industries.filter(i => industryIdParam.includes(i.value));
+		console.log(industry);
+		setSelectedIndustries(industry);
 	}, [industries]);
 
 	// Filter settings

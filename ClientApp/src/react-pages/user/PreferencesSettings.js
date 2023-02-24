@@ -117,20 +117,6 @@ export default function PreferencesSettings() {
 				<div className='col'>
 					<h1>Preferences</h1>
 
-					{/* Tags section */}
-					<div class="form-group mb-2">
-						<label for="tags" class="form-label">Tags</label>
-						<Select
-							isClearable
-							isMulti
-							isDisabled={isTagsLoading}
-							isLoading={isTagsLoading}
-							onChange={(newValue) => setSelectedTags(newValue)}
-							options={tags}
-							value={selectedTags}
-						/>
-					</div>
-
 					{/* Industries section */}
 					<div class="form-group mb-2">
 						<label for="industries" class="form-label">Industries</label>
@@ -142,6 +128,20 @@ export default function PreferencesSettings() {
 							onChange={(newValue) => setSelectedIndustries(newValue)}
 							options={industries}
 							value={selectedIndustries}
+						/>
+					</div>
+
+					{/* Tags section */}
+					<div class="form-group mb-2">
+						<label for="tags" class="form-label">Tags</label>
+						<Select
+							isClearable
+							isMulti
+							isDisabled={isTagsLoading}
+							isLoading={isTagsLoading}
+							onChange={(newValue) => setSelectedTags(newValue)}
+							options={tags}
+							value={selectedTags}
 						/>
 					</div>
 

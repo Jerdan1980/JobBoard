@@ -18,7 +18,7 @@ active or inactive job posting
 user/profile page
 	Changing password (DONE)
 	Resume changes (DONE)
-	preferences for jobs
+	preferences for jobs (DONE)
 	use user prefernces for competitions (tags)
 	
 Recruiters can see user's competition achievements
@@ -37,4 +37,7 @@ https://github.com/ivanakcheurov/ntextcat - detect language
 https://stackoverflow.com/questions/1464362/detect-language-of-text
 
 Jobs CRUD
-Multi-item filtering in queryparams
+Multi-item filtering in queryparams (DONE)
+
+expiration date
+awards table one-to-many
