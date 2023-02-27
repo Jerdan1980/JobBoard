@@ -58,7 +58,7 @@ namespace JobBoard.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-			JobModel job =  _context.Jobs
+			JobModel? job =  _context.Jobs
 				.Where(j => j.Id == model.Id)
 				.FirstOrDefault();
 
@@ -97,6 +97,7 @@ namespace JobBoard.Controllers
 			{
 				Contents = model.Contents,
 				Name = model.Name,
+				Date = DateTime.Now,
 				Type = model.Type,
 				Salary = model.Salary,
 				Locations = model.Locations,
