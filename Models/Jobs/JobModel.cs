@@ -21,6 +21,6 @@ namespace JobBoard.Models.Jobs
         public string Experience { get; set; } //Muselevels
         public string Company { get; set; }
 		public bool FromApi { get; set; } //if created by api or rectruiter
-		public List<TagModel> Tags { get; set; } = new List<TagModel>();
+		public List<TagModel>? Tags { get; set; } = new List<TagModel>();
     }
 }

@@ -48,3 +48,9 @@ https://stackoverflow.com/questions/1464362/detect-language-of-text
 Jobs CRUD
 Multi-item filtering in queryparams
 >>>>>>> master
+
+
+CRUD for Jobs controller
+
+Profile pages frontend
+	Change password
