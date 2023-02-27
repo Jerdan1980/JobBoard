@@ -30,8 +30,8 @@ export default function Jobs() {
 				}
 
 				let data = await response.json();
-				
-				setJobs(data);
+
+				setJobs(data.results);
 			})
 	}, []);
 

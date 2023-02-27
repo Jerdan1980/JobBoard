@@ -20,6 +20,7 @@ namespace JobBoard.QuartzJobs
 
         public async Task Execute(IJobExecutionContext context)
         {
+            // GET the Job data
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://www.themuse.com/api/public/");
             client.DefaultRequestHeaders.Accept.Clear();
@@ -30,16 +31,20 @@ namespace JobBoard.QuartzJobs
 			HttpResponseMessage response = await client.GetAsync($"jobs?page={page}");
             if(!response.IsSuccessStatusCode)
                 return;
-
+            //convert from json to Muse object
             var museJobPage = await response.Content.ReadFromJsonAsync<MuseJobPage>();
 
+            //convert from muse object to JobModel object
             List <JobModel> jobs = new List <JobModel>();
             foreach (MuseJob job in museJobPage.Results)
             {
                 jobs.Add(job.ToJob());
             }
 
+            //upsert the jobs into the table
             await ApplicationAdoConnection.UpsertJobs(jobs);
+
+            return;
         }
     }
 }

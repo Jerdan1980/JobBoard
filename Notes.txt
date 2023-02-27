@@ -29,6 +29,8 @@ resume file upload/edit (DONE)
 Notifications
 	for new job postings???
 
+make recruiters able to see all jobs from their campany instead of having poster id
+
 Minimize the fetch calls for the home page (DONE)
 
 Add Jobs and Industries pages
@@ -37,6 +39,11 @@ https://github.com/ivanakcheurov/ntextcat - detect language
 https://stackoverflow.com/questions/1464362/detect-language-of-text
 
 Jobs CRUD
+CRUD for Jobs controller
+
+Profile pages frontend
+	Change password
+
 Multi-item filtering in queryparams (DONE)
 
 expiration date
