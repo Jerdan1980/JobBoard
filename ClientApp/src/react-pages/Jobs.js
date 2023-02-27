@@ -31,7 +31,7 @@ export default function Jobs() {
 
 				let data = await response.json();
 
-				setJobs(data.results);
+				setJobs(data);
 			})
 	}, []);
 
@@ -205,6 +205,7 @@ export default function Jobs() {
 	}
 }
 
+// Scrolls the job description to the top hwenever you click on a job card and load a new job
 //https://stackoverflow.com/questions/45719909/scroll-to-bottom-of-an-overflowing-div-in-react
 const AlwaysScrollToTop = () => {
 	const elementRef = useRef();
