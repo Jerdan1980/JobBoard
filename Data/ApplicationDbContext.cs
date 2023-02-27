@@ -24,5 +24,7 @@ namespace JobBoard.Data
 		public DbSet<JobModel> Jobs { get; set; }
 		public DbSet<IndustryModel> Industries { get; set; }
 		public DbSet<ResumeModel> Resumes { get; set; }
+		public DbSet<AwardModel> Awards { get; set; }
+		public DbSet<BioModel> Bios { get; set; }
 	}
 }

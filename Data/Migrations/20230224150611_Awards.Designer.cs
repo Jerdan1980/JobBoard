@@ -4,6 +4,7 @@ using JobBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230224150611_Awards")]
+    partial class Awards
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -418,32 +421,6 @@ namespace JobBoard.Data.Migrations
                     b.ToTable("Awards");
                 });
 
-            modelBuilder.Entity("JobBoard.Models.Users.BioModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PrivacyLevel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Bios");
-                });
-
             modelBuilder.Entity("JobBoard.Models.Users.ResumeModel", b =>
                 {
                     b.Property<int>("Id")
@@ -702,17 +679,6 @@ namespace JobBoard.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("JobBoard.Models.Users.BioModel", b =>
-                {
-                    b.HasOne("JobBoard.Models.ApplicationUser", "User")
-                        .WithOne("Bio")
-                        .HasForeignKey("JobBoard.Models.Users.BioModel", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("JobBoard.Models.Users.ResumeModel", b =>
                 {
                     b.HasOne("JobBoard.Models.ApplicationUser", "User")
@@ -793,9 +759,6 @@ namespace JobBoard.Data.Migrations
             modelBuilder.Entity("JobBoard.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Awards");
-
-                    b.Navigation("Bio")
-                        .IsRequired();
 
                     b.Navigation("Resume");
                 });

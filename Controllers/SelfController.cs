@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
+using System.Net;
 using System.Runtime.CompilerServices;
 
 namespace JobBoard.Controllers
@@ -19,13 +20,11 @@ namespace JobBoard.Controllers
 	{
 		public readonly ApplicationDbContext _context;
 		private UserManager<ApplicationUser> _userManager;
-		private JsonWebTokenHandler _tokenHandler;
 
 		public SelfController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 		{
 			_context = context;
 			_userManager = userManager;
-			_tokenHandler = new JsonWebTokenHandler();
 		}
 
 		// Grabs only the PDF file since I dont know how to send that along with other data back
@@ -244,6 +243,77 @@ namespace JobBoard.Controllers
 				return StatusCode(StatusCodes.Status500InternalServerError, ex);
 			}
 
+		}
+
+		[HttpGet("awards")]
+		public async Task<ActionResult<IEnumerable<AwardDTO>>> GetAwards()
+		{
+			string userId = BearerToken.GetUserId(Request);
+
+			return await _context.Awards
+				.Where(award => award.UserId == userId)
+				.Include(x => x.Competition)
+				.Include(x => x.User)
+				.Include(x => x.User.Bio)
+				.Select(award => new AwardDTO
+				{
+					Id = award.Id,
+					Rank = award.Rank,
+					UserId = award.UserId,
+					UserName = award.User.Bio.Name,
+					CompetitionId = award.CompetitionId,
+					CompetitionName = award.Competition.Name,
+					CompetitionEndTime = award.Competition.EndTime.Value,
+				})
+				.ToListAsync();
+		}
+
+		[HttpGet("bio")]
+		public async Task<ActionResult<BioModel>> GetBio()
+		{
+			string userId = BearerToken.GetUserId(Request);
+
+			BioModel? bio = await _context.Bios
+				.Where(bio => bio.UserId == userId)
+				.FirstOrDefaultAsync();
+
+			if (bio == null)
+				return new BioModel() { UserId = userId };
+			return bio;
+		}
+
+		[HttpPost("bio")]
+		public async Task<IActionResult> PostBio(BioModel model)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+					return BadRequest(ModelState);
+
+				string userId = BearerToken.GetUserId(Request);
+				BioModel? bio = await _context.Bios.Where(bio => bio.UserId == userId).FirstOrDefaultAsync();
+
+				if (bio == null)
+				{
+					model.UserId = userId;
+					_context.Bios.Add(model);
+				}
+				else
+				{
+					bio.Name = model.Name;
+					//bio.Bio = model.Bio;
+					bio.PrivacyLevel = model.PrivacyLevel;
+					_context.Update(bio);
+				}
+
+				await _context.SaveChangesAsync();
+				return NoContent();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest();
+			}
+			
 		}
 	}
 }

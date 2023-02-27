@@ -24,7 +24,7 @@ export default function ProfileSettingsSidebar({ active }) {
 					</a>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link">
+					<a href="/self/bio" class={`nav-link ${isActive("bio")}`}>
 						<PersonVcard size={16} className="me-2 mb-1" />
 						Bio
 					</a>
@@ -48,7 +48,7 @@ export default function ProfileSettingsSidebar({ active }) {
 					</a>
 				</li>
 				<li>
-					<a href="#" class="nav-link">
+					<a href="/self/awards" class={`nav-link ${isActive("awards")}`}>
 						<Award size={16} className="me-2 mb-1" />
 						Awards
 					</a>

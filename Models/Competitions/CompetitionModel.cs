@@ -21,6 +21,20 @@ namespace JobBoard.Models.Competitions
 		//[Required]
 		//public int OwnerId { get; set; }
 		//public UserBio? Owner { get; set; }
+
+		public virtual CompetitionDetails ToCompetitionDetails()
+		{
+			return new CompetitionDetails
+			{
+				Id = Id,
+				Name = Name,
+				Description = Description,
+				StartTime = StartTime,
+				EndTime = EndTime,
+				Automated = Automated,
+				Tags = Tags
+			};
+		}
 		
 	}
 }

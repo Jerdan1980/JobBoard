@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Markdown from '../../components/Markdown';
 import authService from '../../components/api-authorization/AuthorizeService';
 import Timer from '../../components/Timer';
+import AwardListItem from '../../components/AwardListItem';
 
 export default function CompetitionHome() {
 	// Grabs id and type from the url (technically the queryString)
@@ -10,7 +11,7 @@ export default function CompetitionHome() {
 	const id = queryString.get('id');
 
 	// Competition information
-	const [competition, setCompetition] = useState({ name: "", description: "", tags: [] });
+	const [competition, setCompetition] = useState({ name: "", description: "", tags: [], awards: [] });
 	
 	// Stores login status
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -55,6 +56,26 @@ export default function CompetitionHome() {
 			)}
 
 			<Markdown contents={competition.description} />
+
+			
+			{(competition.endTime && new Date(competition.endTime) < new Date()) && (
+				<>
+					<h2>Awards</h2>
+					{competition.awards.length == 0 ?
+						<p>No awards have been submitted.</p>
+					:
+					<div class="list-group">
+						{competition.awards.map(award => {
+							// have to fill in the gaps
+							award.competition = competition;
+							return (
+								<AwardListItem award={award} linked={false} key={award.id}/>
+							);
+						})}
+					</div>
+					}
+				</>
+			)}
 			
 		</div>
 	);

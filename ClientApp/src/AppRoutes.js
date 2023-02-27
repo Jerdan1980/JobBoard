@@ -14,6 +14,8 @@ import Industries from './react-pages/industries/Industries';
 import ResumeSettings from './react-pages/user/ResumeSettings';
 import PreferencesSettings from './react-pages/user/PreferencesSettings';
 import Dashboard from './react-pages/user/Dashboard';
+import Awards from './react-pages/user/Awards';
+import BioSettings from './react-pages/user/BioSettings';
 
 const AppRoutes = [
   {
@@ -78,6 +80,16 @@ const AppRoutes = [
 		path: 'self/preferences',
 		requireAuth: true,
 		element: <PreferencesSettings />
+	},
+	{
+		path: 'self/awards',
+		requireAuth: true,
+		element: <Awards />
+	},
+	{
+		path: 'self/bio',
+		requireAuth: true,
+		element: <BioSettings />
 	},
 	{
 		path: 'self',

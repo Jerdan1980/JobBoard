@@ -1,6 +1,7 @@
 ﻿using JobBoard.Data;
 using JobBoard.Models.Competitions;
 using JobBoard.Models.Tags;
+using JobBoard.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,7 +49,7 @@ namespace JobBoard.Controllers
 
 		// GET: api/Competitions/5
 		[HttpGet("{id}")]
-		public async Task<ActionResult<CompetitionModel>> GetCompetition(int id)
+		public async Task<ActionResult<CompetitionDetails>> GetCompetition(int id)
 		{
 			var competition = await _context.Competitions
 				.AsNoTracking()
@@ -59,7 +60,27 @@ namespace JobBoard.Controllers
 			if (competition == null)
 				return NotFound();
 
-			return Ok(competition);
+			var awards = await _context.Awards
+				.Where(award => award.CompetitionId == competition.Id)
+				.Include(x => x.User)
+				.Include(x => x.User.Bio)
+				.Select(award => new AwardDTO
+				{
+					Id = award.Id,
+					Rank = award.Rank,
+					// Obfuscate information about non-public users
+					UserId = (award.User.Bio.PrivacyLevel == PrivacyLevel.Public) ? award.UserId : "",
+					UserName = (award.User.Bio.PrivacyLevel == PrivacyLevel.Public) ? award.User.Bio.Name : "Private User",
+					CompetitionId = award.CompetitionId,
+					CompetitionName = award.Competition.Name,
+					CompetitionEndTime = award.Competition.EndTime.Value,
+				})
+				.ToListAsync();
+
+			CompetitionDetails compDetails = competition.ToCompetitionDetails();
+			compDetails.Awards = awards;
+
+			return Ok(compDetails);
 		}
 
 		// DELETE: api/Competitions/5

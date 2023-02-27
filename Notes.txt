@@ -48,3 +48,7 @@ Multi-item filtering in queryparams (DONE)
 
 expiration date
 awards table one-to-many
+	Make awards public (if user isn't public, it won't show) (DONE)
+	click on awards to see the comp (DONE)
+	finished comps list public winners (DONE)
+	Awards CRUD
