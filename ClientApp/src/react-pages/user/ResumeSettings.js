@@ -6,6 +6,8 @@ import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 export default function ResumeSettings() {
 	// Stores auth token
 	const [userToken, setUserToken] = useState(null);
+
+	// Holds Resume data
 	const [lastModified, setLastModified] = useState(null);
 	const [resume, setResume] = useState(null);
 
