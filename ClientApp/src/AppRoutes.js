@@ -1,6 +1,5 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { Counter } from "./react-pages/Counter";
-import { FetchData } from "./react-pages/FetchData";
 import Home from "./react-pages/Home";
 import Jobs from './react-pages/Jobs';
 import Competitions from './react-pages/competitions/Competitions';
@@ -16,6 +15,7 @@ import PreferencesSettings from './react-pages/user/PreferencesSettings';
 import Dashboard from './react-pages/user/Dashboard';
 import Awards from './react-pages/user/Awards';
 import BioSettings from './react-pages/user/BioSettings';
+import CompetitionAward from './react-pages/competitions/CompetitionAward';
 
 const AppRoutes = [
   {
@@ -25,11 +25,6 @@ const AppRoutes = [
   {
     path: '/counter',
     element: <Counter />
-  },
-  {
-    path: '/fetch-data',
-    requireAuth: true,
-    element: <FetchData />
   },
 	{
 		path: '/jobs',
@@ -52,6 +47,11 @@ const AppRoutes = [
 		path: '/competitions/edit',
 		requireAuth: true,
 		element: <CompetitionUpdate />
+	},
+	{
+		path: '/competitions/award',
+		requireAuth: true,
+		element: <CompetitionAward />
 	},
 	{
 		path: 'tags',
