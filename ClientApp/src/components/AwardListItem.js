@@ -20,7 +20,7 @@ export default function AwardListItem({ award, linked }) {
 		);
 	else
 		return (
-			<span class="list-group-item list-group-item-action flex-column align-items-start">
+			<span class="list-group-item flex-column align-items-start">
 				{contents}
 			</span>
 		)
