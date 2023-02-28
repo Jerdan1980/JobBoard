@@ -41,7 +41,7 @@ namespace JobBoard.Controllers.Manual
 
 		// api/Bios/asdfasdf-asdfas-dfasd-f123413241234 (not to scale)
 		// uses the USER ID
-		[HttpGet("{id:guid}")]
+		[HttpGet("user/{id:guid}")]
 		public async Task<ActionResult<BioModel>> GetBiosViaUserId(string id)
 		{
 			BioModel? bio = await _context.Bios
@@ -62,7 +62,7 @@ namespace JobBoard.Controllers.Manual
 
 		// api/Bios/5
 		// uses the BIO ID
-		[HttpGet("{id:int}")]
+		[HttpGet("bio/{id:int}")]
 		public async Task<ActionResult<BioModel>> GetBiosViaBioId(int id)
 		{
 			BioModel? bio = await _context.Bios
