@@ -22,6 +22,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 	.AddRoles<IdentityRole>()
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 
+// Adds roles to the JWT token Identity uses
 builder.Services.AddIdentityServer()
 	.AddApiAuthorization<ApplicationUser, ApplicationDbContext>(x =>
 	{
@@ -39,6 +40,7 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
 	.AddIdentityServerJwt();
 
+// Allows nested Jsons, needed to send information from join tables
 //https://stackoverflow.com/questions/51064314/services-addjsonoptions-net-core-2-1
 builder.Services.AddControllersWithViews()
 	.AddJsonOptions(options => { 
@@ -92,12 +94,35 @@ builder.Services.AddQuartz(quartz =>
 });
 builder.Services.AddQuartzHostedService(quartz => quartz.WaitForJobsToComplete = true);
 
+// SWAGGER
+//https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-7.0&tabs=visual-studio
+builder.Services.AddSwaggerGen(options =>
+{
+	options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+	{
+		Version = "v1",
+		Title = "CNC API",
+		Description = "API for Careers N Competitions",
+	});
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 	app.UseMigrationsEndPoint();
+	// Use swagger
+	app.UseSwagger();
+	app.UseSwaggerUI(options =>
+	{
+		// Changing these doesn't seem to change the endpoint...
+		// SwaggerEndpoint serves the .json file
+		options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+		// RoutePrefix serves the UI
+		// Will use React's version so this one is unused
+		options.RoutePrefix = "/whocares";
+	});
 }
 else
 {

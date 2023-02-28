@@ -105,6 +105,7 @@ namespace JobBoard.Controllers
 		}
 
 		// PUT: api/Competitions
+		[HttpPut]
 		public async Task<ActionResult<CompetitionModel>> PutCompetition(CompetitionModification model)
 		{
 			if (!ModelState.IsValid)

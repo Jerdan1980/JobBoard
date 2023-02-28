@@ -16,6 +16,7 @@ import Dashboard from './react-pages/user/Dashboard';
 import Awards from './react-pages/user/Awards';
 import BioSettings from './react-pages/user/BioSettings';
 import CompetitionAward from './react-pages/competitions/CompetitionAward';
+import Swagger from './react-pages/Swagger';
 
 const AppRoutes = [
   {
@@ -95,6 +96,10 @@ const AppRoutes = [
 		path: 'self',
 		requireAuth: true,
 		element: <Dashboard />
+	},
+	{
+		path: 'swag',
+		element: <Swagger />
 	},
   ...ApiAuthorzationRoutes
 ];

@@ -53,6 +53,7 @@ namespace JobBoard.Controllers
         }
 
 		//Update
+		[HttpPut]
 		public async Task<ActionResult<JobModel>> UpdateJob(JobModel model)
 		{
             if (!ModelState.IsValid)
