@@ -1,5 +1,4 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import { Counter } from "./react-pages/Counter";
 import Home from "./react-pages/Home";
 import Jobs from './react-pages/Jobs';
 import Competitions from './react-pages/competitions/Competitions';
@@ -22,10 +21,6 @@ const AppRoutes = [
   {
     index: true,
     element: <Home />
-  },
-  {
-    path: '/counter',
-    element: <Counter />
   },
 	{
 		path: '/jobs',
