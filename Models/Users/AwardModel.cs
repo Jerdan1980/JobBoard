@@ -9,10 +9,10 @@ namespace JobBoard.Models.Users
 		public int Id { get; set; }
 		[Required]
 		public string UserId { get; set; }
-		public ApplicationUser User { get; set; }
+		public ApplicationUser? User { get; set; }
 		[Required]
 		public int CompetitionId { get; set; }
-		public CompetitionModel Competition { get; set; }
+		public CompetitionModel? Competition { get; set; }
 		[Required]
 		public string Rank { get; set; }
 	}
