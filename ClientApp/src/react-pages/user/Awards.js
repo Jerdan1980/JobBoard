@@ -1,31 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import authService from '../../components/api-authorization/AuthorizeService';
 import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 import AwardListItem from '../../components/AwardListItem';
+import { useAuthApi } from '../../components/CustomHooks';
 
 export default function Awards() {
-	// Stores auth token
-	const [userToken, setUserToken] = useState(null);
-
 	// Stores awards
-	const [awards, setAwards] = useState([]);
-
-	useEffect(() => {
-		(async function () {
-			const token = await authService.getAccessToken();
-			setUserToken(token);
-
-			let response = await fetch(`api/self/awards`, {
-				headers: !token ? {} : { 'Authorization': `Bearer ${token}`}
-			});
-
-			if (response.ok) {
-				let data = await response.json();
-				console.log(data);
-				setAwards(data);
-			}
-		})();
-	}, []);
+	const [awards, setAwards] = useAuthApi('api/self/awards');
 
 	return (
 		<>
@@ -34,7 +14,7 @@ export default function Awards() {
 
 				<div className="col">
 					<h1>Awards</h1>
-					{awards.length == 0 ? 
+					{awards.length === 0 ? 
 						<p>You don't have any awards yet.</p>
 					:
 						<div class="list-group">

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
 import { useLocation } from 'react-router-dom';
+import { useApi, useQueryParams, useSelect } from '../components/CustomHooks';
 
 export default function Jobs() {
 	// Query params that carry from other pages
@@ -10,67 +11,16 @@ export default function Jobs() {
 	const industryIdParam = queryParams.getAll('industry').map(str => Number.parseInt(str));
 
 	// Jobs and selected jobs (id, job)
-	const [jobs, setJobs] = useState([]);
+	const [jobs, setJobs] = useApi('/api/jobs');
 	const [id, setId] = useState(-1);
 	const [job, setJob] = useState(null);
 
 	// Industries and selected Industries
-	const [isIndustriesLoading, setIsIndustriesLoading] = useState(false);
-	const [industries, setIndustries] = useState([]);
-	const [selectedIndustries, setSelectedIndustries] = useState([]);
-
-	// Loads jobs on page load
-	useEffect(() => {
-		fetch("/api/jobs")
-			.then(async (response) => {
-				if (!response.ok) {
-					alert("Response not ok!");
-					window.location.href = "/";
-					return;
-				}
-
-				let data = await response.json();
-
-				setJobs(data);
-			})
-	}, []);
-
-	// Loads industries on page load
-	useEffect(() => {
-		setIsIndustriesLoading(true);
-		fetch('/api/industries/min')
-			.then(response => {
-				if (!response.ok)
-				{
-					alert(response.statusText);
-					return;
-				}
-				return response.json();
-			})
-			.then(data => {
-				setIndustries(data.map(industry => ({value: industry.id, label: `${industry.name} (${industry.count})` })));
-				setIsIndustriesLoading(false);
-			})
-	}, []);
-
-	// When setIndustries is done, load in query param
-	useEffect(() => {
-		// return if that queryparam doesnt exist
-		if (!industryIdParam || industries.length == 0)
-			return;
-		
-		// filter by said queryparam
-		let industry = industries.filter(i => industryIdParam.includes(i.value));
-		console.log(industry);
-		setSelectedIndustries(industry);
-	}, [industries]);
+	const [industries, setIndustries, isIndustriesLoading, setIsIndustriesLoading] = useSelect('/api/industries/min', "id", (industry) => `${industry.name} (${industry.count})`);
+	const [selectedIndustries, setSelectedIndustries] = useQueryParams(industryIdParam, industries);
 
 	// Filter settings
 	const [showFilter, setShowFilter] = useState(false);
-	const [showOngoing, setShowOngoing] = useState(true);
-	const [showCompleted, setShowCompleted] = useState(true);
-	const [showUser, setShowUser] = useState(true);
-	const [showAutomated, setShowAutomated] = useState(true);
 	const [query, setQuery] = useState("");
 
 	function filter(job) {
@@ -85,7 +35,7 @@ export default function Jobs() {
 	return (
 		<div class="">
 			<h1>Job listing</h1>
-			<h2>There are {jobs.filter(job => filter(job)).length} jobs!</h2>
+			<h2>There are {jobs.filter(job => filter(job)).length} Jobs that match your settings!</h2>
 
 			<div class="hstack gap-3">
 				{/* Left Column */}
@@ -127,6 +77,8 @@ export default function Jobs() {
 				</div>
 				<div class="offcanvas-body">
 
+					<p>{jobs.filter(job => filter(job)).length} Jobs that match your settings!</p>
+
 					{/* Text Search Bar */}
 					<div class="form-group mb-2">
 						<label htmlFor="searchQuery" class="form-label">Search</label>
@@ -147,32 +99,6 @@ export default function Jobs() {
 						/>
 					</div>
 
-					{/* Competition Status */}
-					<fieldset class="form-group mb-2">
-						<legend>Competition Status</legend>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="enableOngoing" checked={showOngoing} onChange={(e) => setShowOngoing(e.target.checked)}/>
-							<label class="form-check-label" for="enableOngoing">Show ongoing competitions</label>
-						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="enableCompleted" checked={showCompleted} onChange={(e) => setShowCompleted(e.target.checked)}/>
-							<label class="form-check-label" for="enableCompleted">Show completed competitions</label>
-						</div>
-					</fieldset>
-
-					{/* Competition Type */}
-					<fieldset class="form-group mb-2">
-						<legend>Competition Type</legend>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="enableUser" checked={showUser} onChange={(e) => setShowUser(e.target.checked)}/>
-							<label class="form-check-label" for="enableUser">Show user-made competitions</label>
-						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="enableAutomated" checked={showAutomated} onChange={(e) => setShowAutomated(e.target.checked)}/>
-							<label class="form-check-label" for="enableAutomated">Show automated competitions</label>
-						</div>
-					</fieldset>
-					
 				</div>
 			</div>
 			

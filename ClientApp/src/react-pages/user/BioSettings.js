@@ -9,7 +9,6 @@ export default function BioSettings() {
 
 	// Bio information
 	const [name, setName] = useState();
-	//const [bio, setBio] = useState();
 	const [privacy, setPrivacy] = useState(0);
 
 	const options = [

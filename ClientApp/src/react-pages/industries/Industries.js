@@ -1,27 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import authService from '../../components/api-authorization/AuthorizeService';
+import { useApi } from '../../components/CustomHooks';
 
 export default function Industries() {
 	// List of industries
-	const [industries, setIndustries] = useState([]);
-
-	// Stores login status
-	const [loggedIn, setLoggedIn] = useState(false);
+	const [industries, setIndustries] = useApi('api/industries/min');
 
 	// Filter settings
 	const [showEmpty, setShowEmpty] = useState(false);
-
-	// Grabs the list of industries and if a user is logged in
-	useEffect(() => {
-		fetch(`/api/industries/min`)
-			.then(response => response.json())
-			.then(data => setIndustries(data));
-
-		(async function() {
-			const token = await authService.getAccessToken()
-			setLoggedIn(token != null);
-		})();
-	}, []);
 
 	return (
 		<>
@@ -29,9 +14,7 @@ export default function Industries() {
 				<div className="col">
 					<h1>Industries</h1>
 				</div>
-				<div className="col position-relative">
-					<a className={"btn btn-primary position-absolute top-0 end-0" + (!loggedIn ? " disabled" : "")} href="/tags/create">Create</a>
-				</div>
+				{/* Not going to create extra industries */}
 			</div>
 
 			{/* css-grid responsive array of tags */}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CompetitionCard from '../../components/CompetitionCard';
-import authService from '../../components/api-authorization/AuthorizeService';
 import Select from 'react-select';
 import { useLocation } from 'react-router-dom';
+import { useApi, useLoginStatus, useQueryParams, useSelect } from '../../components/CustomHooks';
 
 export default function Competitions() {
 	// Query params that carry from other pages
@@ -10,44 +10,14 @@ export default function Competitions() {
 	const tagIdParam = queryParams.getAll('tag').map(str => Number.parseInt(str));
 	
 	// Competition Information
-	const [competitions, setCompetitions] = useState([]);
+	const [competitions, setCompetitions] = useApi('/api/competitions');
 
 	// Stores login status
-	const [loggedIn, setLoggedIn] = useState(false);
+	const loggedIn = useLoginStatus();
 
 	// Tags and selectedTags
-	const [isLoading, setIsLoading] = useState(false);
-	const [tags, setTags] = useState([]);
-	const [selectedTags, setSelectedTags] = useState([]);
-
-	// Loads tags on page load
-	useEffect(() => {
-		setIsLoading(true);
-		fetch('/api/tags/min')
-			.then(response => {
-				if (!response.ok)
-				{
-					alert(response.statusText);
-					return;
-				}
-				return response.json();
-			})
-			.then(data => {
-				setTags(data.map(tag => ({ value: tag.id, label: `${tag.name} (${tag.count})` })));
-				setIsLoading(false);
-			})
-	}, []);
-
-	// When setTags is done, load in query param
-	useEffect(() => {
-		// return if that queryparam doesn't exist
-		if (!tagIdParam || tags.length == 0)
-			return;
-		
-		// filter by said queryparam
-		let tag = tags.filter(t => tagIdParam.includes(t.value));
-		setSelectedTags(tag);
-	}, [tags]);
+	const [tags, setTags, isLoading, setIsLoading] = useSelect('/api/tags/min', "id", (data) => `${data.name} (${data.count})`);
+	const [selectedTags, setSelectedTags] = useQueryParams(tagIdParam, tags);
 
 	// Filter settings
 	const [showFilter, setShowFilter] = useState(false);
@@ -76,18 +46,6 @@ export default function Competitions() {
 			&& inQuery
 		)
 	}
-
-	// Grabs the list of comps and if a user is logged in
-	useEffect(() => {
-		fetch(`/api/competitions`)
-			.then(response => response.json())
-			.then(data => setCompetitions(data));
-		
-		(async function() {
-			const token = await authService.getAccessToken()
-			setLoggedIn(token != null);
-		})();
-	}, []);
 
 	return (
 		<div>
@@ -119,6 +77,8 @@ export default function Competitions() {
 					<button type="button" class="btn-close text-reset" onClick={() => setShowFilter(false)}></button>
 				</div>
 				<div class="offcanvas-body">
+
+					<p>{competitions.filter(comp => filter(comp)).length} Competitions match your settings!</p>
 
 					{/* Text Search Bar */}
 					<div class="form-group mb-2">

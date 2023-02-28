@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Markdown from '../../components/Markdown';
 import CreatableSelect from 'react-select/creatable';
+import { useSelect } from '../../components/CustomHooks';
 
 export default function CompetitionUpdate() {
 	// Grabs id and type from the url (technically the queryString)
@@ -16,8 +17,7 @@ export default function CompetitionUpdate() {
 	const [ automated, setAutomated ] = useState();
 
 	// Handles tags, loading in new tags, and keeping track of what tags were selected
-	const [isLoading, setIsLoading] = useState(false);
-	const [tags, setTags] = useState([]);
+	const [tags, setTags, isLoading, setIsLoading] = useSelect('/api/tags', "id", "name");
 	const [selectedTags, setSelectedTags] = useState([]);
 
 	// Used for deleting the competition
@@ -27,25 +27,6 @@ export default function CompetitionUpdate() {
 	// Loads both the tags and competition on page load
 	// Requires id as a dependency despite it being const...
 	useEffect(() => {
-		// GETs the Tags
-		setIsLoading(true);
-		fetch('/api/tags')
-			.then(response => {
-				if (!response.ok)
-				{
-					alert(response.statusText);
-					window.location.href = `/competition?id=${id}`;
-					return;
-				}
-				return response.json();
-			})
-				.then(data => {
-					//console.log(data);
-					//console.log(data.map(tag => ({value: tag.id, label: tag.name})));
-					setTags(data.map(tag => ({value: tag.id, label: tag.name})));
-					setIsLoading(false);
-				})
-		
 		// GETs the competition
 		fetch(`/api/competitions/${id}`)
 			.then(response => {
@@ -84,23 +65,16 @@ export default function CompetitionUpdate() {
 			},
 			body: JSON.stringify({ name: inputValue })
 		})
-			.then(response => {
+			.then(async (response) => {
 				if (response.ok) {
-					fetch('/api/tags')
-						.then(response => {
-							if (!response.ok)
-							{
-								alert(response.statusText);
-								return;
-							}
-							return response.json();
-						})
-						.then(data => {
-							//console.log(data);
-							//console.log(data.map(tag => ({value: tag.id, label: tag.name})));
-							setTags(data.map(tag => ({value: tag.id, label: tag.name})));
-							setIsLoading(false);
-						})
+					let response = await fetch('/api/tags')
+					if (!response.ok) {
+						alert(response.statusText);
+						return;
+					}
+
+					let data = await response.json();
+					setTags(data.map(tag => ({value: tag.id, label: tag.name})));
 				}
 				setIsLoading(false);
 			})

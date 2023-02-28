@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import authService from '../../components/api-authorization/AuthorizeService';
-import AwardListItem from '../../components/AwardListItem';
 import Select from 'react-select';
-import { useAwards } from '../../components/CustomHooks';
+import { useAwards, useSelect } from '../../components/CustomHooks';
 
 export default function CompetitionAward() {
 	// Gets id from the url
@@ -11,18 +9,11 @@ export default function CompetitionAward() {
 	const id = queryString.get('id');
 
 	// List of bios
-	const [bios, setBios] = useState([]);
-	useEffect(() => {
-		fetch('api/bios')
-			.then(response => response.json())
-			.then(data => {
-				setBios(data.map(bio => ({ value: bio.userId, label: bio.name })))
-			});
-	}, []);
+	const [bios, setBios, isLoading, setIsLoading] = useSelect('api/bios', 'userId', 'name');
 
 	// Handle creating a new award
 	const [selectedUser, setSelectedUser] = useState();
-	const [rank, setRank] = useState();
+	const [rank, setRank] = useState("");
 
 	// Award information
 	const [awards, setAwards, updateAward, removeAward] = useAwards(id);
@@ -82,6 +73,7 @@ export default function CompetitionAward() {
 								id="user"
 								isClearable
 								isSearchable
+								isLoading={isLoading}
 								onChange={(newValue) => setSelectedUser(newValue)}
 								options={bios}
 								value={selectedUser}

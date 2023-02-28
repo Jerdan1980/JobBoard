@@ -2,61 +2,24 @@ import React, { useState, useEffect } from 'react';
 import authService from '../../components/api-authorization/AuthorizeService';
 import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 import Select from 'react-select';
+import { useSelect } from '../../components/CustomHooks';
 
 export default function PreferencesSettings() {
 	// Stores auth token
 	const [userToken, setUserToken] = useState(null);
 
 	// Handles tags, loading in new tags, and keeping track of what tags were selected
-	const [isTagsLoading, setIsTagsLoading] = useState(false);
-	const [tags, setTags] = useState([]);
+	const [tags, setTags, isTagsLoading, setIsTagsLoading] = useSelect('/api/tags', "id", "name");
 	const [selectedTags, setSelectedTags] = useState([]);
 
 	// Handles industries, loading in new industries, and keeping track of what industries were selected
-	const [isIndustriesLoading, setIsIndustriesLoading] = useState(false);
-	const [industries, setIndustries] = useState([]);
+	const [industries, setIndustries, isIndustriesLoading, setIsIndustriesLoading] = useSelect('/api/industries', "id", "name");
 	const [selectedIndustries, setSelectedIndustries] = useState([]);
-
-	// Loads tags on page load
-	useEffect(() => {
-		setIsTagsLoading(true);
-		fetch('/api/tags')
-			.then(response => {
-				if (!response.ok)
-				{
-					alert(response.statusText);
-					return;
-				}
-				return response.json();
-			})
-			.then(data => {
-				setTags(data.map(tag => ({value: tag.id, label: tag.name})));
-				setIsTagsLoading(false);
-			})
-	}, []);
-
-	// Loads industries on page load
-	useEffect(() => {
-		setIsIndustriesLoading(true);
-		fetch('/api/industries')
-			.then(response => {
-				if (!response.ok)
-				{
-					alert(response.statusText);
-					return;
-				}
-				return response.json();
-			})
-			.then(data => {
-				setIndustries(data.map(industry => ({value: industry.id, label: industry.name})));
-				setIsIndustriesLoading(false);
-			})
-	}, []);
 
 	// Loads user preferences on page load
 	useEffect(() => {
 		// Don't bother if they haven't loaded in yet
-		if(industries.length == 0 || tags.length == 0)
+		if(industries.length === 0 || tags.length === 0)
 			return;
 
 		(async function () {
@@ -69,7 +32,6 @@ export default function PreferencesSettings() {
 			});
 			if (response.ok) {
 				let data = await response.json();
-				console.log(data);
 
 				// TODO: update the current selection based off of the recieved data
 				let selIndustries = industries.filter(industry => data.industryIds.includes(industry.value))
@@ -88,8 +50,6 @@ export default function PreferencesSettings() {
 			tagIds: selectedTags.map(tag => tag.value)
 		}
 
-		console.log(body);
-
 		fetch(`api/self/preferences`, {
 			method: 'post',
 			headers: {
@@ -105,7 +65,6 @@ export default function PreferencesSettings() {
 				}
 				else
 					alert(`There was an error!`);
-				
 			});
 	}
 

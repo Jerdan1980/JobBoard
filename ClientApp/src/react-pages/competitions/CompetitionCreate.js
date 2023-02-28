@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Markdown from '../../components/Markdown';
 import CreatableSelect from 'react-select/creatable';
+import { useSelect } from '../../components/CustomHooks';
 
 export default function CompetitionCreate() {
 	// Competition information
@@ -10,29 +11,8 @@ export default function CompetitionCreate() {
 	const [ endTime, setEndTime ] = useState();
 
 	// Handles tags, loading in new tags, and keeping track of what tags were selected
-	const [isLoading, setIsLoading] = useState(false);
-	const [tags, setTags] = useState([]);
+	const [tags, setTags, isLoading, setIsLoading] = useSelect('/api/tags', "id", "name");
 	const [selectedTags, setSelectedTags] = useState([]);
-
-	// Loads tags on page load
-	useEffect(() => {
-		setIsLoading(true);
-		fetch('/api/tags')
-			.then(response => {
-				if (!response.ok)
-				{
-					alert(response.statusText);
-					return;
-				}
-				return response.json();
-			})
-			.then(data => {
-				//console.log(data);
-				//console.log(data.map(tag => ({value: tag.id, label: tag.name})));
-				setTags(data.map(tag => ({value: tag.id, label: tag.name})));
-				setIsLoading(false);
-			})
-	}, []);
 
 	// Handles creation of a new tag
 	// POSTS a new tag and then loads the tags back in

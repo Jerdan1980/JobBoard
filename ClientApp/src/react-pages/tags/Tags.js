@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Markdown from '../../components/Markdown';
-import authService from '../../components/api-authorization/AuthorizeService';
+import { useApi, useLoginStatus } from '../../components/CustomHooks';
 
 export default function Tags() {
 	// List of tagss
-	const [tags, setTags] = useState([]);
+	const [tags, setTags] = useApi('api/tags');
 
 	// Stores login status
-	const [loggedIn, setLoggedIn] = useState(false);
+	const loggedIn = useLoginStatus();
 
 	// Filter settings
 	const [showEmpty, setShowEmpty] = useState(false);
-
-	// Grabs the list of tags and if a user is logged in
-	useEffect(() => {
-		fetch(`/api/tags`)
-			.then(response => response.json())
-			.then(data => setTags(data));
-				
-		(async function() {
-			const token = await authService.getAccessToken()
-			setLoggedIn(token != null);
-		})();
-	}, []);
 
 	return (
 		<div>

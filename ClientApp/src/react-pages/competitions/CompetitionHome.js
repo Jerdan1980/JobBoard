@@ -4,6 +4,7 @@ import Markdown from '../../components/Markdown';
 import authService from '../../components/api-authorization/AuthorizeService';
 import Timer from '../../components/Timer';
 import AwardListItem from '../../components/AwardListItem';
+import { useApi, useLoginStatus } from '../../components/CustomHooks';
 
 export default function CompetitionHome() {
 	// Grabs id and type from the url (technically the queryString)
@@ -11,22 +12,10 @@ export default function CompetitionHome() {
 	const id = queryString.get('id');
 
 	// Competition information
-	const [competition, setCompetition] = useState({ name: "", description: "", tags: [], awards: [] });
+	const [competition, setCompetition] = useApi(`/api/competitions/${id}`, { name: "", description: "", tags: [], awards: [] });
 	
 	// Stores login status
-	const [loggedIn, setLoggedIn] = useState(false);
-
-	// GETs the competition and login status
-	useEffect(() => {
-		fetch(`/api/competitions/${id}`)
-			.then(response => response.json())
-			.then(data => setCompetition(data));
-				
-		(async function() {
-			const token = await authService.getAccessToken()
-			setLoggedIn(token != null);
-		})();
-	}, [id]);
+	const loggedIn = useLoginStatus();
 
 	return (
 		<div>
@@ -64,7 +53,7 @@ export default function CompetitionHome() {
 			{(competition.endTime && new Date(competition.endTime) < new Date()) && (
 				<>
 					<h2>Awards</h2>
-					{competition.awards.length == 0 ?
+					{competition.awards.length === 0 ?
 						<p>No awards have been submitted.</p>
 					:
 					<div class="list-group">

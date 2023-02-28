@@ -52,12 +52,11 @@ export default function Home() {
 			.then(response => response.json())
 			.then(data => {
 				setIndustryCounts(data);
-				let totJobs = 0;
 
+				let totJobs = 0;
 				data.forEach(industry => {
 					totJobs += industry.count;
 				});
-
 				setTotalJobs(totJobs);
 			})
 	}, []);

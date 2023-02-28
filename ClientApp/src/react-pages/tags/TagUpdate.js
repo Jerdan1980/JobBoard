@@ -13,15 +13,13 @@ export default function TagUpdate() {
 	// GETS the tag on page load
 	useEffect(() => {
 		fetch(`/api/tags/${id}`)
-			.then(response => {
+			.then(async (response) => {
 				if (!response.ok) {
 					alert(response.statusText);
-					window.location.href = `/tags`;
 					return;
 				}
-				return response.json();
-			})
-			.then(data => {
+
+				let data = await response.json();
 				setName(data.name);
 				setDescription(data.description);
 			});

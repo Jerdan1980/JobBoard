@@ -1,30 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import authService from '../../components/api-authorization/AuthorizeService';
+import { useAuthApi } from '../../components/CustomHooks';
 import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 
 export default function Dashboard() {
-	// Stores auth token
-	const [userToken, setUserToken] = useState(null);
 
 	// Stores user preferences
-	const [preferences, setPreferences] = useState({ careersCount: 0, competitionsCount: 0, industryIds: [], tagIds: [] });
-
-	useEffect(() => {
-		(async function () {
-			const token = await authService.getAccessToken();
-			setUserToken(token);
-			
-			// check if the resume was already uploaded
-			let response = await fetch(`api/self/preferences/count`, { 
-				headers: !token ? {} : { 'Authorization': `Bearer ${token}`}
-			});
-			if (response.ok) {
-				let data = await response.json();
-				console.log(data);
-				setPreferences(data)
-			}
-		})();
-	}, []);
+	const [preferences, setPreferences] = useAuthApi('api/self/preferences/count', { careersCount: 0, competitionsCount: 0, industryIds: [], tagIds: [] });
 
 	return (
 		<>
