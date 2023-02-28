@@ -213,14 +213,6 @@ export default function CompetitionUpdate() {
 								onCreateOption={handleCreate}
 								options={tags}
 								value={selectedTags}
-								classNames={{
-									control: (state) => 'bg-transparent form-control',
-									menu: (state) => 'bg-transparent',
-									option: (state) => state.isFocused ? 'text-light bg-primary' : 'text-dark bg-secondary',
-									multiValue: (state) => 'bg-transparent border border-light',
-									multiValueLabel: (state) => 'text-light',
-									placeholder: (state) => 'text-light'
-								}}
 							/>
 						</div>
 
@@ -230,7 +222,7 @@ export default function CompetitionUpdate() {
 					</form>
 
 					{/* Delete Section */}
-					<div class="alert alert-danger mb-2">
+					<div class="mb-2">
 						<h2 class="text-danger">DELETE COMPETITION</h2>
 						<div class="form-group mb-2">
 							<label class="form-label"><em><strong>Warning:</strong> This action is irreversible!</em></label>
@@ -245,7 +237,7 @@ export default function CompetitionUpdate() {
 				{/* Right column */}
 				<div class="col">
 					<h2>Display:</h2>
-					<div class="p-2 border">
+					<div class="p-3 border rounded-3">
 						<h1>{name}</h1>
 
 						{/* Tags */}

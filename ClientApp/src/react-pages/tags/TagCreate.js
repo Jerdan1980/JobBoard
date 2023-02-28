@@ -76,7 +76,7 @@ export default function TagCreate() {
 				{/* Right column */}
 				<div class="col">
 					<h2>Display:</h2>
-					<div class="p-2 border">
+					<div class="p-3 border rounded-3">
 						<h1>{name}</h1>
 						<Markdown contents={description}/>
 					</div>
