@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import authService from '../../components/api-authorization/AuthorizeService';
 import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
-import Select from 'react-select';
 import { useSelect } from '../../components/CustomHooks';
+import { MultiSelectFG } from '../../components/FormGroups';
 
 export default function PreferencesSettings() {
 	// Stores auth token
@@ -77,35 +77,25 @@ export default function PreferencesSettings() {
 					<h1>Preferences</h1>
 
 					{/* Industries section */}
-					<div class="form-group mb-2">
-						<label for="industries" class="form-label">Industries</label>
-						<Select
-							isClearable
-							isMulti
-							isDisabled={isIndustriesLoading}
-							isLoading={isIndustriesLoading}
-							onChange={(newValue) => setSelectedIndustries(newValue)}
-							options={industries}
-							value={selectedIndustries}
-						/>
-					</div>
+					<MultiSelectFG
+						label="Industries"
+						isLoading={isIndustriesLoading}
+						options={industries}
+						value={selectedIndustries}
+						onChange={setSelectedIndustries}
+					/>
 
 					{/* Tags section */}
-					<div class="form-group mb-2">
-						<label for="tags" class="form-label">Tags</label>
-						<Select
-							isClearable
-							isMulti
-							isDisabled={isTagsLoading}
-							isLoading={isTagsLoading}
-							onChange={(newValue) => setSelectedTags(newValue)}
-							options={tags}
-							value={selectedTags}
-						/>
-					</div>
+					<MultiSelectFG
+						label="Tags" 
+						isLoading={isTagsLoading} 
+						options={tags}
+						value={selectedTags}
+						onChange={setSelectedTags}
+					/>
 
+					{/* Submit button */}
 					<button class="btn btn-primary" onClick={handleSubmission}>Save</button>
-
 				</div>
 			</div>
 		</>

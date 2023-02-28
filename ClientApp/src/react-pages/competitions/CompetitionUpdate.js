@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Markdown from '../../components/Markdown';
-import CreatableSelect from 'react-select/creatable';
 import { useSelect } from '../../components/CustomHooks';
+import { CreateableMultiSelectFG, TextAreaFG, TextInputFG, TimeFG } from '../../components/FormGroups';
+
 
 export default function CompetitionUpdate() {
 	// Grabs id and type from the url (technically the queryString)
@@ -136,63 +137,30 @@ export default function CompetitionUpdate() {
 				<div class="col">
 					<h2>Form:</h2>
 					<form>
-
 						{/* Name */}
-						<div class="form-group mb-2">
-							<label for="compName" class="form-label">Competition Name</label>
-							<input 
-								type="text" 
-								class={"form-control " + (name ? "" : "is-invalid")} 
-								id="compName" 
-								value={name} onChange={(e) => setName(e.target.value)} 
-								placeholder="Enter name here."
-							/>
-							<div class="invalid-feedback">Name is required!</div>
-						</div>
+						<TextInputFG label="Competition Name" value={name} onChange={setName} isRequired={true} />
 
 						{/* Description */}
-						<div class="form-group mb-2">
-							<label for="compDescription" class="form-label">Competition Description</label>
-							<textarea 
-								class="form-control" 
-								rows="10" cols="80" 
-								id="compDescription" 
-								value={description} 
-								onChange={(e) => setDescription(e.target.value)} 
-								placeholder="Enter your description here. This uses markdown!"
-							/>
-						</div>
+						<TextAreaFG label="Competition Description" value={description} onChange={setDescription} />
 
 						{/* Start Time */}
-						<div class="form-group mb-2">
-							<label for="compStartTime" class="form-label">Competition Start Time (Local)</label>
-							<input type="datetime-local" class="form-control" id="compStartTime" value={startTime} onChange={(e) => setStartTime(e.target.value)}></input>
-						</div>
+						<TimeFG label="Competition Start Time (Local)" value={startTime} onChange={setStartTime} />
 
 						{/* End Time */}
-						<div class="form-group mb-2">
-							<label for="compEndTime" class="form-label">Competition End Time (Local)</label>
-							<input type="datetime-local" class="form-control" id="compEndTime" value={endTime} onChange={(e) => setEndTime(e.target.value)}></input>
-						</div>
+						<TimeFG label="Competition End Time (Local)" value={endTime} onChange={setEndTime} />
 
 						{/* Tags section */}
-						<div class="form-group mb-2">
-							<label for="tags" class="form-label">Competition Tags</label>
-							<CreatableSelect
-								isClearable
-								isMulti
-								isDisabled={isLoading}
-								isLoading={isLoading}
-								onChange={(newValue) => setSelectedTags(newValue)}
-								onCreateOption={handleCreate}
-								options={tags}
-								value={selectedTags}
-							/>
-						</div>
+						<CreateableMultiSelectFG
+							label="Competition Tags" 
+							isLoading={isLoading} 
+							options={tags}
+							value={selectedTags}
+							onChange={setSelectedTags}
+							onCreate={handleCreate}
+						/>
 
 						{/* Submit button */}
 						<btn type="submit" onClick={submit} class={"btn btn-primary mb-2 " + (name ? "" : "disabled")}>Submit</btn>
-					
 					</form>
 
 					{/* Delete Section */}

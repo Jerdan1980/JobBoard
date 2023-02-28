@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Markdown from '../../components/Markdown';
+import { TextAreaFG, TextInputFG } from '../../components/FormGroups';
 
 export default function TagCreate() {
 	//Tag information
@@ -18,7 +19,6 @@ export default function TagCreate() {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
-				//'Authorization': something something Identity
 			},
 			body: JSON.stringify(body)
 		})
@@ -40,33 +40,11 @@ export default function TagCreate() {
 				<div class="col">
 					<h2>Form:</h2>
 					<form>
-
 						{/* Name */}
-						<div class="form-group mb-2">
-							<label for="tagName" class="form-label">Tag Name</label>
-							<input 
-								type="text" 
-								class={"form-control " + (name ? "" : "is-invalid")} 
-								id="tagName" 
-								value={name} 
-								onChange={(e) => setName(e.target.value)} 
-								placeholder="Enter name here."
-							/>
-							<div class="invalid-feedback">Name is required!</div>
-						</div>
+						<TextInputFG label="Tag Name" value={name} onChange={setName} isRequired={true}/>
 						
 						{/* Description */}
-						<div class="form-group mb-2">
-							<label for="tagDescription" class="form-label">Tag Description</label>
-							<textarea 
-								class="form-control" 
-								rows="10" cols="80" 
-								id="tagDescription" 
-								value={description} 
-								onChange={(e) => setDescription(e.target.value)} 
-								placeholder="Enter your description here. This uses markdown!"
-							/>
-						</div>
+						<TextAreaFG label="Tag Description" value={description} onChange={setDescription} />
 						
 						{/* Submit button */}
 						<btn type="submit" onClick={submit} class={"btn btn-primary " + (name ? "" : "disabled")}>Submit</btn>

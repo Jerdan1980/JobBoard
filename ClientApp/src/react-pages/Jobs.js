@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Select from 'react-select';
 import { useLocation } from 'react-router-dom';
 import { useApi, useQueryParams, useSelect } from '../components/CustomHooks';
+import { MultiSelectFG, TextInputFG } from '../components/FormGroups';
 
 export default function Jobs() {
 	// Query params that carry from other pages
@@ -76,32 +76,22 @@ export default function Jobs() {
 					<button type="button" class="btn-close text-reset" onClick={() => setShowFilter(false)}></button>
 				</div>
 				<div class="offcanvas-body">
-
+					{/* Number after filtering */}
 					<p>{jobs.filter(job => filter(job)).length} Jobs that match your settings!</p>
 
 					{/* Text Search Bar */}
-					<div class="form-group mb-2">
-						<label htmlFor="searchQuery" class="form-label">Search</label>
-						<input type="text" class="form-control" id="searchQuery" placeholder="Search for a job" value={query} onChange={(event) => setQuery(event.target.value)}/>
-					</div>
+					<TextInputFG label="Search" value={query} onChange={setQuery} placeholder="Search for a job." />
 
 					{/* Industries section */}
-					<div class="form-group mb-2">
-						<label for="industries" class="form-label">Industries (OR)</label>
-						<Select
-							isClearable
-							isMulti
-							isDisabled={isIndustriesLoading}
-							isLoading={isIndustriesLoading}
-							onChange={(newValue) => setSelectedIndustries(newValue)}
-							options={industries}
-							value={selectedIndustries}
-						/>
-					</div>
-
+					<MultiSelectFG 
+						label="Industries (OR)" 
+						isLoading={isIndustriesLoading} 
+						options={industries} 
+						value={selectedIndustries} 
+						onChange={setSelectedIndustries} 
+					/>
 				</div>
 			</div>
-			
 		</div>
 	)
 

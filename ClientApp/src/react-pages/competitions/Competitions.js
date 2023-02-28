@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CompetitionCard from '../../components/CompetitionCard';
-import Select from 'react-select';
 import { useLocation } from 'react-router-dom';
 import { useApi, useLoginStatus, useQueryParams, useSelect } from '../../components/CustomHooks';
+import { MultiSelectFG, SwitchFG, TextInputFG } from '../../components/FormGroups';
 
 export default function Competitions() {
 	// Query params that carry from other pages
@@ -77,58 +77,36 @@ export default function Competitions() {
 					<button type="button" class="btn-close text-reset" onClick={() => setShowFilter(false)}></button>
 				</div>
 				<div class="offcanvas-body">
-
+					{/* Number after filtering */}
 					<p>{competitions.filter(comp => filter(comp)).length} Competitions match your settings!</p>
 
 					{/* Text Search Bar */}
-					<div class="form-group mb-2">
-						<label htmlFor="searchQuery" class="form-label">Search</label>
-						<input type="text" class="form-control" id="searchQuery" placeholder="Search for a job" value={query} onChange={(event) => setQuery(event.target.value)}/>
-					</div>
+					<TextInputFG label="Search" value={query} onChange={setQuery} placeholder="Search for a competition." />
 
 					{/* Tags section */}
-					<div class="form-group mb-2">
-						<label for="tags" class="form-label">Competition Tags (OR)</label>
-						<Select
-							isClearable
-							isMulti
-							isDisabled={isLoading}
-							isLoading={isLoading}
-							onChange={(newValue) => setSelectedTags(newValue)}
-							options={tags}
-							value={selectedTags}
-						/>
-					</div>
+					<MultiSelectFG 
+						label="CompetitionTags (OR)" 
+						isLoading={isLoading} 
+						options={tags} 
+						value={selectedTags} 
+						onChange={setSelectedTags} 
+					/>
 
 					{/* Competition Status */}
 					<fieldset class="form-group mb-2">
 						<legend>Competition Status</legend>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="enableOngoing" checked={showOngoing} onChange={(e) => setShowOngoing(e.target.checked)}/>
-							<label class="form-check-label" for="enableOngoing">Show ongoing competitions</label>
-						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="enableCompleted" checked={showCompleted} onChange={(e) => setShowCompleted(e.target.checked)}/>
-							<label class="form-check-label" for="enableCompleted">Show completed competitions</label>
-						</div>
+						<SwitchFG label="Show ongoing competitions" checked={showOngoing} onChange={setShowOngoing} />
+						<SwitchFG label="Show completed competitions" checked={showCompleted} onChange={setShowCompleted} />
 					</fieldset>
 
 					{/* Competition Type */}
 					<fieldset class="form-group mb-2">
 						<legend>Competition Type</legend>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="enableUser" checked={showUser} onChange={(e) => setShowUser(e.target.checked)}/>
-							<label class="form-check-label" for="enableUser">Show user-made competitions</label>
-						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="enableAutomated" checked={showAutomated} onChange={(e) => setShowAutomated(e.target.checked)}/>
-							<label class="form-check-label" for="enableAutomated">Show automated competitions</label>
-						</div>
+						<SwitchFG label="Show user-made competitions" checked={showUser} onChange={setShowUser} />
+						<SwitchFG label="Show automated competitions" checked={showAutomated} onChange={setShowAutomated} />
 					</fieldset>
-					
 				</div>
 			</div>
-
 		</div>
 	);
 }

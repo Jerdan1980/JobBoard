@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import authService from '../../components/api-authorization/AuthorizeService';
 import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 import Select from 'react-select';
+import { TextInputFG } from '../../components/FormGroups';
 
 export default function BioSettings() {
 	// Stores auth token
@@ -73,33 +74,7 @@ export default function BioSettings() {
 					<form>
 
 						{/* Name */}
-						<div class="form-group mb-2">
-							<label htmlFor="name" class="form-label">Name</label>
-							<input
-								type="text"
-								class={"form-control " + (name ? "" : "is-invalid")} 
-								id="name"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								placeholder="Enter public name here."
-							/>
-							<div class="invalid-feedback">Name is required!</div>
-						</div>
-
-						{/* Bio */}
-						{/*
-						<div class="form-group mb-2">
-							<label htmlFor="bio" class="form-label">Bio</label>
-							<textarea
-								class="form-control"
-								rows="10" cols="80"
-								id="bio"
-								value={bio}
-								onChange={(e) => setBio(e.target.value)}
-								placeholder="Describe yourself"
-							/>
-						</div>
-						*/}
+						<TextInputFG label="Name" value={name} onChange={setName} placeholder="Enter public name here." isRequired={true} />
 
 						{/* Privacy Level */}
 						<div class="form-group mb-2">
@@ -112,7 +87,8 @@ export default function BioSettings() {
 								onChange={(e) => setPrivacy(e.value)}
 							/>
 						</div>
-						
+
+						{/* Submit button */}
 						<btn type="submit" onClick={handleSubmit} class={"btn btn-primary mb-2 " + (name ? "" : "disabled")}>Submit</btn>
 					</form>
 
