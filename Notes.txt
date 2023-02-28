@@ -52,3 +52,5 @@ awards table one-to-many
 	click on awards to see the comp (DONE)
 	finished comps list public winners (DONE)
 	Awards CRUD
+
+autoconvert from html to md for muse jobs

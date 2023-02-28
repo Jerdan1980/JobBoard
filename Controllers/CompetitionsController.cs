@@ -68,8 +68,8 @@ namespace JobBoard.Controllers
 				{
 					Id = award.Id,
 					Rank = award.Rank,
+					UserId = award.UserId,
 					// Obfuscate information about non-public users
-					UserId = (award.User.Bio.PrivacyLevel == PrivacyLevel.Public) ? award.UserId : "",
 					UserName = (award.User.Bio.PrivacyLevel == PrivacyLevel.Public) ? award.User.Bio.Name : "Private User",
 					CompetitionId = award.CompetitionId,
 					CompetitionName = award.Competition.Name,

@@ -35,7 +35,10 @@ export default function CompetitionHome() {
 					<h1>{competition.name}</h1>
 				</div>
 				<div class="col position-relative">
-					<a class={"btn btn-primary position-absolute top-0 end-0" + (!loggedIn ? " disabled" : "")} href={`/competitions/edit?id=${competition.id}`}>Edit</a>
+					<div class="position-absolute top-0 end-0">
+						<a class={"btn btn-primary mx-1" + (!loggedIn ? " disabled" : "")} href={`/competitions/award?id=${competition.id}`}>Edit Awards</a>
+						<a class={"btn btn-primary mx-1" + (!loggedIn ? " disabled" : "")} href={`/competitions/edit?id=${competition.id}`}>Edit Competition</a>
+					</div>
 				</div>
 			</div>
 
