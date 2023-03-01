@@ -1,7 +1,8 @@
 import React from 'react';
-import { PersonVcard, FileEarmarkPerson, PersonGear, PersonBoundingBox, Award, ListCheck, House } from 'react-bootstrap-icons';
-
-
+import { PersonVcard, FileEarmarkPerson, PersonGear, PersonBoundingBox, Award, Sliders, House } from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
+import { NavLink } from 'reactstrap';
+import { ApplicationPaths } from './api-authorization/ApiAuthorizationConstants';
 
 export default function ProfileSettingsSidebar({ active }) {
 
@@ -41,17 +42,25 @@ export default function ProfileSettingsSidebar({ active }) {
 						Preferences
 					</a>
 				</li>
+				{/*
 				<li>
 					<a href="#" class="nav-link">
 						<ListCheck size={16} className="me-2 mb-1" />
 						Careers
 					</a>
 				</li>
+				*/}
 				<li>
 					<a href="/self/awards" class={`nav-link ${isActive("awards")}`}>
 						<Award size={16} className="me-2 mb-1" />
 						Awards
 					</a>
+				</li>
+				<li>
+					<NavLink tag={Link} className="" to={`${ApplicationPaths.Profile}`}>
+						<Sliders size={16} className="me-2 mb-1" />
+						Account Settings
+					</NavLink>
 				</li>
 			</ul>
 		</div>

@@ -74,9 +74,12 @@ export default function CompetitionAward() {
 								isClearable
 								isSearchable
 								isLoading={isLoading}
-								onChange={(newValue) => setSelectedUser(newValue)}
 								options={bios}
 								value={selectedUser}
+								onChange={(newValue) => setSelectedUser(newValue)}
+								classNames={{
+									option: (state) => state.isSelected ? 'text-light' : 'text-muted'
+								}}
 							/>
 						</div>
 					</div>

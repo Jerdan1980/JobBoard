@@ -18,7 +18,6 @@ export default function Dashboard() {
 					<ul>
 						<li>You have <strong>{preferences.careersCount}</strong> jobs matching your preferences. View them <a href={"/jobs?" + preferences.industryIds.map(i => `industry=${i}`).join('&')}>Here</a></li>
 						<li>You have <strong>{preferences.competitionsCount}</strong> competitions matching your preferences. View them <a href={"/competitions?" + preferences.tagIds.map(t => `tag=${t}`).join('&')}>Here</a></li>
-						<li>You have <strong>INSERT NUMBER HERE</strong> unreviewed job applications</li>
 					</ul>
 					
 				</div>
