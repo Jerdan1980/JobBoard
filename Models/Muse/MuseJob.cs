@@ -30,7 +30,11 @@ namespace JobBoard.Models.Muse
 			{
 				JobModel job = new JobModel();
 
-				job.Contents = Contents;
+				// Convert the contents to MD first
+				//https://github.com/mysticmind/reversemarkdown-net
+				var converter = new ReverseMarkdown.Converter();
+				job.Contents = converter.Convert(Contents);
+
 				job.Name = Name;
 				job.Type = "Unknown";
 				job.Date = DateTime.Parse(Publication_Date);

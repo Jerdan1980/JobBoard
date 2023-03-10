@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useApi, useQueryParams, useSelect } from '../components/CustomHooks';
 import { MultiSelectFG, TextInputFG, SwitchFG } from '../components/FormGroups';
 import Countdown from 'react-countdown';
+import Markdown from '../components/Markdown';
 
 export default function Jobs() {
 	// Query params that carry from other pages
@@ -69,7 +70,7 @@ export default function Jobs() {
 							<h2>{job.name}</h2>
 							<h5 class="text-info">{job.company.name}</h5>
 							<h5 class="text-muted">{job.locations[0].name}</h5>
-							<div dangerouslySetInnerHTML={{ __html: job.contents }}/>
+							<Markdown contents={job.contents} />
 							<br/>
 							<br/>
 						</>
