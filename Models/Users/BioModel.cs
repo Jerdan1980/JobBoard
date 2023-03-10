@@ -11,7 +11,6 @@ namespace JobBoard.Models.Users
 		public ApplicationUser? User { get; set; }
 		[Required]
 		public string Name { get; set; } = "Unnamed User";
-		//public string? Bio { get; set; }
 		[Required]
 		public PrivacyLevel PrivacyLevel { get; set; } = PrivacyLevel.Private;
 	}
