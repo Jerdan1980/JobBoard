@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import authService from './api-authorization/AuthorizeService';
+import { ApplicationPaths } from './api-authorization/ApiAuthorizationConstants';
 
 export function useSelect(url, value, label) {
 	const [options, setOptions] = useState([]);
@@ -74,6 +75,16 @@ export function useAuthApi(url, defaultValue = []) {
 			let response = await fetch(url, {
 				headers: { 'Authorization': `Bearer ${token}`}
 			});
+
+			// Could also follow SO:
+			//https://stackoverflow.com/questions/65388990/auto-logout-after-access-token-expires-in-react-application
+			// However, we only want to log them out if they need to do something while being logged in
+			// Otherwise it would be annoying to have to re-login after every hourish
+			if (response.status == 401) {
+				alert("Your login session expired!");
+				await authService.signOut();
+				return;
+			}
 
 			if (!response.ok) {
 				alert(response.statusText);
