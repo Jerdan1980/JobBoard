@@ -27,6 +27,7 @@ namespace JobBoard.Controllers
 			return await _context.Jobs
 				.Include(x => x.Tags)
 				.Include(x => x.Industry)
+				.OrderByDescending(job => job.Date)
 				.ToListAsync();
 		}
 

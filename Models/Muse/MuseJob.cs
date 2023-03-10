@@ -34,8 +34,16 @@ namespace JobBoard.Models.Muse
 				job.Name = Name;
 				job.Type = "Unknown";
 				job.Date = DateTime.Parse(Publication_Date);
+				job.ExpirationDate = job.Date.AddDays(30);
 				job.Id = Id;
-				job.Locations = Locations[0].Name;
+
+				// Turns out sometimes Locations are empty
+				if (Locations.Count > 0)
+				{
+					job.Locations = Locations[0].Name;
+				}
+				else
+					job.Locations = "N/A";
 
 				// Industries holds a dictionary of names and ids
 				// Sometimes Categories is empty

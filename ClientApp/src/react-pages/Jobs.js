@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useApi, useQueryParams, useSelect } from '../components/CustomHooks';
-import { MultiSelectFG, TextInputFG } from '../components/FormGroups';
+import { MultiSelectFG, TextInputFG, SwitchFG } from '../components/FormGroups';
+import Countdown from 'react-countdown';
 
 export default function Jobs() {
 	// Query params that carry from other pages
@@ -22,8 +23,15 @@ export default function Jobs() {
 	// Filter settings
 	const [showFilter, setShowFilter] = useState(false);
 	const [query, setQuery] = useState("");
+	const [showOngoing, setShowOngoing] = useState(true);
+	const [showExpired, setShowExpired] = useState(false);
 
 	function filter(job) {
+		const isExpired = Date.parse(job.expirationDate) < Date.now();
+		const isOngoing = Date.parse(job.expirationDate) > Date.now();
+		if ((!showExpired && isExpired) || (!showOngoing && isOngoing))
+			return false;
+
 		const hasIndustry = selectedIndustries.length == 0 || selectedIndustries.map(industry => industry.value).includes(job.industryId);
 		if (!hasIndustry)
 			return false;
@@ -90,6 +98,13 @@ export default function Jobs() {
 						value={selectedIndustries} 
 						onChange={setSelectedIndustries} 
 					/>
+
+					{/* Job Status */}
+					<fieldset class="form-group mb-2">
+						<legend>Job Status</legend>
+						<SwitchFG label="Show ongoing jobs" checked={showOngoing} onChange={setShowOngoing} />
+						<SwitchFG label="Show expired jobs" checked={showExpired} onChange={setShowExpired} />
+					</fieldset>
 				</div>
 			</div>
 		</div>
@@ -102,6 +117,12 @@ export default function Jobs() {
 			setId(job.id);
 		}
 
+		const timerRenderer = ({ total, days, formatted, completed, props }) => {
+			if (completed)
+				return <div>Already Expired!</div>
+			return <div>Expires in: {formatted.days}:{formatted.hours}:{formatted.minutes}:{formatted.seconds}</div>
+		}
+
 		return (
 			<div class={"card mb-3 " + (job.id === id ? "border-light" : "border-primary")} >
 				{job.fromApi &&	(
@@ -110,9 +131,9 @@ export default function Jobs() {
 				<div class="card-body">
 					<h5 class="card-title">{job.name}</h5>
 					<h6 class="card-subtitle text-muted">
-						{job.company.name} - {job.locations[0].name}
+						{job.company} - {job.locations}
 						<br/>
-						Insert full/part time here
+						<Countdown date={job.expirationDate} renderer={timerRenderer} />
 					</h6>
 					<a onClick={changeSelected} class="stretched-link">Read More</a>
 				</div>

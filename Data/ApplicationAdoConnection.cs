@@ -96,12 +96,12 @@ namespace JobBoard.Data
                 // Mainly updates description, start time, end time, and tags
                 command.CommandText = """
 					MERGE INTO Jobs AS tgt
-					USING (SELECT @contents, @name, @type, @date, @locations, @industryId, @experience, @company, @fromApi) AS src (Contents, Name, Type, Date, Locations, IndustryId, Experience, Company, FromApi)
+					USING (SELECT @contents, @name, @type, @date, @expirationDate, @locations, @industryId, @experience, @company, @fromApi) AS src (Contents, Name, Type, Date, ExpirationDate, Locations, IndustryId, Experience, Company, FromApi)
 					ON (tgt.Name = src.Name AND tgt.FromApi = src.FromApi)
 					WHEN MATCHED THEN
-						UPDATE SET Contents = src.Contents, Name = src.Name, Type = src.Type, Date = src.Date, Locations = src.Locations, IndustryId = src.IndustryId, Experience = src.Experience, Company = src.Company, FromApi = src.FromApi
+						UPDATE SET Contents = src.Contents, Name = src.Name, Type = src.Type, Date = src.Date, ExpirationDate = src.ExpirationDate, Locations = src.Locations, IndustryId = src.IndustryId, Experience = src.Experience, Company = src.Company, FromApi = src.FromApi
 					WHEN NOT MATCHED THEN
-						INSERT (Contents, Name, Type, Date, Locations, IndustryId, Experience, Company, FromApi) VALUES (src.Contents, src.Name, src.Type, src.Date, src.Locations, src.IndustryId, src.Experience, src.Company, src.FromApi);
+						INSERT (Contents, Name, Type, Date, ExpirationDate, Locations, IndustryId, Experience, Company, FromApi) VALUES (src.Contents, src.Name, src.Type, src.Date, src.ExpirationDate, src.Locations, src.IndustryId, src.Experience, src.Company, src.FromApi);
 				""";
 
                 // Note: SQL takes STRING for DATETIME and BOOL
@@ -109,6 +109,7 @@ namespace JobBoard.Data
                 command.Parameters.AddWithValue("@name", job.Name);
                 command.Parameters.AddWithValue("@type", job.Type);
                 command.Parameters.AddWithValue("@date", job.Date.ToString());
+				command.Parameters.AddWithValue("@expirationDate", job.ExpirationDate.ToString());
                 command.Parameters.AddWithValue("@locations", job.Locations);
                 command.Parameters.AddWithValue("@industryId", job.IndustryId);
                 command.Parameters.AddWithValue("@experience", job.Experience); 

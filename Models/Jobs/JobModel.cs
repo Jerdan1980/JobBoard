@@ -13,6 +13,7 @@ namespace JobBoard.Models.Jobs
         public string Type { get; set; }  // full-time or part-time
         [DataType(DataType.DateTime)]
         public DateTime Date { get; set; } // publication date
+		public DateTime ExpirationDate { get; set; }
         public int Id { get; set; }
         public int? Salary { get; set; }
         public string Locations { get; set; }
