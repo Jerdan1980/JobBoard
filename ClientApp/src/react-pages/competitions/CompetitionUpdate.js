@@ -141,10 +141,10 @@ export default function CompetitionUpdate() {
 						<TextAreaFG label="Competition Description" value={description} onChange={setDescription} />
 
 						{/* Start Time */}
-						<TimeFG label="Competition Start Time (Local)" value={startTime} onChange={setStartTime} />
+						<TimeFG label="Competition Start Time (in UTC)" value={startTime} onChange={setStartTime} />
 
 						{/* End Time */}
-						<TimeFG label="Competition End Time (Local)" value={endTime} onChange={setEndTime} />
+						<TimeFG label="Competition End Time (in UTC)" value={endTime} onChange={setEndTime} />
 
 						{/* Tags section */}
 						<CreateableMultiSelectFG

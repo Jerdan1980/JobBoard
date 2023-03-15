@@ -137,7 +137,7 @@ export default function JobUpdate() {
 						<TextInputFG label="Job Type" value={jobType} onChnage={setJobType} />
 
 						{/* Expiration Date */}
-						<TimeFG label="Expiration Date" value={expirationDate} onChange={setExpirationDate} />
+						<TimeFG label="Expiration Date (in UTC)" value={expirationDate} onChange={setExpirationDate} />
 
 						{/* Salary */}
 						<IntInputFG label="Salary" value={salary} onChange={setSalary} />

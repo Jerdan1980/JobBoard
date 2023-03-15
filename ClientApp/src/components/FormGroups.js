@@ -116,7 +116,6 @@ export function SelectFG({ label, isLoading, options, value, onChange }) {
 	)
 }
 
-
 export function SwitchFG({ label, checked, onChange }) {
 	return (
 		<div class="form-check form-switch">
