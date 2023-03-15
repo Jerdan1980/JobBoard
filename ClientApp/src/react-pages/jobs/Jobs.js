@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useApi, useQueryParams, useSelect } from '../components/CustomHooks';
-import { MultiSelectFG, TextInputFG, SwitchFG } from '../components/FormGroups';
+import { useApi, useQueryParams, useSelect } from '../../components/CustomHooks';
+import { MultiSelectFG, TextInputFG, SwitchFG } from '../../components/FormGroups';
 import Countdown from 'react-countdown';
-import Markdown from '../components/Markdown';
+import Markdown from '../../components/Markdown';
 
 export default function Jobs() {
 	// Query params that carry from other pages
@@ -68,9 +68,18 @@ export default function Jobs() {
 							<br/>
 							<br/>
 							<h2>{job.name}</h2>
-							<h5 class="text-info">{job.company.name}</h5>
-							<h5 class="text-muted">{job.locations[0].name}</h5>
+							<h4>
+								<span class="text-info">{job.company}</span> - {job.locations}
+							</h4>
 							<Markdown contents={job.contents} />
+							<div className="row gx-0 mx-0">
+								<div className='col px-3'>
+									<button type="button" class="btn btn-info w-100">Apply</button>
+								</div>
+								<div className='col px-3'>
+									<a class="btn btn-primary w-100" href={`/jobs/edit?id=${job.id}`}>Edit</a>
+								</div>
+							</div>
 							<br/>
 							<br/>
 						</>

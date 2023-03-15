@@ -19,6 +19,25 @@ export function TextInputFG({ label, value, onChange, isRequired = false, placeh
 	);
 }
 
+export function IntInputFG({ label, value, onChange, isRequired = false, placeholder = `Enter your ${label} here.` }) {
+	return (
+		<div class="form-group mb-2">
+			<label htmlFor={`intfg-${label}`} class="form-label">{label}</label>
+			<input 
+				type="number"
+				step="1"
+				pattern="\d+" 
+				class={"form-control " + ( (isRequired && !value) ? "is-invalid" : "")} 
+				id={`intfg-${label}`}
+				value={value} 
+				onChange={(e) => onChange(e.target.value)}  
+				placeholder={placeholder}
+			/>
+			<div class="invalid-feedback">Name is required!</div>
+		</div>
+	);
+}
+
 export function TextAreaFG({ label, value, onChange, placeholder = `Enter your ${label} here. This uses markdown!` }) {
 	return (
 		<div class="form-group mb-2">
@@ -80,6 +99,23 @@ export function MultiSelectFG({ label, isLoading, options, value, onChange }) {
 		</div>
 	)
 }
+
+export function SelectFG({ label, isLoading, options, value, onChange }) {
+	return (
+		<div class="form-group mb-2">
+			<label htmlFor={`selfg-${label}`} class="form-label">{label}</label>
+			<Select
+				id={`multiselfg-${label}`}
+				isDisabled={isLoading}
+				isLoading={isLoading}
+				options={options}
+				value={value}
+				onChange={(newValue) => onChange(newValue)}
+			/>
+		</div>
+	)
+}
+
 
 export function SwitchFG({ label, checked, onChange }) {
 	return (

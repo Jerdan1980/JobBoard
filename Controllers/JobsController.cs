@@ -37,6 +37,20 @@ namespace JobBoard.Controllers
 			return _context.Jobs.Count();
 		}
 
+		[HttpGet("{id}")]
+		public async Task<ActionResult<JobModel>> GetJob(int id)
+		{
+			JobModel? job = await _context.Jobs
+				.Include(x => x.Tags)
+				.Include(x => x.Industry)
+				.Where(job => job.Id == id)
+				.FirstOrDefaultAsync();
+
+			if (job == null)
+				return NotFound();
+
+			return Ok(job);
+		}
 
         // Delete
         [HttpDelete("{id}")]
@@ -55,7 +69,7 @@ namespace JobBoard.Controllers
 
 		//Update
 		[HttpPut]
-		public async Task<ActionResult<JobModel>> UpdateJob(JobModel model)
+		public async Task<ActionResult<JobModel>> UpdateJob(JobModification model)
 		{
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -66,15 +80,25 @@ namespace JobBoard.Controllers
 
 			if (job == null)
 				return NotFound();
+
 			job.Contents = model.Contents;
             job.Name = model.Name;
             job.Type = model.Type;
+			job.ExpirationDate = model.ExpirationDate;
             job.Salary = model.Salary;
             job.Locations = model.Locations;
 			job.Experience = model.Experience;
 			job.Company = model.Company;
-			job.Tags = new List<Models.Tags.TagModel>();
 
+			job.Industry = await _context.Industries
+				.FindAsync(model.IndustryId);
+
+			if (model.TagIds != null)
+			{
+				job.Tags = await _context.Tags
+				.Where(tag => model.TagIds.Contains(tag.Id))
+				.ToListAsync();
+			}
 
             try
             {
