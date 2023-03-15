@@ -2,6 +2,7 @@
 using JobBoard.Data.Migrations;
 using JobBoard.Models.Industry;
 using JobBoard.Models.Jobs;
+using ReverseMarkdown;
 
 namespace JobBoard.Models.Muse
 {
@@ -34,6 +35,7 @@ namespace JobBoard.Models.Muse
 				//https://github.com/mysticmind/reversemarkdown-net
 				var converter = new ReverseMarkdown.Converter();
 				job.Contents = converter.Convert(Contents);
+				//job.Contents = Contents;
 
 				job.Name = Name;
 				job.Type = "Unknown";
