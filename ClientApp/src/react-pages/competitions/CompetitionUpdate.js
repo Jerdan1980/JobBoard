@@ -31,8 +31,7 @@ export default function CompetitionUpdate() {
 		// GETs the competition
 		fetch(`/api/competitions/${id}`)
 			.then(response => {
-				if (!response.ok)
-				{
+				if (!response.ok) {
 					alert(response.statusText);
 					window.location.href = `/competition?id=${id}`;
 					return;
@@ -45,9 +44,7 @@ export default function CompetitionUpdate() {
 				setStartTime(data.startTime);
 				setEndTime(data.endTime);
 				setAutomated(data.automated);
-				if (data.tags.length > 0)
-				{
-					console.log("original", data.tags);
+				if (data.tags.length > 0) {
 					setSelectedTags(data.tags.map(tag => ({value: tag.id, label: tag.name})));
 				}
 				setOldName(data.name);
@@ -129,7 +126,7 @@ export default function CompetitionUpdate() {
 	}
 
 	return (
-		<div>
+		<>
 			<h1>Update Competition</h1>
 
 			<div class="row">
@@ -197,6 +194,6 @@ export default function CompetitionUpdate() {
 			</div>
 
 			
-		</div>
+		</>
 	)
 }
