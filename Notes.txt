@@ -46,18 +46,15 @@ Profile pages frontend
 
 Multi-item filtering in queryparams (DONE)
 
-expiration date
+expiration date (DONE)
 	make job active/inactive and make function that automatically check if job is past expiration to change it to inactive
 
-awards table one-to-many
+awards table one-to-many (DONE)
 	Make awards public (if user isn't public, it won't show) (DONE)
 	click on awards to see the comp (DONE)
 	finished comps list public winners (DONE)
 	Awards CRUD
 
-<<<<<<< Updated upstream
-autoconvert from html to md for muse jobs
-=======
+autoconvert from html to md for muse jobs (DONE)
 
 apply to job !! very important
->>>>>>> Stashed changes

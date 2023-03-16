@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useApi, useQueryParams, useSelect } from '../../components/CustomHooks';
+import { useApi, useLoginStatus, useQueryParams, useSelect } from '../../components/CustomHooks';
 import { MultiSelectFG, TextInputFG, SwitchFG } from '../../components/FormGroups';
 import Countdown from 'react-countdown';
 import Markdown from '../../components/Markdown';
@@ -11,6 +11,9 @@ export default function Jobs() {
 	//https://developer.mozilla.org/en-US/docs/web/api/urlsearchparams
 	const queryParams = new URLSearchParams(useLocation().search);
 	const industryIdParam = queryParams.getAll('industry').map(str => Number.parseInt(str));
+
+	// stores login status
+	const loggedIn = useLoginStatus();
 
 	// Jobs and selected jobs (id, job)
 	const [jobs, setJobs] = useApi('/api/jobs');
@@ -44,7 +47,14 @@ export default function Jobs() {
 	return (
 		<div class="">
 			<h1>Job listing</h1>
-			<h2>There are {jobs.filter(job => filter(job)).length} Jobs that match your settings!</h2>
+			<div class="row">
+				<div class="col">
+					<h2>There are {jobs.filter(job => filter(job)).length} Jobs that match your settings!</h2>
+				</div>
+				<div class="col position-relative">
+					<a class={"btn btn-primary position-absolute top-0 end-0" + (!loggedIn ? " disabled" : "")} href="/jobs/create">Create</a>
+				</div>
+			</div>
 
 			<div class="hstack gap-3">
 				{/* Left Column */}

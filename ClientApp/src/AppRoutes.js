@@ -1,6 +1,7 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import Home from "./react-pages/Home";
 import Jobs from './react-pages/jobs/Jobs';
+import JobCreate from './react-pages/jobs/JobCreate';
 import JobUpdate from './react-pages/jobs/JobUpdate';
 import Competitions from './react-pages/competitions/Competitions';
 import CompetitionHome from './react-pages/competitions/CompetitionHome';
@@ -28,7 +29,13 @@ const AppRoutes = [
 		element: <Jobs />
 	},
 	{
+		path: '/jobs/create',
+    requireAuth: true,
+		element: <JobCreate />
+	},
+	{
 		path: '/jobs/edit',
+    requireAuth: true,
 		element: <JobUpdate />
 	},
 	{

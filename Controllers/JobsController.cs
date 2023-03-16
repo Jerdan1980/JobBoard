@@ -114,7 +114,7 @@ namespace JobBoard.Controllers
 
 		//Create
 		[HttpPost]
-		public async Task<IActionResult> CreateJob(JobModel model)
+		public async Task<IActionResult> CreateJob(JobModification model)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
@@ -124,20 +124,33 @@ namespace JobBoard.Controllers
 				Contents = model.Contents,
 				Name = model.Name,
 				Date = DateTime.Now,
+				ExpirationDate = model.ExpirationDate,
 				Type = model.Type,
 				Salary = model.Salary,
 				Locations = model.Locations,
 				Experience = model.Experience,
 				Company = model.Company,
 				Tags = new List<Models.Tags.TagModel>(),
+				FromApi = model.FromApi,
 			};
+
+			job.Industry = await _context.Industries
+				.FindAsync(model.IndustryId);
+
+			if (model.TagIds != null)
+			{
+				job.Tags = await _context.Tags
+				.Where(tag => model.TagIds.Contains(tag.Id))
+				.ToListAsync();
+			}
 
 			try
 			{
 				_context.Jobs.Add(job);
 				await _context.SaveChangesAsync();
 				return CreatedAtAction(nameof(CreateJob), new { id = job.Id }, job);
-			}catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				return BadRequest(e.Message);
 			}
