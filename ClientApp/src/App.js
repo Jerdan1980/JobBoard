@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import { Layout } from './components/Layout';
-//import './custom.css';
 import './main.scss';
 
 export default class App extends Component {

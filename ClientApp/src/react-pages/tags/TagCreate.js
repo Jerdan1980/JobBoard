@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Markdown from '../../components/Markdown';
 import { TextAreaFG, TextInputFG } from '../../components/FormGroups';
+import Markdown from '../../components/Markdown';
 
 export default function TagCreate() {
 	//Tag information

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Countdown from 'react-countdown';
 import { useLocation } from 'react-router-dom';
 import { useApi, useLoginStatus, useQueryParams, useSelect } from '../../components/CustomHooks';
-import { MultiSelectFG, TextInputFG, SwitchFG } from '../../components/FormGroups';
-import Countdown from 'react-countdown';
+import { MultiSelectFG, SwitchFG, TextInputFG } from '../../components/FormGroups';
 import Markdown from '../../components/Markdown';
 
 export default function Jobs() {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useApi } from '../../components/CustomHooks';
 
 export default function Industries() {

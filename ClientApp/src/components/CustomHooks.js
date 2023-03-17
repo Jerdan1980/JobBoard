@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import authService from './api-authorization/AuthorizeService';
-import { ApplicationPaths } from './api-authorization/ApiAuthorizationConstants';
 
 export function useSelect(url, value, label) {
 	const [options, setOptions] = useState([]);

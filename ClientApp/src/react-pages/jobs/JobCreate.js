@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import Countdown from 'react-countdown';
 import { useLocation } from 'react-router-dom';
-import Markdown from '../../components/Markdown';
 import { useSelect } from '../../components/CustomHooks';
 import { IntInputFG, MultiSelectFG, SelectFG, TextAreaFG, TextInputFG, TimeFG } from '../../components/FormGroups';
-import Countdown from 'react-countdown';
+import Markdown from '../../components/Markdown';
 
 
 export default function JobCreate() {
