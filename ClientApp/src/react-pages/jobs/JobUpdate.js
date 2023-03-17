@@ -212,10 +212,10 @@ export default function JobUpdate() {
 						<Markdown contents={contents} />
 						<div className="row gx-0 mx-0">
 								<div className='col px-3'>
-									<button type="button" class="btn btn-info w-100">Apply</button>
+									<button type="button" class="btn btn-info w-100 disabled">Apply</button>
 								</div>
 								<div className='col px-3'>
-									<a class="btn btn-primary w-100">Edit</a>
+									<a class="btn btn-primary w-100 disabled">Edit</a>
 								</div>
 							</div>
 					</div>
