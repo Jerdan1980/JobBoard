@@ -2,7 +2,6 @@
 
 A dynamic listing of various careers and competitions.
 
-
 ## Requirements
 
 * Visual Studio 2022
@@ -11,13 +10,11 @@ A dynamic listing of various careers and competitions.
 * ASP.NET Core 7
 * Node.js 18 or later
 
-
 ## Installation Instructions
 
 1. Download the repo and open the solution in Visual Studio
 2. Goto `Tools ` > `Nuget Package Manager ` > `Manage Nuget Packages for Solution...` and install the packages
 3. Open terminal in the `ClientApp` folder and run `npm i`
-
 
 ## Scaffolding and Seeding the database
 
@@ -25,9 +22,7 @@ A dynamic listing of various careers and competitions.
 2. Replace the `DefaultConnection` value in `appsettings.json` with the connection string you obtained from the previous step
 3. Open Visual Studio and navigate to the `Package Manager Console`
 4. Run `Update-Database`
-5. The database will then need to be manually seeded with the values found in `Industries.cs` and `Kontests.cs`
-6. Optionally change the code in those files to match the ID values in your database
-
+5. Either run the provided SQL code in `Data/SQL` to add the data or  change the code in those files to match the ID values in your database
 
 ## Running the Solution
 
