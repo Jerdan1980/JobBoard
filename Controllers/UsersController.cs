@@ -1,13 +1,7 @@
-﻿using JobBoard.Data;
-using JobBoard.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+﻿using JobBoard.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.JsonWebTokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace JobBoard.Controllers.Manual
 {

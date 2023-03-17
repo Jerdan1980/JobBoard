@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using JobBoard.Data.Migrations;
-using JobBoard.Models.Industry;
+﻿using JobBoard.Models.Industry;
 using JobBoard.Models.Jobs;
-using ReverseMarkdown;
+using System.ComponentModel.DataAnnotations;
 
 namespace JobBoard.Models.Muse
 {
-    public class MuseJob
+	public class MuseJob
     {
 		public string Contents { get; set; }
 		public string Name { get; set; }
@@ -64,7 +62,7 @@ namespace JobBoard.Models.Muse
 
 				return job;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return null;
 			}

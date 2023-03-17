@@ -1,12 +1,7 @@
 ﻿using JobBoard.Data;
 using JobBoard.Models.Jobs;
-using JobBoard.Models.Tags;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace JobBoard.Controllers
 {

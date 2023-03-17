@@ -1,8 +1,6 @@
 ﻿using JobBoard.Data;
 using JobBoard.Models;
 using JobBoard.Models.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +8,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace JobBoard.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class ResumesController : ControllerBase
 	{

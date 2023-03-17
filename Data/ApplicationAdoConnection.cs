@@ -71,7 +71,7 @@ namespace JobBoard.Data
 				await connection.CloseAsync();
 				return true;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return false;
 			}
@@ -121,8 +121,8 @@ namespace JobBoard.Data
                 await connection.CloseAsync();
                 return true;
             }
-            catch (Exception ex)
-            {
+            catch (Exception)
+			{
                 return false;
             }
         }
@@ -184,7 +184,7 @@ namespace JobBoard.Data
 				await connection.CloseAsync();
 				return true;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return false;
 			}

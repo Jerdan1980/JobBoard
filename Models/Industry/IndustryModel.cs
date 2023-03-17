@@ -2,7 +2,7 @@
 
 namespace JobBoard.Models.Industry
 {
-    public class IndustryModel
+	public class IndustryModel
     {
         [Key]
         public int Id { get; set; }

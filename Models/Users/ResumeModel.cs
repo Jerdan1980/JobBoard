@@ -2,7 +2,7 @@
 
 namespace JobBoard.Models.Users
 {
-    public class ResumeModel
+	public class ResumeModel
     {
         [Key]
         public int Id { get; set; }

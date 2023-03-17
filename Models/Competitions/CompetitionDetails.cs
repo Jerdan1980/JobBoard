@@ -2,7 +2,7 @@
 
 namespace JobBoard.Models.Competitions
 {
-    public class CompetitionDetails : CompetitionModel
+	public class CompetitionDetails : CompetitionModel
     {
 		public List<AwardDTO> Awards { get; set; } = new List<AwardDTO>();
 

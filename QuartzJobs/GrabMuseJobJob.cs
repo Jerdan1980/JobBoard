@@ -14,7 +14,7 @@ using Quartz;
 
 namespace JobBoard.QuartzJobs
 {
-    public class GrabMuseJobJob : IJob
+	public class GrabMuseJobJob : IJob
     {
         public static readonly JobKey Key = new JobKey("GrabMuseJob");
 

@@ -3,18 +3,13 @@ using JobBoard.Models;
 using JobBoard.Models.Industry;
 using JobBoard.Models.Tags;
 using JobBoard.Models.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.JsonWebTokens;
-using System.Net;
-using System.Runtime.CompilerServices;
 
 namespace JobBoard.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class SelfController : ControllerBase
 	{
@@ -309,7 +304,7 @@ namespace JobBoard.Controllers
 				await _context.SaveChangesAsync();
 				return NoContent();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return BadRequest();
 			}

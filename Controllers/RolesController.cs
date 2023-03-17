@@ -3,7 +3,6 @@ using JobBoard.Models.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.AccessControl;
 
 //https://www.yogihosting.com/aspnet-core-identity-roles/#all-roles
 namespace JobBoard.Controllers

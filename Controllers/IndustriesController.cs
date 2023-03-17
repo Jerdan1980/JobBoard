@@ -1,6 +1,5 @@
 ﻿using JobBoard.Data;
 using JobBoard.Models.Industry;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

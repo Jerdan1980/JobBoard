@@ -52,7 +52,7 @@ namespace JobBoard.Controllers
 				await _context.SaveChangesAsync();
 				return NoContent();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return NotFound();
 			}

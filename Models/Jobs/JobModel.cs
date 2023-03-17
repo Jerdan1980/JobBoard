@@ -1,12 +1,10 @@
 ﻿using JobBoard.Models.Industry;
-using JobBoard.Models.Muse;
 using JobBoard.Models.Tags;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobBoard.Models.Jobs
 {
-    public class JobModel
+	public class JobModel
     {
         public string Contents { get; set; }
         public string Name { get; set; }

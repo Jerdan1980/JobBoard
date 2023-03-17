@@ -1,6 +1,4 @@
-﻿using JobBoard.Models.Competitions;
-
-namespace JobBoard.Models.Users
+﻿namespace JobBoard.Models.Users
 {
 	public class AwardDTO
 	{

@@ -1,13 +1,12 @@
+using Duende.IdentityServer.Models;
+using IdentityModel;
 using JobBoard.Data;
 using JobBoard.Models;
 using JobBoard.QuartzJobs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using Duende.IdentityServer.Models;
-using IdentityModel;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);

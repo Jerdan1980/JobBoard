@@ -55,7 +55,7 @@ namespace JobBoard.QuartzJobs
 				// UPSERT the competitions into the AutoCompetitions Table
 				await ApplicationAdoConnection.UpsertCompetitions(competitions);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return;
 			}

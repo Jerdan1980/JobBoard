@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using JobBoard.Data;
+using JobBoard.Models.Competitions;
+using JobBoard.Models.Tags;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using JobBoard.Data;
-using JobBoard.Models.Tags;
-using JobBoard.Models.Competitions;
-using JobBoard.Models.Industry;
 
 namespace JobBoard.Controllers
 {
