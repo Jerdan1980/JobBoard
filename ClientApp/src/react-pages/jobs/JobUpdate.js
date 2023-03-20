@@ -23,6 +23,7 @@ export default function JobUpdate() {
 	const [experience, setExperience] = useState();
 	const [company, setCompany] = useState();
 	const [fromApi, setFromApi] = useState(false);
+	const [applicationLink, setApplicationLink] = useState();
 	const [selectedTags, setSelectedTags] = useState([]);
 
 	// Various dropdown options
@@ -57,6 +58,7 @@ export default function JobUpdate() {
 				setExperience(data.experience);
 				setCompany(data.company);
 				setFromApi(data.fromApi);
+				setApplicationLink(data.applicationLink);
 				if (data.tags.length > 0) {
 					setSelectedTags(data.tags.map(tag => ({ value: tag.id, label: tag.name })))
 				}
@@ -78,6 +80,7 @@ export default function JobUpdate() {
 			'experience': experience,
 			'company': company,
 			'fromApi': fromApi,
+			'applicationLink': applicationLink,
 			'tagIds': selectedTags.map(tag => tag.value),
 		};
 
@@ -159,6 +162,9 @@ export default function JobUpdate() {
 
 						{/* Company */}
 						<TextInputFG label="Company" value={company} onChange={setCompany} />
+
+						{/* Application Link */}
+						<TextInputFG label="Application Link" value={applicationLink} onChange={setApplicationLink} />
 
 						{/* Tags */}
 						<MultiSelectFG

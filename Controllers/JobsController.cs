@@ -84,6 +84,7 @@ namespace JobBoard.Controllers
             job.Locations = model.Locations;
 			job.Experience = model.Experience;
 			job.Company = model.Company;
+			job.ApplicationLink = model.ApplicationLink;
 
 			job.Industry = await _context.Industries
 				.FindAsync(model.IndustryId);
@@ -127,6 +128,7 @@ namespace JobBoard.Controllers
 				Company = model.Company,
 				Tags = new List<Models.Tags.TagModel>(),
 				FromApi = model.FromApi,
+				ApplicationLink = model.ApplicationLink,
 			};
 
 			job.Industry = await _context.Industries

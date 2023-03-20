@@ -84,7 +84,7 @@ export default function Jobs() {
 							<Markdown contents={job.contents} />
 							<div className="row gx-0 mx-0">
 								<div className='col px-3'>
-									<button type="button" class="btn btn-info w-100">Apply</button>
+									<a class="btn btn-info w-100" href={job.applicationLink} target="_blank">Apply</a>
 								</div>
 								<div className='col px-3'>
 									<a class="btn btn-primary w-100" href={`/jobs/edit?id=${job.id}`}>Edit</a>

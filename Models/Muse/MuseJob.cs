@@ -60,6 +60,9 @@ namespace JobBoard.Models.Muse
 				job.Company = Company.Name;
 				job.FromApi = true;
 
+				// Can use `ref` to get to the muse page, or `id` to go direclty to the company page
+				job.ApplicationLink = $"https://www.themuse.com/job/redirect/{Id}";
+
 				return job;
 			}
 			catch (Exception)

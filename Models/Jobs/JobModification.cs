@@ -14,6 +14,7 @@
 		public string Experience { get; set; } //Muselevels
 		public string Company { get; set; }
 		public bool FromApi { get; set; } //if created by api or rectruiter
+		public string ApplicationLink { get; set; }
 		public int[]? TagIds { get; set; }
 	}
 }

@@ -21,5 +21,6 @@ namespace JobBoard.Models.Jobs
         public string Company { get; set; }
 		public bool FromApi { get; set; } //if created by api or rectruiter
 		public List<TagModel>? Tags { get; set; } = new List<TagModel>();
+		public string ApplicationLink { get; set; }
     }
 }

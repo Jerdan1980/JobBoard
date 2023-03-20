@@ -23,6 +23,7 @@ export default function JobCreate() {
 	const [experience, setExperience] = useState();
 	const [company, setCompany] = useState();
 	//const [fromApi, setFromApi] = useState(false);
+	const [applicationLink, setApplicationLink] = useState();
 	const [selectedTags, setSelectedTags] = useState([]);
 
 	// Various dropdown options
@@ -43,6 +44,7 @@ export default function JobCreate() {
 			'experience': experience,
 			'company': company,
 			'fromApi': true,
+			'applicationLink': applicationLink,
 			'tagIds': selectedTags.map(tag => tag.value),
 		};
 
@@ -109,6 +111,9 @@ export default function JobCreate() {
 
 						{/* Company */}
 						<TextInputFG label="Company" value={company} onChange={setCompany} />
+
+						{/* Application Link */}
+						<TextInputFG label="Application Link" value={applicationLink} onChange={setApplicationLink} />
 
 						{/* Tags */}
 						<MultiSelectFG
