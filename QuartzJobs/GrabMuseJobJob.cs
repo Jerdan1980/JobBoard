@@ -15,36 +15,36 @@ using Quartz;
 namespace JobBoard.QuartzJobs
 {
 	public class GrabMuseJobJob : IJob
-    {
-        public static readonly JobKey Key = new JobKey("GrabMuseJob");
+	{
+		public static readonly JobKey Key = new JobKey("GrabMuseJob");
 
-        public async Task Execute(IJobExecutionContext context)
-        {
-            // GET the Job data
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://www.themuse.com/api/public/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+		public async Task Execute(IJobExecutionContext context)
+		{
+			// GET the Job data
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://www.themuse.com/api/public/");
+			client.DefaultRequestHeaders.Accept.Clear();
+			client.DefaultRequestHeaders.Accept.Add(
+				new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
 			int page = context.MergedJobDataMap.GetIntValue("page");
 			HttpResponseMessage response = await client.GetAsync($"jobs?page={page}");
-            if(!response.IsSuccessStatusCode)
-                return;
-            //convert from json to Muse object
-            var museJobPage = await response.Content.ReadFromJsonAsync<MuseJobPage>();
+			if (!response.IsSuccessStatusCode)
+				return;
+			//convert from json to Muse object
+			var museJobPage = await response.Content.ReadFromJsonAsync<MuseJobPage>();
 
-            //convert from muse object to JobModel object
-            List <JobModel> jobs = new List <JobModel>();
-            foreach (MuseJob job in museJobPage.Results)
-            {
-                jobs.Add(job.ToJob());
-            }
+			//convert from muse object to JobModel object
+			List<JobModel> jobs = new List<JobModel>();
+			foreach (MuseJob job in museJobPage.Results)
+			{
+				jobs.Add(job.ToJob());
+			}
 
-            //upsert the jobs into the table
-            await ApplicationAdoConnection.UpsertJobs(jobs);
+			//upsert the jobs into the table
+			await ApplicationAdoConnection.UpsertJobs(jobs);
 
-            return;
-        }
-    }
+			return;
+		}
+	}
 }

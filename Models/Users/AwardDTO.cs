@@ -15,6 +15,6 @@
 		public int CompetitionId { get; set; }
 		public string CompetitionName { get; set; }
 		public DateTime CompetitionEndTime { get; set; }
-		
+
 	}
 }

@@ -74,24 +74,24 @@ namespace JobBoard.Data
 			}
 		}
 
-        public static async Task UpsertJobs(List<JobModel> jobs)
-        {
-            foreach (JobModel job in jobs)
-            {
-                await UpsertJob(job);
-            }
-        }
+		public static async Task UpsertJobs(List<JobModel> jobs)
+		{
+			foreach (JobModel job in jobs)
+			{
+				await UpsertJob(job);
+			}
+		}
 
-        public static async Task<bool> UpsertJob(JobModel job)
-        {
-            try
-            {
-                SqlConnection connection = new SqlConnection(ConnectionString);
-                SqlCommand command = connection.CreateCommand();
+		public static async Task<bool> UpsertJob(JobModel job)
+		{
+			try
+			{
+				SqlConnection connection = new SqlConnection(ConnectionString);
+				SqlCommand command = connection.CreateCommand();
 
-                // Not guaranteed but can expect Name and automation to stay the same
-                // Mainly updates description, start time, end time, and tags
-                command.CommandText = """
+				// Not guaranteed but can expect Name and automation to stay the same
+				// Mainly updates description, start time, end time, and tags
+				command.CommandText = """
 					MERGE INTO Jobs AS tgt
 					USING (SELECT @contents, @name, @type, @date, @expirationDate, @locations, @industryId, @experience, @company, @fromApi, @appLink) AS src (Contents, Name, Type, Date, ExpirationDate, Locations, IndustryId, Experience, Company, FromApi, ApplicationLink)
 					ON (tgt.Name = src.Name AND tgt.FromApi = src.FromApi)
@@ -101,31 +101,31 @@ namespace JobBoard.Data
 						INSERT (Contents, Name, Type, Date, ExpirationDate, Locations, IndustryId, Experience, Company, FromApi, ApplicationLink) VALUES (src.Contents, src.Name, src.Type, src.Date, src.ExpirationDate, src.Locations, src.IndustryId, src.Experience, src.Company, src.FromApi, src.ApplicationLink);
 				""";
 
-                // Note: SQL takes STRING for DATETIME and BOOL
-                command.Parameters.AddWithValue("@contents", job.Contents);
-                command.Parameters.AddWithValue("@name", job.Name);
-                command.Parameters.AddWithValue("@type", job.Type);
-                command.Parameters.AddWithValue("@date", job.Date.ToString());
+				// Note: SQL takes STRING for DATETIME and BOOL
+				command.Parameters.AddWithValue("@contents", job.Contents);
+				command.Parameters.AddWithValue("@name", job.Name);
+				command.Parameters.AddWithValue("@type", job.Type);
+				command.Parameters.AddWithValue("@date", job.Date.ToString());
 				command.Parameters.AddWithValue("@expirationDate", job.ExpirationDate.ToString());
-                command.Parameters.AddWithValue("@locations", job.Locations);
-                command.Parameters.AddWithValue("@industryId", job.IndustryId);
-                command.Parameters.AddWithValue("@experience", job.Experience); 
+				command.Parameters.AddWithValue("@locations", job.Locations);
+				command.Parameters.AddWithValue("@industryId", job.IndustryId);
+				command.Parameters.AddWithValue("@experience", job.Experience);
 				command.Parameters.AddWithValue("@company", job.Company);
-                command.Parameters.AddWithValue("@fromApi", job.FromApi.ToString());
+				command.Parameters.AddWithValue("@fromApi", job.FromApi.ToString());
 				command.Parameters.AddWithValue("@appLink", job.ApplicationLink);
-                
-                await connection.OpenAsync();
-                await command.ExecuteNonQueryAsync();
-                await connection.CloseAsync();
-                return true;
-            }
-            catch (Exception)
-			{
-                return false;
-            }
-        }
 
-        public static async Task<bool> InsertCompetitionTags(CompetitionModification competition)
+				await connection.OpenAsync();
+				await command.ExecuteNonQueryAsync();
+				await connection.CloseAsync();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+
+		public static async Task<bool> InsertCompetitionTags(CompetitionModification competition)
 		{
 			try
 			{

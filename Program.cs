@@ -42,7 +42,8 @@ builder.Services.AddAuthentication()
 // Allows nested Jsons, needed to send information from join tables
 //https://stackoverflow.com/questions/51064314/services-addjsonoptions-net-core-2-1
 builder.Services.AddControllersWithViews()
-	.AddJsonOptions(options => { 
+	.AddJsonOptions(options =>
+	{
 		options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 	});
 builder.Services.AddRazorPages();
@@ -65,7 +66,8 @@ builder.Services.AddQuartz(quartz =>
 
 	// grabs first `pages` pages from Muse on application start
 	const int pages = 1;
-	for (int i = 1; i <= pages; i++) {
+	for (int i = 1; i <= pages; i++)
+	{
 		quartz.AddTrigger(options => options
 			.ForJob(GrabMuseJobJob.Key)
 			.UsingJobData("page", i)

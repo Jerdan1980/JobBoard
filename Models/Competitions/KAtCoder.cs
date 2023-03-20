@@ -11,7 +11,7 @@ namespace JobBoard.Models.Competitions
 
 		public override CompetitionModification ToCompetitionModification()
 		{
-			CompetitionModification competition =  base.ToCompetitionModification();
+			CompetitionModification competition = base.ToCompetitionModification();
 
 			if (Rated_Range.StartsWith(" - "))
 				Rated_Range = "0" + Rated_Range;

@@ -56,7 +56,7 @@ namespace JobBoard.Controllers
 			{
 				return NotFound();
 			}
-			
+
 		}
 	}
 }

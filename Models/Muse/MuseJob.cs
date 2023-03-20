@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace JobBoard.Models.Muse
 {
 	public class MuseJob
-    {
+	{
 		public string Contents { get; set; }
 		public string Name { get; set; }
 		public string Type { get; set; }  // "external"

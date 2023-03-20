@@ -183,7 +183,7 @@ namespace JobBoard.Controllers
 			//	.Include(x => x.Tags)
 			//	.Where(comp => comp.Tags.Select(tag => tag.Id).ToList().Exists(tagId => preferences.TagIds.Contains(tagId)))
 			//	.CountAsync();
-			
+
 			preferences.CareersCount = numCareers;
 			preferences.CompetitionsCount = numCompetitions;
 
@@ -302,7 +302,7 @@ namespace JobBoard.Controllers
 			{
 				return BadRequest();
 			}
-			
+
 		}
 	}
 }

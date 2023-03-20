@@ -27,7 +27,7 @@ namespace JobBoard.Controllers
 				.Include(x => x.Jobs)
 				.ToListAsync();
 		}
-		
+
 		[HttpGet("count")]
 		public ActionResult<int> GetTagsCount()
 		{
@@ -88,8 +88,8 @@ namespace JobBoard.Controllers
 		// PUT: api/Tags/5
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPut]
-        public async Task<IActionResult> PutTag(TagModification model)
-        {
+		public async Task<IActionResult> PutTag(TagModification model)
+		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
@@ -115,7 +115,7 @@ namespace JobBoard.Controllers
 						tag.Competitions.Add(comp);
 				}
 			}
-			
+
 			// Redo Jobs join if present
 			if (model.JobIds?.Length > 0)
 			{
@@ -140,11 +140,11 @@ namespace JobBoard.Controllers
 			}
 		}
 
-        // POST: api/Tags
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<TagModel>> PostTag(TagModel tag)
-        {
+		// POST: api/Tags
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPost]
+		public async Task<ActionResult<TagModel>> PostTag(TagModel tag)
+		{
 			if (!ModelState.IsValid)
 				return NotFound();
 
@@ -158,6 +158,6 @@ namespace JobBoard.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
-        }
-    }
+		}
+	}
 }

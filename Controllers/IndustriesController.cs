@@ -39,7 +39,8 @@ namespace JobBoard.Controllers
 				join job in _context.Jobs
 				on industry.Id equals job.IndustryId into industryGroup
 				orderby industryGroup.Count() descending
-				select new IndustryCount {
+				select new IndustryCount
+				{
 					Id = industry.Id,
 					Name = industry.Name,
 					Count = industryGroup.Count()
@@ -59,7 +60,8 @@ namespace JobBoard.Controllers
 				)
 				join job in _context.Jobs
 				on industry.Id equals job.IndustryId into IndustryGroup
-				select new {
+				select new
+				{
 					Id = industry.Id,
 					Name = industry.Name,
 					Jobs = IndustryGroup.ToList()

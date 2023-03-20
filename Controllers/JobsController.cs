@@ -46,27 +46,27 @@ namespace JobBoard.Controllers
 
 		// Delete
 		[HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
-            JobModel job = _context.Jobs.Find(id);
+			JobModel job = _context.Jobs.Find(id);
 
 			if (job == null)
 			{
 				return NotFound();
 			}
-            _context.Jobs.Remove(job);
+			_context.Jobs.Remove(job);
 			await _context.SaveChangesAsync();
-            return Ok(job);
-        }
+			return Ok(job);
+		}
 
 		//Update
 		[HttpPut]
 		public async Task<ActionResult<JobModel>> UpdateJob(JobModification model)
 		{
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
 
-			JobModel? job =  _context.Jobs
+			JobModel? job = _context.Jobs
 				.Where(j => j.Id == model.Id)
 				.FirstOrDefault();
 
@@ -74,11 +74,11 @@ namespace JobBoard.Controllers
 				return NotFound();
 
 			job.Contents = model.Contents;
-            job.Name = model.Name;
-            job.Type = model.Type;
+			job.Name = model.Name;
+			job.Type = model.Type;
 			job.ExpirationDate = model.ExpirationDate;
-            job.Salary = model.Salary;
-            job.Locations = model.Locations;
+			job.Salary = model.Salary;
+			job.Locations = model.Locations;
 			job.Experience = model.Experience;
 			job.Company = model.Company;
 			job.ApplicationLink = model.ApplicationLink;
@@ -93,17 +93,17 @@ namespace JobBoard.Controllers
 				.ToListAsync();
 			}
 
-            try
-            {
-                _context.Jobs.Update(job);
-                await _context.SaveChangesAsync();
-                return Ok(job);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+			try
+			{
+				_context.Jobs.Update(job);
+				await _context.SaveChangesAsync();
+				return Ok(job);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
 
 		//Create
 		[HttpPost]
@@ -148,7 +148,7 @@ namespace JobBoard.Controllers
 			{
 				return BadRequest(e.Message);
 			}
-        }
+		}
 
 	}
 }
