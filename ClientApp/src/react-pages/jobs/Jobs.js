@@ -36,7 +36,7 @@ export default function Jobs() {
 		if ((!showExpired && isExpired) || (!showOngoing && isOngoing))
 			return false;
 
-		const hasIndustry = selectedIndustries.length == 0 || selectedIndustries.map(industry => industry.value).includes(job.industryId);
+		const hasIndustry = selectedIndustries.length === 0 || selectedIndustries.map(industry => industry.value).includes(job.industryId);
 		if (!hasIndustry)
 			return false;
 		
@@ -84,7 +84,7 @@ export default function Jobs() {
 							<Markdown contents={job.contents} />
 							<div className="row gx-0 mx-0">
 								<div className='col px-3'>
-									<a class="btn btn-info w-100" href={job.applicationLink} target="_blank">Apply</a>
+									<a class="btn btn-info w-100" href={job.applicationLink} target="_blank" rel="noreferrer">Apply</a>
 								</div>
 								<div className='col px-3'>
 									<a class="btn btn-primary w-100" href={`/jobs/edit?id=${job.id}`}>Edit</a>
@@ -155,7 +155,7 @@ export default function Jobs() {
 						<br/>
 						<Countdown date={job.expirationDate} renderer={timerRenderer} />
 					</h6>
-					<a onClick={changeSelected} class="stretched-link">Read More</a>
+					<button onClick={changeSelected} class="btn btn-link stretched-link p-0">Read More</button>
 				</div>
 			</div>
 		)
