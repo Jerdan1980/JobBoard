@@ -35,9 +35,7 @@ namespace JobBoard.Controllers.Manual
 				.Include(x => x.IndustryPreferences)
 				.Where(user => user.Id == id)
 				.FirstOrDefaultAsync();
-			if (user == null)
-				return NotFound();
-			return user;
+			return user == null ? NotFound() : user;
 		}
 
 	}

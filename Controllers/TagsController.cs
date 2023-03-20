@@ -60,9 +60,7 @@ namespace JobBoard.Controllers
 				.Where(tag => tag.Id == id)
 				.FirstOrDefaultAsync();
 
-			if (tag == null)
-				return NotFound();
-			return Ok(tag);
+			return tag == null ? NotFound() : Ok(tag);
 		}
 
 		// DELETE: api/Tags/5

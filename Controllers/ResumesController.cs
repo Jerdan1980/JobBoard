@@ -36,11 +36,7 @@ namespace JobBoard.Controllers
 		{
 			ResumeModel? resume = await _context.Resumes.Where(r => r.Id == id).FirstOrDefaultAsync();
 
-			if (resume == null)
-				return NotFound();
-
-			return File(resume.Data, "application/pdf", resume.Name);
-
+			return resume == null ? NotFound() : File(resume.Data, "application/pdf", resume.Name);
 		}
 
 	}

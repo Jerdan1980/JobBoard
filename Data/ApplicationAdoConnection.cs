@@ -16,10 +16,7 @@ namespace JobBoard.Data
 			get
 			{
 				// Throw an error if the connection string hasn't been set yet
-				if (!_isConnectionStringSet)
-					throw new NullReferenceException();
-
-				return _connectionString;
+				return !_isConnectionStringSet ? throw new NullReferenceException() : _connectionString;
 			}
 			set
 			{

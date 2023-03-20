@@ -42,19 +42,11 @@ namespace JobBoard.Models.Muse
 				job.Id = Id;
 
 				// Turns out sometimes Locations are empty
-				if (Locations.Count > 0)
-				{
-					job.Locations = Locations[0].Name;
-				}
-				else
-					job.Locations = "N/A";
+				job.Locations = Locations.Count > 0 ? Locations[0].Name : "N/A";
 
 				// Industries holds a dictionary of names and ids
 				// Sometimes Categories is empty
-				if (Categories.Count > 0)
-					job.IndustryId = Industries.Ids[Categories[0].Name];
-				else
-					job.IndustryId = Industries.Ids["Unknown"];
+				job.IndustryId = Categories.Count > 0 ? Industries.Ids[Categories[0].Name] : Industries.Ids["Unknown"];
 
 				job.Experience = Levels[0].Name;
 				job.Company = Company.Name;

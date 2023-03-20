@@ -50,9 +50,7 @@ namespace JobBoard.Controllers.Manual
 				})
 				.FirstOrDefaultAsync();
 
-			if (bio == null)
-				return NotFound();
-			return bio;
+			return bio == null ? NotFound() : bio;
 		}
 
 		// api/Bios/5
@@ -71,9 +69,7 @@ namespace JobBoard.Controllers.Manual
 				})
 				.FirstOrDefaultAsync();
 
-			if (bio == null)
-				return NotFound();
-			return bio;
+			return bio == null ? NotFound() : bio;
 		}
 	}
 }

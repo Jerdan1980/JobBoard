@@ -30,9 +30,7 @@ namespace JobBoard.Controllers
 			string userId = BearerToken.GetUserId(Request);
 			ResumeModel? resume = await _context.Resumes.Where(r => r.UserId == userId).FirstOrDefaultAsync();
 
-			if (resume == null)
-				return NotFound();
-			return File(resume.Data, "application/pdf", resume.Name);
+			return resume == null ? NotFound() : File(resume.Data, "application/pdf", resume.Name);
 		}
 
 		// Grabs only the Upload Date since I don't know how to send that long with the file
@@ -142,9 +140,7 @@ namespace JobBoard.Controllers
 				})
 				.FirstOrDefaultAsync();
 
-			if (preferences == null)
-				return Ok(new UserPreferences());
-			return Ok(preferences);
+			return preferences == null ? Ok(new UserPreferences()) : Ok(preferences);
 		}
 
 		[HttpGet("preferences/count")]
@@ -272,9 +268,7 @@ namespace JobBoard.Controllers
 				.Where(bio => bio.UserId == userId)
 				.FirstOrDefaultAsync();
 
-			if (bio == null)
-				return new BioModel() { UserId = userId };
-			return bio;
+			return bio == null ? new BioModel() { UserId = userId } : bio;
 		}
 
 		[HttpPost("bio")]

@@ -41,14 +41,11 @@ namespace JobBoard.Controllers
 				.Where(job => job.Id == id)
 				.FirstOrDefaultAsync();
 
-			if (job == null)
-				return NotFound();
-
-			return Ok(job);
+			return job == null ? NotFound() : Ok(job);
 		}
 
-        // Delete
-        [HttpDelete("{id}")]
+		// Delete
+		[HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
 		{
             JobModel job = _context.Jobs.Find(id);
