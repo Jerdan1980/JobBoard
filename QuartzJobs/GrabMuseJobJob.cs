@@ -21,8 +21,10 @@ namespace JobBoard.QuartzJobs
 		public async Task Execute(IJobExecutionContext context)
 		{
 			// GET the Job data
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://www.themuse.com/api/public/");
+			HttpClient client = new HttpClient
+			{
+				BaseAddress = new Uri("https://www.themuse.com/api/public/")
+			};
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(
 				new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));

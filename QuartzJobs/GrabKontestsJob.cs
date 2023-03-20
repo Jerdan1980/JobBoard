@@ -15,8 +15,10 @@ namespace JobBoard.QuartzJobs
 		public async Task Execute(IJobExecutionContext context)
 		{
 			// Setup the HTTPClient for Kontests data
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://kontests.net/api/v1/");
+			HttpClient client = new HttpClient
+			{
+				BaseAddress = new Uri("https://kontests.net/api/v1/")
+			};
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(
 				new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));

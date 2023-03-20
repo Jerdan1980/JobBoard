@@ -268,7 +268,7 @@ namespace JobBoard.Controllers
 				.Where(bio => bio.UserId == userId)
 				.FirstOrDefaultAsync();
 
-			return bio == null ? new BioModel() { UserId = userId } : bio;
+			return bio ?? new BioModel() { UserId = userId };
 		}
 
 		[HttpPost("bio")]

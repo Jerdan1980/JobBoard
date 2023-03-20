@@ -112,7 +112,7 @@ namespace JobBoard.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			JobModel job = new JobModel()
+			JobModel job = new JobModel
 			{
 				Contents = model.Contents,
 				Name = model.Name,
@@ -126,10 +126,9 @@ namespace JobBoard.Controllers
 				Tags = new List<Models.Tags.TagModel>(),
 				FromApi = model.FromApi,
 				ApplicationLink = model.ApplicationLink,
+				Industry = await _context.Industries
+					.FindAsync(model.IndustryId)
 			};
-
-			job.Industry = await _context.Industries
-				.FindAsync(model.IndustryId);
 
 			if (model.TagIds != null)
 			{
