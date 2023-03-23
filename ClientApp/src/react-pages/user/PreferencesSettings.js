@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import authService from '../../components/api-authorization/AuthorizeService';
-import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 import { useSelect } from '../../components/CustomHooks';
 import { MultiSelectFG } from '../../components/FormGroups';
+import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 
 export default function PreferencesSettings() {
 	// Stores auth token

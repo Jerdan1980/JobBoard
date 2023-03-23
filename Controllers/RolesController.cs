@@ -3,7 +3,6 @@ using JobBoard.Models.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.AccessControl;
 
 //https://www.yogihosting.com/aspnet-core-identity-roles/#all-roles
 namespace JobBoard.Controllers
@@ -40,9 +39,7 @@ namespace JobBoard.Controllers
 				return BadRequest();
 
 			IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(body.Name));
-			if (result.Succeeded)
-				return NoContent();
-			return BadRequest(result);
+			return result.Succeeded ? NoContent() : BadRequest(result);
 		}
 
 		// Delete: api/Roles/5
@@ -57,9 +54,7 @@ namespace JobBoard.Controllers
 				return NotFound();
 
 			IdentityResult result = await _roleManager.DeleteAsync(role);
-			if (result.Succeeded)
-				return NoContent();
-			return BadRequest(result);
+			return result.Succeeded ? NoContent() : BadRequest(result);
 		}
 
 		// Get: api/Roles/5

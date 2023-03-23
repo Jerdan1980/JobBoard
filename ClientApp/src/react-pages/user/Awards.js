@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
+import React from 'react';
 import AwardListItem from '../../components/AwardListItem';
 import { useAuthApi } from '../../components/CustomHooks';
+import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 
 export default function Awards() {
 	// Stores awards

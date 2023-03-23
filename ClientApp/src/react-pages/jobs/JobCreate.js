@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import Countdown from 'react-countdown';
 import { useLocation } from 'react-router-dom';
-import Markdown from '../../components/Markdown';
 import { useSelect } from '../../components/CustomHooks';
 import { IntInputFG, MultiSelectFG, SelectFG, TextAreaFG, TextInputFG, TimeFG } from '../../components/FormGroups';
-import Countdown from 'react-countdown';
+import Markdown from '../../components/Markdown';
 
 
 export default function JobCreate() {
@@ -23,6 +23,7 @@ export default function JobCreate() {
 	const [experience, setExperience] = useState();
 	const [company, setCompany] = useState();
 	//const [fromApi, setFromApi] = useState(false);
+	const [applicationLink, setApplicationLink] = useState();
 	const [selectedTags, setSelectedTags] = useState([]);
 
 	// Various dropdown options
@@ -43,6 +44,7 @@ export default function JobCreate() {
 			'experience': experience,
 			'company': company,
 			'fromApi': true,
+			'applicationLink': applicationLink,
 			'tagIds': selectedTags.map(tag => tag.value),
 		};
 
@@ -109,6 +111,9 @@ export default function JobCreate() {
 
 						{/* Company */}
 						<TextInputFG label="Company" value={company} onChange={setCompany} />
+
+						{/* Application Link */}
+						<TextInputFG label="Application Link" value={applicationLink} onChange={setApplicationLink} />
 
 						{/* Tags */}
 						<MultiSelectFG

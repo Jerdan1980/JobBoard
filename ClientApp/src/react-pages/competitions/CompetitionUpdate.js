@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Markdown from '../../components/Markdown';
 import { useSelect } from '../../components/CustomHooks';
 import { CreateableMultiSelectFG, TextAreaFG, TextInputFG, TimeFG } from '../../components/FormGroups';
+import Markdown from '../../components/Markdown';
 
 
 export default function CompetitionUpdate() {

@@ -16,10 +16,7 @@ namespace JobBoard.Data
 			get
 			{
 				// Throw an error if the connection string hasn't been set yet
-				if (!_isConnectionStringSet)
-					throw new NullReferenceException();
-
-				return _connectionString;
+				return !_isConnectionStringSet ? throw new NullReferenceException() : _connectionString;
 			}
 			set
 			{
@@ -71,63 +68,64 @@ namespace JobBoard.Data
 				await connection.CloseAsync();
 				return true;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return false;
 			}
 		}
 
-        public static async Task UpsertJobs(List<JobModel> jobs)
-        {
-            foreach (JobModel job in jobs)
-            {
-                await UpsertJob(job);
-            }
-        }
+		public static async Task UpsertJobs(List<JobModel> jobs)
+		{
+			foreach (JobModel job in jobs)
+			{
+				await UpsertJob(job);
+			}
+		}
 
-        public static async Task<bool> UpsertJob(JobModel job)
-        {
-            try
-            {
-                SqlConnection connection = new SqlConnection(ConnectionString);
-                SqlCommand command = connection.CreateCommand();
+		public static async Task<bool> UpsertJob(JobModel job)
+		{
+			try
+			{
+				SqlConnection connection = new SqlConnection(ConnectionString);
+				SqlCommand command = connection.CreateCommand();
 
-                // Not guaranteed but can expect Name and automation to stay the same
-                // Mainly updates description, start time, end time, and tags
-                command.CommandText = """
+				// Not guaranteed but can expect Name and automation to stay the same
+				// Mainly updates description, start time, end time, and tags
+				command.CommandText = """
 					MERGE INTO Jobs AS tgt
-					USING (SELECT @contents, @name, @type, @date, @expirationDate, @locations, @industryId, @experience, @company, @fromApi) AS src (Contents, Name, Type, Date, ExpirationDate, Locations, IndustryId, Experience, Company, FromApi)
+					USING (SELECT @contents, @name, @type, @date, @expirationDate, @locations, @industryId, @experience, @company, @fromApi, @appLink) AS src (Contents, Name, Type, Date, ExpirationDate, Locations, IndustryId, Experience, Company, FromApi, ApplicationLink)
 					ON (tgt.Name = src.Name AND tgt.FromApi = src.FromApi)
 					WHEN MATCHED THEN
-						UPDATE SET Contents = src.Contents, Name = src.Name, Type = src.Type, Date = src.Date, ExpirationDate = src.ExpirationDate, Locations = src.Locations, IndustryId = src.IndustryId, Experience = src.Experience, Company = src.Company, FromApi = src.FromApi
+						UPDATE SET Contents = src.Contents, Name = src.Name, Type = src.Type, Date = src.Date, ExpirationDate = src.ExpirationDate, Locations = src.Locations, IndustryId = src.IndustryId, Experience = src.Experience, Company = src.Company, FromApi = src.FromApi, ApplicationLink = src.ApplicationLink
 					WHEN NOT MATCHED THEN
-						INSERT (Contents, Name, Type, Date, ExpirationDate, Locations, IndustryId, Experience, Company, FromApi) VALUES (src.Contents, src.Name, src.Type, src.Date, src.ExpirationDate, src.Locations, src.IndustryId, src.Experience, src.Company, src.FromApi);
+						INSERT (Contents, Name, Type, Date, ExpirationDate, Locations, IndustryId, Experience, Company, FromApi, ApplicationLink) VALUES (src.Contents, src.Name, src.Type, src.Date, src.ExpirationDate, src.Locations, src.IndustryId, src.Experience, src.Company, src.FromApi, src.ApplicationLink);
 				""";
 
-                // Note: SQL takes STRING for DATETIME and BOOL
-                command.Parameters.AddWithValue("@contents", job.Contents);
-                command.Parameters.AddWithValue("@name", job.Name);
-                command.Parameters.AddWithValue("@type", job.Type);
-                command.Parameters.AddWithValue("@date", job.Date.ToString());
+				// Note: SQL takes STRING for DATETIME and BOOL
+				command.Parameters.AddWithValue("@contents", job.Contents);
+				command.Parameters.AddWithValue("@name", job.Name);
+				command.Parameters.AddWithValue("@type", job.Type);
+				command.Parameters.AddWithValue("@date", job.Date.ToString());
 				command.Parameters.AddWithValue("@expirationDate", job.ExpirationDate.ToString());
-                command.Parameters.AddWithValue("@locations", job.Locations);
-                command.Parameters.AddWithValue("@industryId", job.IndustryId);
-                command.Parameters.AddWithValue("@experience", job.Experience); 
+				command.Parameters.AddWithValue("@locations", job.Locations);
+				command.Parameters.AddWithValue("@industryId", job.IndustryId);
+				command.Parameters.AddWithValue("@experience", job.Experience);
 				command.Parameters.AddWithValue("@company", job.Company);
-                command.Parameters.AddWithValue("@fromApi", job.FromApi.ToString());
-                
-                await connection.OpenAsync();
-                await command.ExecuteNonQueryAsync();
-                await connection.CloseAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+				command.Parameters.AddWithValue("@fromApi", job.FromApi.ToString());
+				command.Parameters.AddWithValue("@appLink", job.ApplicationLink);
 
-        public static async Task<bool> InsertCompetitionTags(CompetitionModification competition)
+				await connection.OpenAsync();
+				await command.ExecuteNonQueryAsync();
+				await connection.CloseAsync();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+
+		public static async Task<bool> InsertCompetitionTags(CompetitionModification competition)
 		{
 			try
 			{
@@ -184,7 +182,7 @@ namespace JobBoard.Data
 				await connection.CloseAsync();
 				return true;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return false;
 			}

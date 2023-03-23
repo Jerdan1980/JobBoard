@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using JobBoard.Data.Migrations;
-using JobBoard.Models.Industry;
+﻿using JobBoard.Models.Industry;
 using JobBoard.Models.Jobs;
-using ReverseMarkdown;
+using System.ComponentModel.DataAnnotations;
 
 namespace JobBoard.Models.Muse
 {
-    public class MuseJob
-    {
+	public class MuseJob
+	{
 		public string Contents { get; set; }
 		public string Name { get; set; }
 		public string Type { get; set; }  // "external"
@@ -44,27 +42,22 @@ namespace JobBoard.Models.Muse
 				job.Id = Id;
 
 				// Turns out sometimes Locations are empty
-				if (Locations.Count > 0)
-				{
-					job.Locations = Locations[0].Name;
-				}
-				else
-					job.Locations = "N/A";
+				job.Locations = Locations.Count > 0 ? Locations[0].Name : "N/A";
 
 				// Industries holds a dictionary of names and ids
 				// Sometimes Categories is empty
-				if (Categories.Count > 0)
-					job.IndustryId = Industries.Ids[Categories[0].Name];
-				else
-					job.IndustryId = Industries.Ids["Unknown"];
+				job.IndustryId = Categories.Count > 0 ? Industries.Ids[Categories[0].Name] : Industries.Ids["Unknown"];
 
 				job.Experience = Levels[0].Name;
 				job.Company = Company.Name;
 				job.FromApi = true;
 
+				// Can use `ref` to get to the muse page, or `id` to go direclty to the company page
+				job.ApplicationLink = $"https://www.themuse.com/job/redirect/{Id}";
+
 				return job;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return null;
 			}

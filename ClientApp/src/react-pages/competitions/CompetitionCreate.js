@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Markdown from '../../components/Markdown';
+import React, { useState } from 'react';
 import { useSelect } from '../../components/CustomHooks';
 import { CreateableMultiSelectFG, TextAreaFG, TextInputFG, TimeFG } from '../../components/FormGroups';
+import Markdown from '../../components/Markdown';
 
 export default function CompetitionCreate() {
 	// Competition information

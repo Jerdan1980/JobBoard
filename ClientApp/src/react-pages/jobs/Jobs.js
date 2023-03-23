@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Countdown from 'react-countdown';
 import { useLocation } from 'react-router-dom';
 import { useApi, useLoginStatus, useQueryParams, useSelect } from '../../components/CustomHooks';
-import { MultiSelectFG, TextInputFG, SwitchFG } from '../../components/FormGroups';
-import Countdown from 'react-countdown';
+import { MultiSelectFG, SwitchFG, TextInputFG } from '../../components/FormGroups';
 import Markdown from '../../components/Markdown';
 
 export default function Jobs() {
@@ -36,7 +36,7 @@ export default function Jobs() {
 		if ((!showExpired && isExpired) || (!showOngoing && isOngoing))
 			return false;
 
-		const hasIndustry = selectedIndustries.length == 0 || selectedIndustries.map(industry => industry.value).includes(job.industryId);
+		const hasIndustry = selectedIndustries.length === 0 || selectedIndustries.map(industry => industry.value).includes(job.industryId);
 		if (!hasIndustry)
 			return false;
 		
@@ -84,7 +84,7 @@ export default function Jobs() {
 							<Markdown contents={job.contents} />
 							<div className="row gx-0 mx-0">
 								<div className='col px-3'>
-									<button type="button" class="btn btn-info w-100">Apply</button>
+									<a class="btn btn-info w-100" href={job.applicationLink} target="_blank" rel="noreferrer">Apply</a>
 								</div>
 								<div className='col px-3'>
 									<a class="btn btn-primary w-100" href={`/jobs/edit?id=${job.id}`}>Edit</a>
@@ -155,7 +155,7 @@ export default function Jobs() {
 						<br/>
 						<Countdown date={job.expirationDate} renderer={timerRenderer} />
 					</h6>
-					<a onClick={changeSelected} class="stretched-link">Read More</a>
+					<button onClick={changeSelected} class="btn btn-link stretched-link p-0">Read More</button>
 				</div>
 			</div>
 		)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAuthApi } from '../../components/CustomHooks';
 import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 

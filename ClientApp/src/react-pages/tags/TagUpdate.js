@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Markdown from '../../components/Markdown';
 import { TextAreaFG, TextInputFG } from '../../components/FormGroups';
+import Markdown from '../../components/Markdown';
 
 export default function TagUpdate() {
 	// Grabs id from the url (technically the queryString)

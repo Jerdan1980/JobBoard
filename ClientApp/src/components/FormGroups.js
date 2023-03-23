@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import CreatableSelect from 'react-select/creatable';
+import React from 'react';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 export function TextInputFG({ label, value, onChange, isRequired = false, placeholder = `Enter your ${label} here.` }) {
 	return (

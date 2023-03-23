@@ -3,18 +3,13 @@ using JobBoard.Models;
 using JobBoard.Models.Industry;
 using JobBoard.Models.Tags;
 using JobBoard.Models.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.JsonWebTokens;
-using System.Net;
-using System.Runtime.CompilerServices;
 
 namespace JobBoard.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class SelfController : ControllerBase
 	{
@@ -35,9 +30,7 @@ namespace JobBoard.Controllers
 			string userId = BearerToken.GetUserId(Request);
 			ResumeModel? resume = await _context.Resumes.Where(r => r.UserId == userId).FirstOrDefaultAsync();
 
-			if (resume == null)
-				return NotFound();
-			return File(resume.Data, "application/pdf", resume.Name);
+			return resume == null ? NotFound() : File(resume.Data, "application/pdf", resume.Name);
 		}
 
 		// Grabs only the Upload Date since I don't know how to send that long with the file
@@ -147,9 +140,7 @@ namespace JobBoard.Controllers
 				})
 				.FirstOrDefaultAsync();
 
-			if (preferences == null)
-				return Ok(new UserPreferences());
-			return Ok(preferences);
+			return preferences == null ? Ok(new UserPreferences()) : Ok(preferences);
 		}
 
 		[HttpGet("preferences/count")]
@@ -192,7 +183,7 @@ namespace JobBoard.Controllers
 			//	.Include(x => x.Tags)
 			//	.Where(comp => comp.Tags.Select(tag => tag.Id).ToList().Exists(tagId => preferences.TagIds.Contains(tagId)))
 			//	.CountAsync();
-			
+
 			preferences.CareersCount = numCareers;
 			preferences.CompetitionsCount = numCompetitions;
 
@@ -277,9 +268,7 @@ namespace JobBoard.Controllers
 				.Where(bio => bio.UserId == userId)
 				.FirstOrDefaultAsync();
 
-			if (bio == null)
-				return new BioModel() { UserId = userId };
-			return bio;
+			return bio ?? new BioModel() { UserId = userId };
 		}
 
 		[HttpPost("bio")]
@@ -309,11 +298,11 @@ namespace JobBoard.Controllers
 				await _context.SaveChangesAsync();
 				return NoContent();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return BadRequest();
 			}
-			
+
 		}
 	}
 }

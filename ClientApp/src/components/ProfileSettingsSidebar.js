@@ -1,5 +1,5 @@
 import React from 'react';
-import { PersonVcard, FileEarmarkPerson, PersonGear, PersonBoundingBox, Award, Sliders, House } from 'react-bootstrap-icons';
+import { Award, FileEarmarkPerson, House, PersonBoundingBox, PersonGear, PersonVcard, Sliders } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'reactstrap';
 import { ApplicationPaths } from './api-authorization/ApiAuthorizationConstants';

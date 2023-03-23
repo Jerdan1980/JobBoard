@@ -35,6 +35,6 @@ namespace JobBoard.Models.Competitions
 				Tags = Tags
 			};
 		}
-		
+
 	}
 }

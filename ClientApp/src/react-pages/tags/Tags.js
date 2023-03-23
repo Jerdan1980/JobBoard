@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Markdown from '../../components/Markdown';
+import React, { useState } from 'react';
 import { useApi, useLoginStatus } from '../../components/CustomHooks';
+import Markdown from '../../components/Markdown';
 
 export default function Tags() {
 	// List of tagss

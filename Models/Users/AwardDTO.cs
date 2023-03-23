@@ -1,6 +1,4 @@
-﻿using JobBoard.Models.Competitions;
-
-namespace JobBoard.Models.Users
+﻿namespace JobBoard.Models.Users
 {
 	public class AwardDTO
 	{
@@ -17,6 +15,6 @@ namespace JobBoard.Models.Users
 		public int CompetitionId { get; set; }
 		public string CompetitionName { get; set; }
 		public DateTime CompetitionEndTime { get; set; }
-		
+
 	}
 }

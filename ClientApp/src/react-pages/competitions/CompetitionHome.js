@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import Markdown from '../../components/Markdown';
-import authService from '../../components/api-authorization/AuthorizeService';
-import Timer from '../../components/Timer';
 import AwardListItem from '../../components/AwardListItem';
 import { useApi, useLoginStatus } from '../../components/CustomHooks';
+import Markdown from '../../components/Markdown';
+import Timer from '../../components/Timer';
 
 export default function CompetitionHome() {
 	// Grabs id and type from the url (technically the queryString)

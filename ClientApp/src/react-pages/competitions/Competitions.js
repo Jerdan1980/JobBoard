@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import CompetitionCard from '../../components/CompetitionCard';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import CompetitionCard from '../../components/CompetitionCard';
 import { useApi, useLoginStatus, useQueryParams, useSelect } from '../../components/CustomHooks';
 import { MultiSelectFG, SwitchFG, TextInputFG } from '../../components/FormGroups';
 

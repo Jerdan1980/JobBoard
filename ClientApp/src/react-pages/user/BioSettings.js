@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import authService from '../../components/api-authorization/AuthorizeService';
-import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+import authService from '../../components/api-authorization/AuthorizeService';
 import { TextInputFG } from '../../components/FormGroups';
+import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 
 export default function BioSettings() {
 	// Stores auth token

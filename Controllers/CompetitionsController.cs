@@ -39,7 +39,8 @@ namespace JobBoard.Controllers
 		public async Task<ActionResult<IEnumerable<CompetitionStatus>>> GetCompetitionStatues()
 		{
 			return await _context.Competitions
-				.Select(comp => new CompetitionStatus{
+				.Select(comp => new CompetitionStatus
+				{
 					Id = comp.Id,
 					StartTime = comp.StartTime,
 					EndTime = comp.EndTime
@@ -110,7 +111,7 @@ namespace JobBoard.Controllers
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
-			
+
 			CompetitionModel? competition = await _context.Competitions
 				.Include(x => x.Tags)
 				.Where(comp => comp.Id == model.Id)
@@ -144,7 +145,7 @@ namespace JobBoard.Controllers
 				await _context.SaveChangesAsync();
 				return Ok(competition);
 			}
-			catch (Exception ex) 
+			catch (Exception ex)
 			{
 				return BadRequest(ex);
 			}
