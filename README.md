@@ -22,7 +22,10 @@ A dynamic listing of various careers and competitions.
 2. Replace the `DefaultConnection` value in `appsettings.json` with the connection string you obtained from the previous step
 3. Open Visual Studio and navigate to the `Package Manager Console`
 4. Run `Update-Database`
-5. Either run the provided SQL code in `Data/SQL` to add the data or  change the code in those files to match the ID values in your database
+5. Either:
+  	* Run the provided SQL code in `Data/SQL` to add the data
+	* Change the code in those files to match the ID values in your database
+	* Use the provided `.bak` or `.bacpac` files in `Data/SQL` to restore the database
 
 ## Running the Solution
 
