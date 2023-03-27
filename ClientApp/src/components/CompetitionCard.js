@@ -14,7 +14,7 @@ export default function CompetitionCard({ comp }) {
 				{comp.tags.length !== 0 && (
 					<h6 class="card-subtitle mb-2 text-muted">
 						Tags: {comp.tags.map(tag => ( tag &&
-							<a class="btn btn-sm btn-outline-light me-1" href={`/tag?id=${tag.id}`}>{tag.name}</a>
+							<a class="btn btn-sm btn-outline-light me-1" href={`/competitions?tag=${tag.id}`}>{tag.name}</a>
 						))}
 					</h6>
 				)}

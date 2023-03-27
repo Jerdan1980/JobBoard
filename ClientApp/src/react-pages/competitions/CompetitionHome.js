@@ -34,7 +34,7 @@ export default function CompetitionHome() {
 			{competition.tags.length !== 0 && (
 				<p>
 					Tags: {competition.tags.map(tag => (
-						<a class="btn btn-sm btn-outline-light me-1" href={`/tag?id=${tag.id}`}>{tag.name}</a>
+						<a class="btn btn-sm btn-outline-light me-1" href={`/competitions?tag=${tag.id}`}>{tag.name}</a>
 					))}
 				</p>
 			)}
