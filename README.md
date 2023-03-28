@@ -19,7 +19,7 @@ A dynamic listing of various careers and competitions.
 ## Scaffolding and Seeding the database
 
 1. Create a SQL Server and obtain a connection string
-2. Replace the `DefaultConnection` value in `appsettings.json` with the connection string you obtained from the previous step
+2. Rename `appsettings.txt` to `appsettings.json` and replace the `DefaultConnection` with the connection string you obtained from the previous step
 3. Open Visual Studio and navigate to the `Package Manager Console`
 4. Run `Update-Database`
 5. Either:

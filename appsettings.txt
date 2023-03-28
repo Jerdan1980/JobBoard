@@ -1,0 +1,20 @@
+{
+    "ConnectionStrings": {
+        "DefaultConnection": "Insert Your Connection String Here"
+    },
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "IdentityServer": {
+        "Clients": {
+            "JobBoard": {
+                "Profile": "IdentityServerSPA"
+            }
+        }
+    },
+    "AllowedHosts": "*"
+}
