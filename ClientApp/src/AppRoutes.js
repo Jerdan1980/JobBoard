@@ -1,5 +1,5 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import Home from "./react-pages/Home";
+import Home from './react-pages/Home';
 import Jobs from './react-pages/jobs/Jobs';
 import JobCreate from './react-pages/jobs/JobCreate';
 import JobUpdate from './react-pages/jobs/JobUpdate';
@@ -22,93 +22,93 @@ import Swagger from './react-pages/Swagger';
 const AppRoutes = [
   {
     index: true,
-    element: <Home />
+    element: <Home />,
   },
-	{
-		path: '/jobs',
-		element: <Jobs />
-	},
-	{
-		path: '/jobs/create',
+  {
+    path: '/jobs',
+    element: <Jobs />,
+  },
+  {
+    path: '/jobs/create',
     requireAuth: true,
-		element: <JobCreate />
-	},
-	{
-		path: '/jobs/edit',
+    element: <JobCreate />,
+  },
+  {
+    path: '/jobs/edit',
     requireAuth: true,
-		element: <JobUpdate />
-	},
-	{
-		path: '/competitions',
-		element: <Competitions />
-	},
-	{
-		path: '/competition',
-		element: <CompetitionHome />
-	},
-	{
-		path: '/competitions/create',
-		requireAuth: true,
-		element: <CompetitionCreate />
-	},
-	{
-		path: '/competitions/edit',
-		requireAuth: true,
-		element: <CompetitionUpdate />
-	},
-	{
-		path: '/competitions/award',
-		requireAuth: true,
-		element: <CompetitionAward />
-	},
-	{
-		path: 'tags',
-		element: <Tags />
-	},
-	{
-		path: 'tags/create',
+    element: <JobUpdate />,
+  },
+  {
+    path: '/competitions',
+    element: <Competitions />,
+  },
+  {
+    path: '/competition',
+    element: <CompetitionHome />,
+  },
+  {
+    path: '/competitions/create',
     requireAuth: true,
-		element: <TagCreate />
-	},
-	{
-		path: 'tags/edit',
+    element: <CompetitionCreate />,
+  },
+  {
+    path: '/competitions/edit',
     requireAuth: true,
-		element: <TagUpdate />
-	},
-	{
-		path: 'industries',
-		element: <Industries />
-	},
-	{
-		path: 'self/resume',
-		requireAuth: true,
-		element: <ResumeSettings />
-	},
-	{
-		path: 'self/preferences',
-		requireAuth: true,
-		element: <PreferencesSettings />
-	},
-	{
-		path: 'self/awards',
-		requireAuth: true,
-		element: <Awards />
-	},
-	{
-		path: 'self/bio',
-		requireAuth: true,
-		element: <BioSettings />
-	},
-	{
-		path: 'self',
-		requireAuth: true,
-		element: <Dashboard />
-	},
-	{
-		path: 'swag',
-		element: <Swagger />
-	},
-  ...ApiAuthorzationRoutes
+    element: <CompetitionUpdate />,
+  },
+  {
+    path: '/competitions/award',
+    requireAuth: true,
+    element: <CompetitionAward />,
+  },
+  {
+    path: 'tags',
+    element: <Tags />,
+  },
+  {
+    path: 'tags/create',
+    requireAuth: true,
+    element: <TagCreate />,
+  },
+  {
+    path: 'tags/edit',
+    requireAuth: true,
+    element: <TagUpdate />,
+  },
+  {
+    path: 'industries',
+    element: <Industries />,
+  },
+  {
+    path: 'self/resume',
+    requireAuth: true,
+    element: <ResumeSettings />,
+  },
+  {
+    path: 'self/preferences',
+    requireAuth: true,
+    element: <PreferencesSettings />,
+  },
+  {
+    path: 'self/awards',
+    requireAuth: true,
+    element: <Awards />,
+  },
+  {
+    path: 'self/bio',
+    requireAuth: true,
+    element: <BioSettings />,
+  },
+  {
+    path: 'self',
+    requireAuth: true,
+    element: <Dashboard />,
+  },
+  {
+    path: 'swag',
+    element: <Swagger />,
+  },
+  ...ApiAuthorzationRoutes,
 ];
 
 export default AppRoutes;

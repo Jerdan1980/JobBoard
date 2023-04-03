@@ -9,6 +9,7 @@ it('renders without crashing', async () => {
   root.render(
     <MemoryRouter>
       <App />
-    </MemoryRouter>);
-  await new Promise(resolve => setTimeout(resolve, 1000));
+    </MemoryRouter>
+  );
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 });

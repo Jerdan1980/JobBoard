@@ -10,7 +10,7 @@ export class LoginMenu extends Component {
 
     this.state = {
       isAuthenticated: false,
-      userName: null
+      userName: null,
     };
   }
 
@@ -24,10 +24,13 @@ export class LoginMenu extends Component {
   }
 
   async populateState() {
-    const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
+    const [isAuthenticated, user] = await Promise.all([
+      authService.isAuthenticated(),
+      authService.getUser(),
+    ]);
     this.setState({
       isAuthenticated,
-      userName: user && user.name
+      userName: user && user.name,
     });
   }
 
@@ -41,29 +44,52 @@ export class LoginMenu extends Component {
       const profilePath = `${ApplicationPaths.Profile}`;
       const logoutPath = `${ApplicationPaths.LogOut}`;
       const logoutState = { local: true };
-      return this.authenticatedView(userName, profilePath, logoutPath, logoutState);
+      return this.authenticatedView(
+        userName,
+        profilePath,
+        logoutPath,
+        logoutState
+      );
     }
   }
 
   authenticatedView(userName, profilePath, logoutPath, logoutState) {
-    return (<Fragment>
-      <NavItem>
-        <NavLink tag={Link} className="" to={`/self`}>Hello {userName}</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink replace tag={Link} className="" to={logoutPath} state={logoutState}>Logout</NavLink>
-      </NavItem>
-    </Fragment>);
+    return (
+      <Fragment>
+        <NavItem>
+          <NavLink tag={Link} className="" to={'/self'}>
+            Hello {userName}
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            replace
+            tag={Link}
+            className=""
+            to={logoutPath}
+            state={logoutState}
+          >
+            Logout
+          </NavLink>
+        </NavItem>
+      </Fragment>
+    );
   }
 
   anonymousView(registerPath, loginPath) {
-    return (<Fragment>
-      <NavItem>
-        <NavLink tag={Link} className="" to={registerPath}>Register</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink tag={Link} className="" to={loginPath}>Login</NavLink>
-      </NavItem>
-    </Fragment>);
+    return (
+      <Fragment>
+        <NavItem>
+          <NavLink tag={Link} className="" to={registerPath}>
+            Register
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink tag={Link} className="" to={loginPath}>
+            Login
+          </NavLink>
+        </NavItem>
+      </Fragment>
+    );
   }
 }

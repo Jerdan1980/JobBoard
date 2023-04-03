@@ -6,10 +6,11 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 
 export default function Markdown({ contents }) {
-	return (
-		<ReactMarkdown children={contents} 
-			remarkPlugins={[ [remarkGfm, {singleTilde: false}], [remarkMath] ]}
-			rehypePlugins={[rehypeKatex]}
-			/>
-	)
+  return (
+    <ReactMarkdown
+      children={contents}
+      remarkPlugins={[[remarkGfm, { singleTilde: false }], [remarkMath]]}
+      rehypePlugins={[rehypeKatex]}
+    />
+  );
 }
