@@ -36,7 +36,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.txt" />
     <None Remove="QuartzJobs\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.txt" />
   </ItemGroup>
 
   <ItemGroup>
