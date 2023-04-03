@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "immer": "^9.0.21",
+    "use-immer": "^0.9.0"
+  }
+}
