@@ -19,3 +19,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# bootswatch stuff
+/public/bootstrap.css
+/src/_bootswatch.scss
+/src/_variables.scss

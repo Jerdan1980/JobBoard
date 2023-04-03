@@ -69,6 +69,16 @@
     "lint": "eslint ./src/"
   },
   "eslintConfig": {
+    "rules": {
+      "quotes": [
+        "error",
+        "single",
+        {
+          "avoidEscape": true,
+          "allowTemplateLiterals": false
+        }
+      ]
+    },
     "extends": [
       "react-app",
       "prettier"
