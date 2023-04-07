@@ -24,9 +24,10 @@ export function useSelect(url, value, label) {
       );
       setIsLoading(false);
     });
-  }, [label, url, value]);
+    console.log('hai');
+  }, []);
 
-  return [options, setOptions, isLoading, setIsLoading];
+  return [options, isLoading];
 }
 
 export function useQueryParams(
@@ -40,7 +41,7 @@ export function useQueryParams(
     if (!queryParams || queryParams.length === 0) return;
 
     setSelected(source.filter((src) => filter(src)));
-  }, [filter, queryParams, source]);
+  }, []);
 
   return [selected, setSelected];
 }
@@ -58,7 +59,7 @@ export function useApi(url, defaultValue = []) {
       let data = await response.json();
       setData(data);
     });
-  }, [url]);
+  }, []);
 
   return [data, setData];
 }
@@ -96,7 +97,7 @@ export function useAuthApi(url, defaultValue = []) {
       let data = await response.json();
       setData(data);
     })();
-  }, [url]);
+  }, []);
 
   return [data, setData];
 }
@@ -125,7 +126,7 @@ export function useAwards(compId) {
         console.log(data);
         setAwards(data);
       });
-  }, [compId]);
+  }, []);
 
   const updateAward = (toUpdate) => {
     // If its an array, assume its replacing the list
