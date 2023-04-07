@@ -33,17 +33,12 @@ export default function JobCreate() {
   const [selectedTags, setSelectedTags] = useState([]);
 
   // Various dropdown options
-  const [
-    industries,
-    setIndustries,
-    isIndustriesLoading,
-    setIsIndustriesLoading,
-  ] = useSelect('/api/industries', 'id', 'name');
-  const [tags, setTags, isTagsLoading, setIsTagsLoading] = useSelect(
-    '/api/tags',
+  const [industries, isIndustriesLoading] = useSelect(
+    '/api/industries',
     'id',
     'name'
   );
+  const [tags, isTagsLoading] = useSelect('/api/tags', 'id', 'name');
 
   const submit = (event) => {
     let body = {

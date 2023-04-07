@@ -9,20 +9,15 @@ export default function PreferencesSettings() {
   const [userToken, setUserToken] = useState(null);
 
   // Handles tags, loading in new tags, and keeping track of what tags were selected
-  const [tags, setTags, isTagsLoading, setIsTagsLoading] = useSelect(
-    '/api/tags',
-    'id',
-    'name'
-  );
+  const [tags, isTagsLoading] = useSelect('/api/tags', 'id', 'name');
   const [selectedTags, setSelectedTags] = useState([]);
 
   // Handles industries, loading in new industries, and keeping track of what industries were selected
-  const [
-    industries,
-    setIndustries,
-    isIndustriesLoading,
-    setIsIndustriesLoading,
-  ] = useSelect('/api/industries', 'id', 'name');
+  const [industries, isIndustriesLoading] = useSelect(
+    '/api/industries',
+    'id',
+    'name'
+  );
   const [selectedIndustries, setSelectedIndustries] = useState([]);
 
   // Loads user preferences on page load

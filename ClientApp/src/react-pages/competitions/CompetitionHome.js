@@ -11,7 +11,7 @@ export default function CompetitionHome() {
   const id = queryString.get('id');
 
   // Competition information
-  const [competition, setCompetition] = useApi(`/api/competitions/${id}`, {
+  const [competition] = useApi(`/api/competitions/${id}`, {
     name: '',
     description: '',
     tags: [],

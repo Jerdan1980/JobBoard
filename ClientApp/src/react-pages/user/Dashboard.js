@@ -4,10 +4,12 @@ import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 
 export default function Dashboard() {
   // Stores user preferences
-  const [preferences, setPreferences] = useAuthApi(
-    'api/self/preferences/count',
-    { careersCount: 0, competitionsCount: 0, industryIds: [], tagIds: [] }
-  );
+  const [preferences] = useAuthApi('api/self/preferences/count', {
+    careersCount: 0,
+    competitionsCount: 0,
+    industryIds: [],
+    tagIds: [],
+  });
 
   return (
     <>

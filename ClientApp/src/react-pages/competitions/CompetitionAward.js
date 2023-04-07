@@ -9,11 +9,7 @@ export default function CompetitionAward() {
   const id = queryString.get('id');
 
   // List of bios
-  const [bios, setBios, isLoading, setIsLoading] = useSelect(
-    'api/bios',
-    'userId',
-    'name'
-  );
+  const [bios, isLoading] = useSelect('api/bios', 'userId', 'name');
 
   // Handle creating a new award
   const [selectedUser, setSelectedUser] = useState();

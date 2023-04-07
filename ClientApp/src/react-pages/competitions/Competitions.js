@@ -21,13 +21,13 @@ export default function Competitions() {
     .map((str) => Number.parseInt(str));
 
   // Competition Information
-  const [competitions, setCompetitions] = useApi('/api/competitions');
+  const [competitions] = useApi('/api/competitions');
 
   // Stores login status
   const loggedIn = useLoginStatus();
 
   // Tags and selectedTags
-  const [tags, setTags, isLoading, setIsLoading] = useSelect(
+  const [tags, isLoading] = useSelect(
     '/api/tags/min',
     'id',
     (data) => `${data.name} (${data.count})`

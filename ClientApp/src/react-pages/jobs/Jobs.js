@@ -27,17 +27,12 @@ export default function Jobs() {
   const loggedIn = useLoginStatus();
 
   // Jobs and selected jobs (id, job)
-  const [jobs, setJobs] = useApi('/api/jobs');
+  const [jobs] = useApi('/api/jobs');
   const [id, setId] = useState(-1);
   const [job, setJob] = useState(null);
 
   // Industries and selected Industries
-  const [
-    industries,
-    setIndustries,
-    isIndustriesLoading,
-    setIsIndustriesLoading,
-  ] = useSelect(
+  const [industries, isIndustriesLoading] = useSelect(
     '/api/industries/min',
     'id',
     (industry) => `${industry.name} (${industry.count})`

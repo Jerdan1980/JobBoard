@@ -5,7 +5,7 @@ import ProfileSettingsSidebar from '../../components/ProfileSettingsSidebar';
 
 export default function Awards() {
   // Stores awards
-  const [awards, setAwards] = useAuthApi('api/self/awards');
+  const [awards] = useAuthApi('api/self/awards');
 
   return (
     <>
